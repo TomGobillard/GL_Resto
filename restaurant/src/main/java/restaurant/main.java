@@ -1,14 +1,16 @@
 package restaurant;
 
-public class main {
+import Models.Personnel;
+import database.DAO;
+import database.PersonnelDAO;
 
-	public main() {
-		// TODO Auto-generated constructor stub
-	}
+public class main {
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
+		DAO<Personnel> personnelDAO = new PersonnelDAO();
 
+		System.out.println(personnelDAO.find(0));
 	}
 
 }
