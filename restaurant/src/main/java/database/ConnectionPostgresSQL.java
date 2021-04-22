@@ -6,11 +6,11 @@ import java.sql.SQLException;
 
 public class ConnectionPostgresSQL {
 	
-	private static String url = "jdbc:postgresql://localhost:5432/Resto";
+	private static String url = "jdbc:postgresql://plg-broker.ad.univ-lorraine.fr:5432/Resto_G10";
 	
-	private static String user = "postgres";
+	private static String user = "m1user1_18";
 	
-	private static String passwd = "CSI/C0vid-19";
+	private static String passwd = "m1user1_18";
 	
 	private static Connection connect;
 	
