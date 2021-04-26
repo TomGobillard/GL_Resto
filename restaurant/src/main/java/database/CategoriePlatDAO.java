@@ -5,7 +5,7 @@ import java.sql.SQLException;
 
 import Models.CategoriePlat;
 
-public class CategoriePlatDAO extends DAO<CategoriePlat> {
+public  class CategoriePlatDAO extends DAO<CategoriePlat> {
 
 	@Override
 	public CategoriePlat find(long id) {
