@@ -1,7 +1,7 @@
 package Models;
 
 public class Personnel {
-	private long id = 0;
+	private long identifiant = 0;
 	private String role = "";
 	
 	public Personnel() {
@@ -10,16 +10,16 @@ public class Personnel {
 
 	public Personnel(long id, String role) {
 		super();
-		this.id = id;
+		this.identifiant = id;
 		this.role = role;
 	}
 
 	public long getId() {
-		return id;
+		return identifiant;
 	}
 
 	public void setId(long id) {
-		this.id = id;
+		this.identifiant = id;
 	}
 
 	public String getRole() {
@@ -28,6 +28,11 @@ public class Personnel {
 
 	public void setRole(String role) {
 		this.role = role;
+	}
+	
+	@Override
+	public String toString() {
+		return "id : " + this.identifiant + " | role : " + this.role; 
 	}
 	
 	

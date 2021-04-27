@@ -1,6 +1,6 @@
 package Models;
 
-public class Serveur extends Personnel{
+public class Serveur extends Personnel {
 	
 	private long id=0;
 	
@@ -10,7 +10,7 @@ public class Serveur extends Personnel{
 	}
 
 	public Serveur(long id) {
-		super();
+		super(id, "SERVEUR");
 		this.id = id;
 	}
 
@@ -20,9 +20,5 @@ public class Serveur extends Personnel{
 
 	public void setId(long id) {
 		this.id = id;
-	}
-	
-	
-
-	
+	}	
 }
