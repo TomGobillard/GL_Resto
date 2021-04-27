@@ -20,7 +20,7 @@ public class ConnectionPostgresSQL {
 		try {
 			connect = DriverManager.getConnection(url, user, passwd);
 			
-			System.out.println("Connection réussie");
+			System.out.println("Connexion réussie");
 		} catch (SQLException e) {
 			// TODO: handle exception
 			System.out.println(e.getMessage());

@@ -70,7 +70,7 @@ public class main {
 						System.out.println("Erreur de choix, réessayez.\n");
 					}
 
-				} while (c > 3 || c < 1);
+				} while (c2 > 3 || c2 < 1);
 			}while(connected);
 			
 			
@@ -102,11 +102,14 @@ public class main {
 		String password;
 		password=s.nextLine();
 		
-//		PersonnelDAO<Personnel> personnelDAO = new PersonnelDAOImpl();
-//
-//		System.out.println(personnelDAO.connection(username, password));
+		PersonnelDAO<Personnel> personnelDAO = new PersonnelDAOImpl();
+
 		
-		connected=true;
+		if(!(personnelDAO.connection(username, password).equals(null))) {
+			connected=true;
+		}
+		System.out.println(connected);
+
 		
 		
 	}
