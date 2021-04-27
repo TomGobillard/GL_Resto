@@ -2,7 +2,7 @@ package database;
 
 import Models.Produit;
 
-public class ProduiDAOImpl extends ProduitDAO {
+public class ProduitDAOImpl extends ProduitDAO<Produit> {
 	@Override
 	public Produit find(long id) {
 		// TODO Auto-generated method stub
@@ -26,4 +26,12 @@ public class ProduiDAOImpl extends ProduitDAO {
 		// TODO Auto-generated method stub
 		
 	}
+
+	@Override
+	public Produit listProduit() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
 }
