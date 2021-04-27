@@ -13,19 +13,19 @@ public class PersonnelDAOImpl extends PersonnelDAO<Personnel> {
 		// TODO Auto-generated method stub
 		Personnel personnel = new Personnel();
 
-		try {
-			ResultSet result = this.connect
-					.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY)
-					.executeQuery("SELECT * FROM personnel WHERE identifiant = \'0\'");
-
-			if (result.first()) {
-				System.out.println(result.getString("role"));
-				personnel = new Personnel(id, result.getString("role"));
-			}
-
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
+//		try {
+//			ResultSet result = this.connect
+//					.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY)
+//					.executeQuery("SELECT * FROM personnel WHERE identifiant = \'0\'");
+//
+//			if (result.first()) {
+//				System.out.println(result.getString("role"));
+//				personnel = new Personnel(id, result.getString("role"));
+//			}
+//
+//		} catch (SQLException e) {
+//			e.printStackTrace();
+//		}
 
 		return personnel;
 	}
@@ -45,7 +45,6 @@ public class PersonnelDAOImpl extends PersonnelDAO<Personnel> {
 	@Override
 	public void delete(Personnel obj) {
 		// TODO Auto-generated method stub
-
 	}
 
 	@Override
@@ -67,8 +66,7 @@ public class PersonnelDAOImpl extends PersonnelDAO<Personnel> {
 					}
 					
 				} else {
-					// TODO: pas d'id long en base
-					//personnel = new Personnel(result.getLong("identifiant"), result.getString("role"));
+						personnel = new Personnel(result.getLong("id"), result.getString("role"));
 				}
 				System.out.println("Connexion réussie !");
 			} else {

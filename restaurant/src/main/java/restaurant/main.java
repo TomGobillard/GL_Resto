@@ -4,6 +4,7 @@ import java.util.Scanner;
 
 import Models.Personnel;
 import Models.Serveur;
+import ServeurRole.ServeurRequests;
 import database.DAO;
 import database.PersonnelDAO;
 import database.PersonnelDAOImpl;
@@ -11,6 +12,7 @@ import database.PersonnelDAOImpl;
 public class main {
 	
 	static boolean connected=false;
+	static Personnel user;
 
 	public static void main(String[] args) {
 		
@@ -45,7 +47,7 @@ public class main {
 
 	}
 	
-	private static void printAccueil(String role) {
+	private static void printAccueil() {
 		System.out.println("--------------------------------------------------");
 		System.out.println("BIENVENUE DANS L'APPLICATION DE VOTRE RESTAURANT !");
 		System.out.println("--------------------------------------------------\n");
@@ -54,7 +56,7 @@ public class main {
 		
 			int c2;
 			do {
-				printOptions(role);
+				printOptions();
 				
 
 				Scanner s = new Scanner(System.in);
@@ -64,7 +66,8 @@ public class main {
 					consulterStocks();
 					break;
 				case 2:
-					consulterOccupationTables();
+					ServeurRequests sr = new ServeurRequests(user);
+					sr.printOccupationTables();
 					break;
 				case 20:
 					deconnexion();
@@ -81,14 +84,10 @@ public class main {
 		} while(connected);
 	}
 
-	private static void consulterOccupationTables() {
-		
-	}
-
-	private static void printOptions(String role) {
+	private static void printOptions() {
 		System.out.println("Que souhaitez-vous faire ?\n");
-		System.out.println(role);
-		if(role.toUpperCase() == "SERVEUR") {
+
+		if(user.getRole().toUpperCase() == "SERVEUR") {
 			System.out.println("Consulter les stocks (1)");
 			System.out.println("Consulter l'état d'occupation des tables (2)");
 		} else {
@@ -96,7 +95,7 @@ public class main {
 		}
 		
 		System.out.println("Se déconnecter (20)");
-		System.out.println("Quitter (21)");		
+		System.out.println("Quitter (21)");
 	}
 
 	private static void deconnexion() {
@@ -123,7 +122,8 @@ public class main {
 
 			if(personnel != null) {
 				connected=true;
-				printAccueil(personnel.getRole());
+				user = personnel;
+				printAccueil();
 			}
 		}
 	}
