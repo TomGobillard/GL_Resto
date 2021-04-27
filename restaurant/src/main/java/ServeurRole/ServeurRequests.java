@@ -26,10 +26,8 @@ public class ServeurRequests {
 					.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY).executeQuery(
 							"SELECT idtable, etat FROM rtable WHERE idserveur = \'" + this.serveur.getId() + "\'");
 			System.out.println("SELECT idtable, etat FROM rtable WHERE idserveur = \'" + this.serveur.getId() + "\'");
-				while(result.isLast()) {
-					System.out.println(result.getRow());
+				while(result.next()) {
 					occupations.put(Integer.valueOf(result.getInt("idtable")), result.getString("etat"));
-					result.next();
 				}
 			
 		} catch (SQLException e) {
