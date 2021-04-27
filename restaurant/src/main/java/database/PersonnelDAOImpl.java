@@ -62,7 +62,7 @@ public class PersonnelDAOImpl extends PersonnelDAO<Personnel> {
 							.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY).executeQuery(
 									"SELECT * FROM serveur WHERE identifiant = \'" + login + "\' AND mdp = \'" + mdp + "\'");
 					if (result2.first()) {
-						personnel = new Serveur(result2.getLong("idserveur"));
+						personnel = new Serveur(result2.getLong("idserveur"), result2.getInt("etage"));
 					}
 					
 				} else {

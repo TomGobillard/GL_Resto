@@ -67,7 +67,7 @@ public class main {
 					break;
 				case 2:
 					ServeurRequests sr = new ServeurRequests(user);
-					sr.printOccupationTables();
+					sr.printOccupationAllTables();
 					break;
 				case 20:
 					deconnexion();
@@ -88,6 +88,8 @@ public class main {
 		System.out.println("Que souhaitez-vous faire ?\n");
 
 		if(user.getRole().toUpperCase() == "SERVEUR") {
+			ServeurRequests sr = new ServeurRequests(user);
+			sr.printOccupationTablesWithServeurEtage();
 			System.out.println("Consulter les stocks (1)");
 			System.out.println("Consulter l'état d'occupation des tables (2)");
 		} else {
