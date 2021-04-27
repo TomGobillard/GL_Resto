@@ -1,5 +1,7 @@
 package database;
 
+import java.util.ArrayList;
+
 import Models.Plat;
 
 public class PlatDAOImpl extends PlatDAO{
@@ -23,6 +25,12 @@ public class PlatDAOImpl extends PlatDAO{
 
 	@Override
 	public void delete(Plat obj) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void creerPlat(String nom, int prix, ArrayList<String> idIngedients, ArrayList<Integer> qte) {
 		// TODO Auto-generated method stub
 		
 	}
