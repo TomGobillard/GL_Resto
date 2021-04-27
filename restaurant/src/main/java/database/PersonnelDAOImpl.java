@@ -4,6 +4,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import Models.Personnel;
+import Models.Serveur;
 
 public class PersonnelDAOImpl extends PersonnelDAO<Personnel> {
 
@@ -49,7 +50,7 @@ public class PersonnelDAOImpl extends PersonnelDAO<Personnel> {
 
 	@Override
 	public Personnel connection(String login, String mdp) {
-		Personnel personnel = new Personnel();
+		Personnel personnel = null;
 		
 		try {
 			ResultSet result = this.connect
@@ -57,10 +58,21 @@ public class PersonnelDAOImpl extends PersonnelDAO<Personnel> {
 							"SELECT * FROM personnel WHERE identifiant = \'" + login + "\' AND mdp = \'" + mdp + "\'");
 
 			if (result.first()) {
-				System.out.println("connection ok");
+				if(result.getString("role").toUpperCase().equals("SERVEUR")) {
+					ResultSet result2 = this.connect
+							.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY).executeQuery(
+									"SELECT * FROM serveur WHERE identifiant = \'" + login + "\' AND mdp = \'" + mdp + "\'");
+					if (result2.first()) {
+						personnel = new Serveur(result2.getLong("idserveur"));
+					}
+					
+				} else {
+					// TODO: pas d'id long en base
+					//personnel = new Personnel(result.getLong("identifiant"), result.getString("role"));
+				}
+				System.out.println("Connexion réussie !");
 			} else {
-				System.out.println("connection failed");
-				personnel = null;
+				System.out.println("L'identifiant ou le mot de passe est incorrect.");
 			}
 			
 		} catch (SQLException e) {

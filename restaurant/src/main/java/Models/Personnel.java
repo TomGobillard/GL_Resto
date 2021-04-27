@@ -30,5 +30,10 @@ public class Personnel {
 		this.role = role;
 	}
 	
+	@Override
+	public String toString() {
+		return "id : " + this.id + " | role : " + this.role; 
+	}
+	
 	
 }

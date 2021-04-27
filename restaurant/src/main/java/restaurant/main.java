@@ -3,6 +3,7 @@ package restaurant;
 import java.util.Scanner;
 
 import Models.Personnel;
+import Models.Serveur;
 import database.DAO;
 import database.PersonnelDAO;
 import database.PersonnelDAOImpl;
@@ -44,7 +45,7 @@ public class main {
 
 	}
 	
-	private static void printAccueil() {
+	private static void printAccueil(String role) {
 		System.out.println("--------------------------------------------------");
 		System.out.println("BIENVENUE DANS L'APPLICATION DE VOTRE RESTAURANT !");
 		System.out.println("--------------------------------------------------\n");
@@ -53,10 +54,8 @@ public class main {
 		
 			int c2;
 			do {
-				System.out.println("Que souhaitez-vous faire ?\n");
-				System.out.println("Consulter les stocks (1)");
-				System.out.println("Se d�connecter (2)");
-				System.out.println("Quitter (3)");
+				printOptions(role);
+				
 
 				Scanner s = new Scanner(System.in);
 				c2 = s.nextInt();
@@ -65,18 +64,39 @@ public class main {
 					consulterStocks();
 					break;
 				case 2:
+					consulterOccupationTables();
+					break;
+				case 20:
 					deconnexion();
 					break;
-				case 3:
+				case 21:
 					System.out.println("Fermeture de l'application.");
 					System.exit(0);
 					break;
 				default:
-					System.out.println("Erreur de choix, r�essayez.\n");
+					System.out.println("Erreur de choix, réessayez.\n");
 				}
 
 			} while (c2 > 3 || c2 < 1);
-		}while(connected);
+		} while(connected);
+	}
+
+	private static void consulterOccupationTables() {
+		
+	}
+
+	private static void printOptions(String role) {
+		System.out.println("Que souhaitez-vous faire ?\n");
+		System.out.println(role);
+		if(role.toUpperCase() == "SERVEUR") {
+			System.out.println("Consulter les stocks (1)");
+			System.out.println("Consulter l'état d'occupation des tables (2)");
+		} else {
+			System.out.println("Consulter les stocks (1)");
+		}
+		
+		System.out.println("Se déconnecter (20)");
+		System.out.println("Quitter (21)");		
 	}
 
 	private static void deconnexion() {
@@ -98,13 +118,12 @@ public class main {
 			String password;
 			password=s.nextLine();
 			
-			PersonnelDAO<Personnel> personnelDAO = new PersonnelDAOImpl();
-	
-			
-			if(personnelDAO.connection(username, password) != null) {
+			PersonnelDAO<Personnel> personnelDAO = new PersonnelDAOImpl();	
+			Personnel personnel = personnelDAO.connection(username, password);
+
+			if(personnel != null) {
 				connected=true;
-				System.out.println("Connexion réussie");
-				printAccueil();
+				printAccueil(personnel.getRole());
 			}
 		}
 	}
