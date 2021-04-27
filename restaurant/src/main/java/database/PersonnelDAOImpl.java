@@ -64,7 +64,6 @@ public class PersonnelDAOImpl extends PersonnelDAO<Personnel> {
 					if (result2.first()) {
 						personnel = new Serveur(result2.getLong("idserveur"), result2.getInt("etage"));
 					}
-					
 				} else {
 						personnel = new Personnel(result.getLong("id"), result.getString("role"));
 				}

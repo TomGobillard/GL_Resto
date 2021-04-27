@@ -1,6 +1,5 @@
-package ServeurRole;
+package database;
 
-import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.HashMap;
@@ -8,14 +7,37 @@ import java.util.Map.Entry;
 
 import Models.Personnel;
 import Models.Serveur;
-import database.ConnectionPostgresSQL;
 
-public class ServeurRequests {
-	private Connection connect = ConnectionPostgresSQL.getInstance();
+public class ServeurDAOImpl extends ServeurDAO {
+	
 	private Serveur serveur;
 
-	public ServeurRequests(Personnel serveurParam) {
-		this.serveur = (Serveur) serveurParam;
+	public ServeurDAOImpl(Personnel serveur) {
+		this.serveur = (Serveur) serveur;
+	}
+
+	@Override
+	public Serveur find(long id) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Serveur create(Serveur obj) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Serveur update(Serveur obj) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void delete(Serveur obj) {
+		// TODO Auto-generated method stub
+		
 	}
 
 	private HashMap<Integer, String> getOccupationAllTables() {
@@ -36,15 +58,20 @@ public class ServeurRequests {
 		return occupations;
 	}
 	
-	private HashMap<Integer, String> getOccupationTablesWithServeurEtage() {
+	private HashMap<Integer, String> getOccupationTablesWithAvancement() {
 		HashMap<Integer, String> occupations = new HashMap<Integer, String>();
 		try {
 
 			ResultSet result = this.connect
 					.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY).executeQuery(
-							"SELECT idtable, etat FROM rtable WHERE idserveur = \'" + this.serveur.getId() + "\' AND etage = \'" + this.serveur.getEtage() + "\'");
+							"SELECT idtable, etat, avancement FROM rtable WHERE idserveur = \'" + this.serveur.getId() + "\' AND etage = \'" + this.serveur.getEtage() + "\'");
 			while (result.next()) {
-				occupations.put(Integer.valueOf(result.getInt("idtable")), result.getString("etat"));
+				if(result.getString("avancement") == null) {
+					occupations.put(Integer.valueOf(result.getInt("idtable")), result.getString("etat"));
+				} else {
+					occupations.put(Integer.valueOf(result.getInt("idtable")), result.getString("etat") + " (" + result.getString("avancement") + ")");
+				}
+				
 			}
 
 		} catch (SQLException e) {
@@ -61,17 +88,14 @@ public class ServeurRequests {
 			System.out.println("Table n°" + entry.getKey() + " : " + entry.getValue());
 		}
 		System.out.println();
-
 	}
 	
-	public void printOccupationTablesWithServeurEtage() {
+	public void printOccupationTablesWithAvancement() {
 		System.out.println("Etat de vos tables : \n");
-		HashMap<Integer, String> occupations = getOccupationTablesWithServeurEtage();
+		HashMap<Integer, String> occupations = getOccupationTablesWithAvancement();
 		for (Entry<Integer, String> entry : occupations.entrySet()) {
 			System.out.println("Table n°" + entry.getKey() + " : " + entry.getValue());
 		}
 		System.out.println();
-
 	}
-
 }

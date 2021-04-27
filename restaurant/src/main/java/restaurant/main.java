@@ -1,20 +1,18 @@
 package restaurant;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Scanner;
 
 import Models.Personnel;
 import Models.Produit;
-import Models.Serveur;
-import ServeurRole.ServeurRequests;
-import database.DAO;
 import database.PersonnelDAO;
 import database.PersonnelDAOImpl;
 import database.PlatDAO;
 import database.PlatDAOImpl;
 import database.ProduitDAO;
 import database.ProduitDAOImpl;
+import database.ServeurDAO;
+import database.ServeurDAOImpl;
 
 public class main {
 
@@ -58,12 +56,14 @@ public class main {
 		System.out.println("--------------------------------------------------");
 		System.out.println("BIENVENUE DANS L'APPLICATION DE VOTRE RESTAURANT !");
 		System.out.println("--------------------------------------------------\n");
-		
+		boolean tableAvancementPrinted = false;
 		do {
 		
 			int c2;
 			do {
-				printOptions();
+	
+				printOptions(tableAvancementPrinted);
+				tableAvancementPrinted = true;
 				
 				Scanner s = new Scanner(System.in);
 				c2 = s.nextInt();
@@ -72,8 +72,11 @@ public class main {
 					consulterStocks();
 					break;
 				case 2:
-					ServeurRequests sr = new ServeurRequests(user);
-					sr.printOccupationAllTables();
+					ServeurDAO serveurDAO = new ServeurDAOImpl(user);
+					serveurDAO.printOccupationAllTables();
+					break;
+				case 3:
+					creerPlat();
 					break;
 				case 20:
 					deconnexion();
@@ -90,54 +93,25 @@ public class main {
 		} while(connected);
 	}
 
-	private static void printOptions() {
+	private static void printOptions(boolean tableAvancementPrinted) {
 		System.out.println("Que souhaitez-vous faire ?\n");
+		System.out.println(user.getRole());
+		if(user.getRole().toUpperCase().equals("SERVEUR")) {
+			if(!tableAvancementPrinted) {
+				ServeurDAO serveurDAO = new ServeurDAOImpl(user);
+				serveurDAO.printOccupationTablesWithAvancement();
+			}
 
-		if(user.getRole().toUpperCase() == "SERVEUR") {
-			ServeurRequests sr = new ServeurRequests(user);
-			sr.printOccupationTablesWithServeurEtage();
 			System.out.println("Consulter les stocks (1)");
 			System.out.println("Consulter l'Ã©tat d'occupation des tables (2)");
+		} else if(user.getRole().toUpperCase().equals("CUISINIER")) {
+			System.out.println("CrÃ©er plat (3)");
 		} else {
 			System.out.println("Consulter les stocks (1)");
 		}
 		
 		System.out.println("Se dÃ©connecter (20)");
 		System.out.println("Quitter (21)");
-	}
-
-	private static void fctCuisinier() {
-		int c;
-		do {
-			System.out.println("Que souhaitez-vous faire ?\n");
-			System.out.println("Consulter les stocks (1)");
-			System.out.println("Créer plat (2)");
-			System.out.println("Se déconnecter (3)");
-			System.out.println("Quitter (4)");
-
-			Scanner s = new Scanner(System.in);
-			c = s.nextInt();
-			switch (c) {
-			case 1:
-				consulterStocks();
-				break;
-			case 2:
-				creerPlat();
-				break;
-			case 3:
-				deconnexion();
-				break;
-			case 4:
-				System.out.println("Fermeture de l'application.");
-				System.exit(0);
-				break;
-			default:
-				System.out.println("Erreur de choix, réessayez.\n");
-			}
-
-		} while (c > 3 || c < 1);
-
-
 	}
 
 	private static void deconnexion() {
@@ -186,11 +160,11 @@ public class main {
 				if(prix > 0) {
 					error = false;
 				} else {
-					System.out.println("Le prix doit être positif");
+					System.out.println("Le prix doit ï¿½tre positif");
 				}
 			} catch (Exception e) {
 				// TODO: handle exception
-				System.out.println("Il faut une valeur numérique");
+				System.out.println("Il faut une valeur numï¿½rique");
 			}
 		}
 		
@@ -202,7 +176,7 @@ public class main {
 		//
 		//		listProduits = produitDAO.listProduits();
 		//
-		//		System.out.println("Liste des ingrédients disponibles : ");
+		//		System.out.println("Liste des ingrï¿½dients disponibles : ");
 		//
 		//		for(Long idProduit : listProduits.keySet()) {
 		//			System.out.print("Id: " + listProduits.get(idProduit).getId());
@@ -219,7 +193,7 @@ public class main {
 		do {
 			consulterStocks();
 
-			System.out.println("Choisir un ingrédient à ajouter à la recette (par son Id)");
+			System.out.println("Choisir un ingrï¿½dient ï¿½ ajouter ï¿½ la recette (par son Id)");
 
 			error = true;
 			int idIngredient = 0;
@@ -236,13 +210,13 @@ public class main {
 					}
 				} catch (Exception e) {
 					// TODO: handle exception
-					System.out.println("Il faut une valeur numérique");
+					System.out.println("Il faut une valeur numï¿½rique");
 				}
 			}
 
 			Produit ingredient = produits.get(idIngredient-1);
 
-			System.out.println("Quantité : ");
+			System.out.println("Quantitï¿½ : ");
 
 			error = true;
 			int qte = 0;
@@ -254,13 +228,13 @@ public class main {
 
 					if(! produitDAO.isDispo(ingredient.getId(), qte)) {
 						System.out.println("Le stock est isuffisant pour " + ingredient.getLibelle());
-						System.out.println("Quantité : ");
+						System.out.println("Quantitï¿½ : ");
 					} else {
 						error = false;
 					}
 				} catch (Exception e) {
 					// TODO: handle exception
-					System.out.println("Il faut une valeur numérique");
+					System.out.println("Il faut une valeur numï¿½rique");
 				}
 			}
 			
@@ -273,7 +247,7 @@ public class main {
 				System.out.println(produitCompo.getLibelle() + " : " + produitCompo.getQuantite());
 			}
 			
-			System.out.println("Voulez-vous ajouter un autre ingrédient ? (1 : oui, 2 : non)");
+			System.out.println("Voulez-vous ajouter un autre ingrï¿½dient ? (1 : oui, 2 : non)");
 			
 			error = true;
 			
@@ -285,7 +259,7 @@ public class main {
 					error = false;
 				} catch (Exception e) {
 					// TODO: handle exception
-					System.out.println("Il faut une valeur numérique");
+					System.out.println("Il faut une valeur numï¿½rique");
 				}
 			}
 			

@@ -23,8 +23,6 @@ public class Serveur extends Personnel {
 		this.etage = etage;
 	}
 
-	
-
 	public long getId() {
 		return id;
 	}
