@@ -23,6 +23,18 @@ public class ProduitDAOImpl extends ProduitDAO<Produit> {
 	@Override
 	public Produit update(Produit obj) {
 		// TODO Auto-generated method stub
+		
+		try {
+			String sql = "UPDATE produit SET quantite = ? WHERE idproduit = ?";
+			
+			PreparedStatement stmt = connect.prepareStatement(sql);
+			stmt.setInt(1, obj.getQuantite());
+			stmt.setLong(2, obj.getId());
+			
+			ResultSet result = stmt.executeQuery();
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
 		return null;
 	}
 
@@ -39,7 +51,7 @@ public class ProduitDAOImpl extends ProduitDAO<Produit> {
 		ArrayList<Produit> produits = new ArrayList<Produit>();
 
 		try {
-			String sql = "SELECT * FROM produit";
+			String sql = "SELECT * FROM produit ORDER BY idproduit";
 
 			PreparedStatement stmt = connect.prepareStatement(sql);
 			ResultSet result = stmt.executeQuery();

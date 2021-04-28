@@ -52,24 +52,24 @@ public class main {
 				}
 
 			} while (c != 2 && c != 1);			
-			
+
 		} while(!connected);
 
 	}
-	
+
 	private static void printAccueil() {
 		System.out.println("--------------------------------------------------");
 		System.out.println("BIENVENUE DANS L'APPLICATION DE VOTRE RESTAURANT !");
 		System.out.println("--------------------------------------------------\n");
 		boolean tableAvancementPrinted = false;
 		do {
-		
+
 			int c2;
 			do {
-	
+
 				printOptions(tableAvancementPrinted);
 				tableAvancementPrinted = true;
-				
+
 				Scanner s = new Scanner(System.in);
 				c2 = s.nextInt();
 				switch (c2) {
@@ -90,6 +90,9 @@ public class main {
 				case 5:
 					PlatDAO platDAO = new PlatDAOImpl();
 					platDAO.listerPlatSelonCategorie();
+					break;
+				case 6:
+					MajStocks();
 					break;
 				case 20:
 					deconnexion();
@@ -121,17 +124,20 @@ public class main {
 			System.out.println("Consulter les stocks (1)");
 			System.out.println("Consulter l'état d'occupation des tables (2)");
 			System.out.println("Consulter les plats par catégorie (5)");
-			
+
 		} else if(user.getRole().toUpperCase().equals("CUISINIER")) {
 			System.out.println("Créer plat (3)");
-			
+
 		} else if(user.getRole().toUpperCase().equals("ASSISTANT SERVICE")) {
 			System.out.println("Obtenir les informations d'une table (4)");
-			
-		} else {
+
+		} else if(user.getRole().toUpperCase().equals("DIRECTEUR")) {
+			System.out.println("Mettre à jour les stocks (6)");
+		}
+		else {
 			System.out.println("Consulter les stocks (1)");
 		}
-		
+
 		System.out.println("Se déconnecter (20)");
 		System.out.println("Quitter (21)");
 		System.out.println("--------------------------------------------------");
@@ -160,26 +166,104 @@ public class main {
 		System.out.println();
 	}
 
+	private static void MajStocks() {
+		ProduitDAO<Produit> produitDAO = new ProduitDAOImpl();	
+		ArrayList<Produit> listProduits;
+
+		int continuer = 0;
+
+		do {
+			listProduits =  produitDAO.listProduit();
+
+			consulterStocks();
+
+			System.out.println("Quelle stock souhaitez vous mettre à jour : ");
+
+			boolean error = true;
+
+			int idProduit = 0;
+
+			while(error == true) {
+				try {
+					Scanner sc = new Scanner(System.in);
+					idProduit = sc.nextInt();
+					if(idProduit > 0 && idProduit <= listProduits.size()) {
+						error = false;
+					} else {
+						System.out.println("Produit inexistant");
+					}
+				} catch (Exception e) {
+					// TODO: handle exception
+					System.out.println("Il faut une valeur num�rique");
+				}
+			}
+
+			System.out.println("Quantité à ajouter (max: 100)");
+
+			int qte = 0;
+
+			error = true;
+			while(error == true) {
+				try {
+					Scanner sc = new Scanner(System.in);
+					qte = sc.nextInt();
+					if(qte > 0 && idProduit <= 100) {
+						error = false;
+					} else {
+						System.out.println("Quantité invalide");
+					}
+				} catch (Exception e) {
+					// TODO: handle exception
+					System.out.println("Il faut une valeur num�rique");
+				}
+			}
+
+			int newQte = listProduits.get(idProduit-1).getQuantite() + qte;
+
+			Produit majProduit = new Produit(idProduit, listProduits.get(idProduit).getLibelle(), newQte);
+
+			produitDAO.update(majProduit);
+			
+			System.out.println("Voulez-vous continuer à mettre à jour les stocks ? (1 : oui, 2 : non)");
+
+			error = true;
+
+			while(error == true) {
+				try {
+					Scanner sc = new Scanner(System.in);
+					continuer = sc.nextInt();
+
+					error = false;
+				} catch (Exception e) {
+					// TODO: handle exception
+					System.out.println("Il faut une valeur num�rique");
+				}
+			}
+
+		} while (continuer == 1);
+
+	}
+
 	private static void creerPlat() {
 		ProduitDAO<Produit> produitDAO = new ProduitDAOImpl();
 		PlatDAO platDAO = new PlatDAOImpl();
 		CategoriePlatDAO categPlatDAO = new CategoriePlatDAOImpl();
-		
+
 		ArrayList<Produit> produits =  produitDAO.listProduit();
-		
+
 		ArrayList<CategoriePlat> listCateg = new ArrayList<>();
 		listCateg = categPlatDAO.getAllCateg();
-		
+
 		for(CategoriePlat categ : listCateg) {
 			System.out.println(categ.getId() + "; " + categ.getLibelle());
 		}
-		
+
 		System.out.println("Dans quelle catégorie est votre plat ?");
-		
+
 		boolean error = true;
 
 		int idCateg = 0;
-		
+
 		while(error == true) {
 			try {
 				Scanner scCateg = new Scanner(System.in);
@@ -194,22 +278,22 @@ public class main {
 				System.out.println("Il faut une valeur num�rique");
 			}
 		}
-		
+
 		idCateg -= 1;
-		
+
 		System.out.println(listCateg.get(idCateg).getLibelle());
 		System.out.println();
-		
+
 		error = true;
-		
+
 		System.out.println("Nom du plat : ");
 		Scanner scNom = new Scanner(System.in);
 		String nomPlat = scNom.nextLine();
-		
+
 		int prix = 0;
-		
+
 		System.out.println("Prix : ");
-		
+
 		while(error == true) {
 			try {
 				Scanner scPrix = new Scanner(System.in);
@@ -224,10 +308,10 @@ public class main {
 				System.out.println("Il faut une valeur num�rique");
 			}
 		}
-		
 
-//		boolean test = produitDAO.isDispo(1, 75);
-//		boolean test2 = produitDAO.isDispo(1, 59);
+
+		//		boolean test = produitDAO.isDispo(1, 75);
+		//		boolean test2 = produitDAO.isDispo(1, 59);
 
 		//		HashMap<Long, Produit> listProduits = new HashMap<Long, Produit>();
 		//
@@ -243,7 +327,7 @@ public class main {
 		//
 		//		System.out.println();
 
-		
+
 		ArrayList<Produit> compoPlat = new ArrayList<Produit>();
 		int ajouter = 0;
 
@@ -294,20 +378,20 @@ public class main {
 					System.out.println("Il faut une valeur num�rique");
 				}
 			}
-			
+
 			ingredient.setQuantite(qte);
 			compoPlat.add(ingredient);
-			
+
 			System.out.println("Composition actuelle du plat : ");
-			
+
 			for(Produit produitCompo : compoPlat) {
 				System.out.println(produitCompo.getLibelle() + " : " + produitCompo.getQuantite());
 			}
-			
+
 			System.out.println("Voulez-vous ajouter un autre ingr�dient ? (1 : oui, 2 : non)");
-			
+
 			error = true;
-			
+
 			while(error == true) {
 				try {
 					Scanner sc = new Scanner(System.in);
@@ -319,12 +403,12 @@ public class main {
 					System.out.println("Il faut une valeur num�rique");
 				}
 			}
-			
+
 
 		} while(ajouter == 1);
-		
+
 		platDAO.creerPlat(nomPlat, prix, compoPlat, idCateg+1);
-		
+
 	}
 
 	private static void connexion() {
@@ -333,11 +417,11 @@ public class main {
 			String username;
 			Scanner s = new Scanner(System.in);
 			username=s.nextLine();
-			
+
 			System.out.println("Veuillez renseigner votre mot de passe.");
 			String password;
 			password=s.nextLine();
-			
+
 			PersonnelDAO<Personnel> personnelDAO = new PersonnelDAOImpl();	
 			Personnel personnel = personnelDAO.connection(username, password);
 
@@ -348,7 +432,7 @@ public class main {
 			}
 		}
 	}
-	
-	
+
+
 
 }
