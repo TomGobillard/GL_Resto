@@ -3,8 +3,11 @@ package fr.ul.miage.restaurant.restaurant;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+import fr.ul.miage.restaurant.Models.CategoriePlat;
 import fr.ul.miage.restaurant.Models.Personnel;
 import fr.ul.miage.restaurant.Models.Produit;
+import fr.ul.miage.restaurant.databse.CategoriePlatDAO;
+import fr.ul.miage.restaurant.databse.CategoriePlatDAOImpl;
 import fr.ul.miage.restaurant.databse.PersonnelDAO;
 import fr.ul.miage.restaurant.databse.PersonnelDAOImpl;
 import fr.ul.miage.restaurant.databse.PlatDAO;
@@ -159,11 +162,45 @@ public class main {
 
 	private static void creerPlat() {
 		ProduitDAO<Produit> produitDAO = new ProduitDAOImpl();
+		PlatDAO platDAO = new PlatDAOImpl();
+		CategoriePlatDAO categPlatDAO = new CategoriePlatDAOImpl();
+		
 		ArrayList<Produit> produits =  produitDAO.listProduit();
 		
-		PlatDAO platDAO = new PlatDAOImpl();
+		ArrayList<CategoriePlat> listCateg = new ArrayList<>();
+		listCateg = categPlatDAO.getAllCateg();
+		
+		for(CategoriePlat categ : listCateg) {
+			System.out.println(categ.getId() + "; " + categ.getLibelle());
+		}
+		
+		System.out.println("Dans quelle catégorie est votre plat ?");
 		
 		boolean error = true;
+
+		int idCateg = 0;
+		
+		while(error == true) {
+			try {
+				Scanner scCateg = new Scanner(System.in);
+				idCateg = scCateg.nextInt();
+				if(idCateg > 0 && idCateg <= listCateg.size()) {
+					error = false;
+				} else {
+					System.out.println("Catégorie inexistante");
+				}
+			} catch (Exception e) {
+				// TODO: handle exception
+				System.out.println("Il faut une valeur num�rique");
+			}
+		}
+		
+		idCateg -= 1;
+		
+		System.out.println(listCateg.get(idCateg).getLibelle());
+		System.out.println();
+		
+		error = true;
 		
 		System.out.println("Nom du plat : ");
 		Scanner scNom = new Scanner(System.in);
@@ -286,7 +323,7 @@ public class main {
 
 		} while(ajouter == 1);
 		
-		platDAO.creerPlat(nomPlat, prix, compoPlat);
+		platDAO.creerPlat(nomPlat, prix, compoPlat, idCateg+1);
 		
 	}
 

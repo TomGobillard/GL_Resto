@@ -1,7 +1,9 @@
 package fr.ul.miage.restaurant.databse;
 
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 import fr.ul.miage.restaurant.Models.CategoriePlat;
 
@@ -44,6 +46,28 @@ public class CategoriePlatDAOImpl extends CategoriePlatDAO{
 	public void delete(CategoriePlat obj) {
 		// TODO Auto-generated method stub
 		
+	}
+
+	@Override
+	public ArrayList<CategoriePlat> getAllCateg() {
+		ArrayList<CategoriePlat> listCateg = new ArrayList<>();
+		
+		try {
+			String sql = "SELECT * FROM categorie_plat";
+			PreparedStatement stmt = connect.prepareStatement(sql);
+			
+			ResultSet result = stmt.executeQuery();
+			CategoriePlat categ;
+			
+			while(result.next()) {
+				categ = new CategoriePlat(result.getLong(1), result.getString(2));
+				listCateg.add(categ);
+			}
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+		
+		return listCateg;
 	}
 
 }

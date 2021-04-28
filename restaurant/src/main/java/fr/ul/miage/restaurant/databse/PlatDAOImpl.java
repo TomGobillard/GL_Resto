@@ -36,7 +36,7 @@ public class PlatDAOImpl extends PlatDAO {
 	}
 
 	@Override
-	public void creerPlat(String nom, int prix, ArrayList<Produit> ingredients) {
+	public void creerPlat(String nom, int prix, ArrayList<Produit> ingredients, int idCateg) {
 		// TODO Auto-generated method stub
 
 		long idPlat;
@@ -47,7 +47,7 @@ public class PlatDAOImpl extends PlatDAO {
 			PreparedStatement stmt = connect.prepareStatement(sql);
 			stmt.setString(1, nom);
 			stmt.setInt(2, prix);
-			stmt.setInt(3, 2);
+			stmt.setInt(3, idCateg);
 
 			stmt.executeQuery();
 
