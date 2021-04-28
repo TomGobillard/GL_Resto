@@ -2,16 +2,34 @@ package fr.ul.miage.restaurant.databse;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import fr.ul.miage.restaurant.Models.CategoriePlat;
 import fr.ul.miage.restaurant.Models.Produit;
 
 public class ProduitDAOImpl extends ProduitDAO<Produit> {
 	@Override
 	public Produit find(long id) {
-		// TODO Auto-generated method stub
-		return null;
+		Produit produit = new Produit();
+		
+		try {
+			String sql = "SELECT * FROM produit WHERE idProduit = ?";
+			
+			PreparedStatement stmt = connect.prepareStatement(sql);
+			stmt.setLong(1, id);
+			
+			ResultSet result = stmt.executeQuery();
+			
+			
+			if(result.next())
+				produit = new Produit(id, result.getString(2), result.getInt(3));			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		return produit;
 	}
 
 	@Override

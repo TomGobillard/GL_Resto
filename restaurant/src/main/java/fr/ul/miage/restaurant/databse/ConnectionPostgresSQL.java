@@ -20,7 +20,7 @@ public class ConnectionPostgresSQL {
 		try {
 			connect = DriverManager.getConnection(url, user, passwd);
 			
-			System.out.println("Lien avec la base établie");
+			//System.out.println("Lien avec la base établie");
 		} catch (SQLException e) {
 			// TODO: handle exception
 			System.out.println(e.getMessage());

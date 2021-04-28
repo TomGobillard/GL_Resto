@@ -14,14 +14,16 @@ public class CategoriePlatDAOImpl extends CategoriePlatDAO{
 		CategoriePlat categoriePlat = new CategoriePlat();
 		
 		try {
-			ResultSet result = this.connect.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY)
-					.executeQuery(
-							"SELECT * FROM categoriePlat WHERE idCategorie = \'0\'"
-							);
+			String sql = "SELECT * FROM categorie_plat WHERE idCategorie = ?";
 			
-			if(result.first())
-				System.out.println(result.getString("libelle"));
-			categoriePlat = new CategoriePlat(id, result.getString("libelle"));
+			PreparedStatement stmt = connect.prepareStatement(sql);
+			stmt.setLong(1, id);
+			
+			ResultSet result = stmt.executeQuery();
+			
+			
+			if(result.next())
+				categoriePlat = new CategoriePlat(id, result.getString("libelle"));
 			
 		} catch (SQLException e) {
 			e.printStackTrace();
