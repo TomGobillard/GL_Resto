@@ -13,6 +13,8 @@ import database.ProduitDAO;
 import database.ProduitDAOImpl;
 import database.ServeurDAO;
 import database.ServeurDAOImpl;
+import database.TableDAO;
+import database.TableDAOImpl;
 
 public class main {
 
@@ -78,6 +80,14 @@ public class main {
 				case 3:
 					creerPlat();
 					break;
+				case 4:
+					TableDAO tableDAO = new TableDAOImpl();
+					tableDAO.obtenirInfoTable();
+					break;
+				case 5:
+					PlatDAO platDAO = new PlatDAOImpl();
+					platDAO.listerPlatSelonCategorie();
+					break;
 				case 20:
 					deconnexion();
 					connexion();
@@ -96,8 +106,9 @@ public class main {
 	}
 
 	private static void printOptions(boolean tableAvancementPrinted) {
+		System.out.println("--------------------------------------------------");
 		System.out.println("Que souhaitez-vous faire ?\n");
-		System.out.println(user.getRole());
+
 		if(user.getRole().toUpperCase().equals("SERVEUR")) {
 			if(!tableAvancementPrinted) {
 				ServeurDAO serveurDAO = new ServeurDAOImpl(user);
@@ -106,14 +117,21 @@ public class main {
 
 			System.out.println("Consulter les stocks (1)");
 			System.out.println("Consulter l'état d'occupation des tables (2)");
+			System.out.println("Consulter les plats par catégorie (5)");
+			
 		} else if(user.getRole().toUpperCase().equals("CUISINIER")) {
 			System.out.println("Créer plat (3)");
+			
+		} else if(user.getRole().toUpperCase().equals("ASSISTANT SERVICE")) {
+			System.out.println("Obtenir les informations d'une table (4)");
+			
 		} else {
 			System.out.println("Consulter les stocks (1)");
 		}
 		
 		System.out.println("Se déconnecter (20)");
 		System.out.println("Quitter (21)");
+		System.out.println("--------------------------------------------------");
 	}
 
 	private static void deconnexion() {

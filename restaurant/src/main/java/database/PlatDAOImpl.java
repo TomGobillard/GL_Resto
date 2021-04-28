@@ -3,11 +3,14 @@ package database;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
+import java.util.Scanner;
 
+import Models.CategoriePlat;
 import Models.Plat;
 import Models.Produit;
+import Models.Table;
 
-public class PlatDAOImpl extends PlatDAO{
+public class PlatDAOImpl extends PlatDAO {
 	@Override
 	public Plat find(long id) {
 		// TODO Auto-generated method stub
@@ -50,7 +53,7 @@ public class PlatDAOImpl extends PlatDAO{
 
 		} catch (Exception e) {
 			// TODO: handle exception
-		}		
+		}
 
 		try {
 			String sql2 = "SELECT idplat FROM Plat WHERE libelle = ?";
@@ -60,7 +63,7 @@ public class PlatDAOImpl extends PlatDAO{
 
 			ResultSet result = stmt2.executeQuery();
 
-			if(result.next()) {
+			if (result.next()) {
 				idPlat = result.getLong(1);
 
 				String sql3;
@@ -76,11 +79,52 @@ public class PlatDAOImpl extends PlatDAO{
 
 					try {
 						stmt3.executeQuery();
-					}catch (Exception e) {
+					} catch (Exception e) {
 						// TODO: handle exception
 					}
 				}
 			}
+		} catch (Exception e) {
+
+		}
+	}
+
+	public void listerPlatSelonCategorie() {
+		String sql = "SELECT * FROM categorie_plat";
+		int choix =-1;
+		try {
+			PreparedStatement stmt = connect.prepareStatement(sql);
+			ResultSet result = stmt.executeQuery();
+			boolean entryNotValid = true;
+			while (entryNotValid) {
+				System.out.println("Sélectionnez la catégorie : \n");
+				while (result.next()) {
+					CategoriePlat ctgPlat = new CategoriePlat(result.getLong(1), result.getString(2));
+					System.out.println(ctgPlat.getLibelle() + " (" + ctgPlat.getId() + ")");
+				}
+				Scanner s = new Scanner(System.in);
+				choix = s.nextInt();
+
+				if (choix >= 1 || choix <= 5) {
+					entryNotValid = false;
+				} else {
+					System.out.println("Veuillez renseignez un identifiant de catégorie valide.");
+				}
+			}
+
+			try {
+				String sql2 = "SELECT * FROM plat WHERE idcategorie = ?";
+				PreparedStatement stmt2 = connect.prepareStatement(sql2);
+				stmt2.setLong(1, choix);
+				ResultSet result2 = stmt2.executeQuery();
+				while (result2.next()) {
+					Plat plat = new Plat(result2.getLong(1), result2.getString(2), result2.getDouble(3), result2.getBoolean(4), result2.getLong(5), result2.getLong(6));
+					System.out.println(plat);
+				}
+			} catch (Exception e) {
+
+			}
+
 		} catch (Exception e) {
 
 		}

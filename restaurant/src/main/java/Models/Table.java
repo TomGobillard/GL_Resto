@@ -1,25 +1,28 @@
 package Models;
 
 public class Table {
-	
+
 	private long id = 0;
-	private int nbCouverts;
-	private String occupation;
+	private long nbCouverts;
+	private long occupation;
 	private String etat;
-	private int etage;
+	private long etage;
+	private String avancement;
 	private long idServeur;
-	
+
 	public Table() {
 		super();
 	}
-	
-	public Table(long id, int nbCouverts, String occupation, String etat, int etage, long idServeur) {
+
+	public Table(long id, long nbCouverts, long occupation, String etat, long etage, String avancement,
+			long idServeur) {
 		super();
 		this.id = id;
 		this.nbCouverts = nbCouverts;
 		this.occupation = occupation;
 		this.etat = etat;
 		this.etage = etage;
+		this.avancement = avancement;
 		this.idServeur = idServeur;
 	}
 
@@ -31,7 +34,7 @@ public class Table {
 		this.id = id;
 	}
 
-	public int getNbCouverts() {
+	public long getNbCouverts() {
 		return nbCouverts;
 	}
 
@@ -39,11 +42,11 @@ public class Table {
 		this.nbCouverts = nbCouverts;
 	}
 
-	public String getOccupation() {
+	public long getOccupation() {
 		return occupation;
 	}
 
-	public void setOccupation(String occupation) {
+	public void setOccupation(long occupation) {
 		this.occupation = occupation;
 	}
 
@@ -55,7 +58,7 @@ public class Table {
 		this.etat = etat;
 	}
 
-	public int getEtage() {
+	public long getEtage() {
 		return etage;
 	}
 
@@ -70,9 +73,17 @@ public class Table {
 	public void setIdServeur(long idServeur) {
 		this.idServeur = idServeur;
 	}
-	
-	
-	
-	
+
+	@Override
+	public String toString() {
+		String res = "Table n° " + this.id + "\n" + "Nombre de couverts : " + this.nbCouverts + "\n" + "Occupation : "
+				+ this.occupation + "%" + "\n" + "Etat : " + this.etat + "\n" + "Etage : " + this.etage + "\n";
+		
+		if (this.etat.toUpperCase().equals("OCCUPEE")) {
+			res += "Avancement du repas : " + this.avancement + "\n";
+		}
+		res += "N° de serveur associé : " + this.idServeur + "\n";
+		return res;
+	}
 
 }

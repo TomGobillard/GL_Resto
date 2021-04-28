@@ -6,19 +6,21 @@ public class Plat {
 	private String libelle;
 	private double prix;
 	private boolean isPlatDuJour;
-	private int nbCommandes;
+	private long nbCommandes;
+	private long idcategorie;
 	
 	public Plat() {
 		super();
 	}
 	
-	public Plat(long id, String libelle, double prix, boolean isPlatDuJour, int nbCommandes) {
+	public Plat(long id, String libelle, double prix, boolean isPlatDuJour, long nbCommandes, long idCategorie) {
 		super();
 		this.id = id;
 		this.libelle = libelle;
 		this.prix = prix;
 		this.isPlatDuJour = isPlatDuJour;
 		this.nbCommandes = nbCommandes;
+		this.idcategorie = idCategorie;
 	}
 
 	public long getId() {
@@ -53,13 +55,28 @@ public class Plat {
 		this.isPlatDuJour = isPlatDuJour;
 	}
 
-	public int getNbCommandes() {
+	public long getNbCommandes() {
 		return nbCommandes;
 	}
 
-	public void setNbCommandes(int nbCommandes) {
+	public void setNbCommandes(long nbCommandes) {
 		this.nbCommandes = nbCommandes;
 	}
 	
+	@Override
+	public String toString() {
+		return "Nom du plat : " + this.getLibelle() + "\n" +
+				"Prix : " + this.getPrix() + "\n" +
+				"Plat du jour ? " + this.isPlatDuJour() + "\n" +
+				"Nombre de commandes : " + this.getNbCommandes() + "\n";
+	}
+
+	public long getIdcategorie() {
+		return idcategorie;
+	}
+
+	public void setIdcategorie(long idcategorie) {
+		this.idcategorie = idcategorie;
+	}
 	
 }
