@@ -80,6 +80,7 @@ public class main {
 					break;
 				case 20:
 					deconnexion();
+					connexion();
 					break;
 				case 21:
 					System.out.println("Fermeture de l'application.");
@@ -87,9 +88,10 @@ public class main {
 					break;
 				default:
 					System.out.println("Erreur de choix, réessayez.\n");
+					break;
 				}
 
-			} while (c2 > 3 || c2 < 1);
+			} while (c2 != 21);
 		} while(connected);
 	}
 
