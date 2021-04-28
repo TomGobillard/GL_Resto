@@ -28,7 +28,7 @@ public class main {
 
 		do {
 			System.out.println("---------------------------------------------------------");
-			System.out.println("Veuillez vous connecter pour avoir acc�s � l'application.");
+			System.out.println("Veuillez vous connecter pour avoir accès à l'application.");
 			System.out.println("---------------------------------------------------------\n");
 
 			int c;
