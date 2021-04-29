@@ -5,10 +5,9 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-import fr.ul.miage.restaurant.Models.CategoriePlat;
-import fr.ul.miage.restaurant.Models.Plat;
-import fr.ul.miage.restaurant.Models.Produit;
-import fr.ul.miage.restaurant.Models.Table;
+import fr.ul.miage.restaurant.models.CategoriePlat;
+import fr.ul.miage.restaurant.models.Plat;
+import fr.ul.miage.restaurant.models.Produit;
 import fr.ul.miage.restaurant.dao.PlatDAO;
 
 public class PlatDAOImpl extends PlatDAO {

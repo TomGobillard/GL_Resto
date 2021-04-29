@@ -3,7 +3,7 @@ package fr.ul.miage.restaurant.dao;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import fr.ul.miage.restaurant.Models.Produit;
+import fr.ul.miage.restaurant.models.Produit;
 
 public abstract class ProduitDAO<T> extends DAO<Produit>{
 

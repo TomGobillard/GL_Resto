@@ -8,7 +8,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import fr.ul.miage.restaurant.Impl.CategoriePlatDAOImpl;
-import fr.ul.miage.restaurant.Models.CategoriePlat;
+import fr.ul.miage.restaurant.models.CategoriePlat;
 import fr.ul.miage.restaurant.dao.CategoriePlatDAO;
 
 public class CategoriePlatDAOImplTest {

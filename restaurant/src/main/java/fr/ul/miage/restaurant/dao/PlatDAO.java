@@ -2,8 +2,8 @@ package fr.ul.miage.restaurant.dao;
 
 import java.util.ArrayList;
 
-import fr.ul.miage.restaurant.Models.Plat;
-import fr.ul.miage.restaurant.Models.Produit;
+import fr.ul.miage.restaurant.models.Plat;
+import fr.ul.miage.restaurant.models.Produit;
 
 public abstract class PlatDAO extends DAO<Plat>{
 

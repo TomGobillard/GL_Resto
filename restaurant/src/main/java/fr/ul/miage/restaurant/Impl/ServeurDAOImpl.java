@@ -5,8 +5,8 @@ import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map.Entry;
 
-import fr.ul.miage.restaurant.Models.Personnel;
-import fr.ul.miage.restaurant.Models.Serveur;
+import fr.ul.miage.restaurant.models.Personnel;
+import fr.ul.miage.restaurant.models.Serveur;
 import fr.ul.miage.restaurant.dao.ServeurDAO;
 
 public class ServeurDAOImpl extends ServeurDAO {

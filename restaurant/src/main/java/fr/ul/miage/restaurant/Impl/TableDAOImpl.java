@@ -4,7 +4,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.Scanner;
 
-import fr.ul.miage.restaurant.Models.Table;
+import fr.ul.miage.restaurant.models.Table;
 import fr.ul.miage.restaurant.dao.TableDAO;
 
 public class TableDAOImpl extends TableDAO {

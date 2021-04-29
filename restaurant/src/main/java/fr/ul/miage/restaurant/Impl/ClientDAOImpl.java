@@ -1,6 +1,6 @@
 package fr.ul.miage.restaurant.Impl;
 
-import fr.ul.miage.restaurant.Models.Client;
+import fr.ul.miage.restaurant.models.Client;
 import fr.ul.miage.restaurant.dao.ClientDAO;
 
 public class ClientDAOImpl extends ClientDAO{

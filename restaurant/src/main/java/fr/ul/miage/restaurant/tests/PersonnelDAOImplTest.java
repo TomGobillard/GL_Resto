@@ -6,7 +6,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import fr.ul.miage.restaurant.Impl.PersonnelDAOImpl;
-import fr.ul.miage.restaurant.Models.Personnel;
+import fr.ul.miage.restaurant.models.Personnel;
 import fr.ul.miage.restaurant.dao.PersonnelDAO;
 
 public class PersonnelDAOImplTest {
