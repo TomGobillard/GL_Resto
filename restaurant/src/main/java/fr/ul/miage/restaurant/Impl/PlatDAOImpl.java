@@ -1,4 +1,4 @@
-package fr.ul.miage.restaurant.databse;
+package fr.ul.miage.restaurant.Impl;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -9,6 +9,7 @@ import fr.ul.miage.restaurant.Models.CategoriePlat;
 import fr.ul.miage.restaurant.Models.Plat;
 import fr.ul.miage.restaurant.Models.Produit;
 import fr.ul.miage.restaurant.Models.Table;
+import fr.ul.miage.restaurant.dao.PlatDAO;
 
 public class PlatDAOImpl extends PlatDAO {
 	@Override

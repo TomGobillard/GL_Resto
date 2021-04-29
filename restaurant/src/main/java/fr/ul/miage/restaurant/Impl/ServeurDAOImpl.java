@@ -1,4 +1,4 @@
-package fr.ul.miage.restaurant.databse;
+package fr.ul.miage.restaurant.Impl;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -7,6 +7,7 @@ import java.util.Map.Entry;
 
 import fr.ul.miage.restaurant.Models.Personnel;
 import fr.ul.miage.restaurant.Models.Serveur;
+import fr.ul.miage.restaurant.dao.ServeurDAO;
 
 public class ServeurDAOImpl extends ServeurDAO {
 	

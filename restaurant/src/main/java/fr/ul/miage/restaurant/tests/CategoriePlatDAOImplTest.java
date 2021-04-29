@@ -1,4 +1,4 @@
-package UnitTests;
+package fr.ul.miage.restaurant.tests;
 
 import static org.junit.Assert.*;
 
@@ -7,9 +7,9 @@ import java.util.ArrayList;
 import org.junit.Before;
 import org.junit.Test;
 
+import fr.ul.miage.restaurant.Impl.CategoriePlatDAOImpl;
 import fr.ul.miage.restaurant.Models.CategoriePlat;
-import fr.ul.miage.restaurant.databse.CategoriePlatDAO;
-import fr.ul.miage.restaurant.databse.CategoriePlatDAOImpl;
+import fr.ul.miage.restaurant.dao.CategoriePlatDAO;
 
 public class CategoriePlatDAOImplTest {
 	

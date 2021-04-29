@@ -1,6 +1,8 @@
-package fr.ul.miage.restaurant.databse;
+package fr.ul.miage.restaurant.dao;
 
 import java.sql.Connection;
+
+import fr.ul.miage.restaurant.postgre.ConnectionPostgresSQL;
 
 public abstract class DAO<T> {
 
