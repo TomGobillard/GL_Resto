@@ -1,10 +1,11 @@
-package fr.ul.miage.restaurant.databse;
+package fr.ul.miage.restaurant.Impl;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.Scanner;
 
 import fr.ul.miage.restaurant.Models.Table;
+import fr.ul.miage.restaurant.dao.TableDAO;
 
 public class TableDAOImpl extends TableDAO {
 	@Override

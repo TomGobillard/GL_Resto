@@ -1,4 +1,4 @@
-package fr.ul.miage.restaurant.databse;
+package fr.ul.miage.restaurant.Impl;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -6,6 +6,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 import fr.ul.miage.restaurant.Models.CategoriePlat;
+import fr.ul.miage.restaurant.dao.CategoriePlatDAO;
 
 public class CategoriePlatDAOImpl extends CategoriePlatDAO{
 	@Override

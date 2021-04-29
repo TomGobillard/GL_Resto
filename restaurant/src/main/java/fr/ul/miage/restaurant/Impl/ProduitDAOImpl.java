@@ -1,4 +1,4 @@
-package fr.ul.miage.restaurant.databse;
+package fr.ul.miage.restaurant.Impl;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -8,6 +8,7 @@ import java.util.HashMap;
 
 import fr.ul.miage.restaurant.Models.CategoriePlat;
 import fr.ul.miage.restaurant.Models.Produit;
+import fr.ul.miage.restaurant.dao.ProduitDAO;
 
 public class ProduitDAOImpl extends ProduitDAO<Produit> {
 	@Override

@@ -1,4 +1,4 @@
-package fr.ul.miage.restaurant.databse;
+package fr.ul.miage.restaurant.dao;
 
 import java.util.ArrayList;
 import java.util.HashMap;

@@ -1,10 +1,11 @@
-package fr.ul.miage.restaurant.databse;
+package fr.ul.miage.restaurant.Impl;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import fr.ul.miage.restaurant.Models.Personnel;
 import fr.ul.miage.restaurant.Models.Serveur;
+import fr.ul.miage.restaurant.dao.PersonnelDAO;
 
 public class PersonnelDAOImpl extends PersonnelDAO<Personnel> {
 

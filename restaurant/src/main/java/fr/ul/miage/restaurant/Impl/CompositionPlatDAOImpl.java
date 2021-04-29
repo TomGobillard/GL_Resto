@@ -1,6 +1,7 @@
-package fr.ul.miage.restaurant.databse;
+package fr.ul.miage.restaurant.Impl;
 
 import fr.ul.miage.restaurant.Models.CompositionPlat;
+import fr.ul.miage.restaurant.dao.CompositionPlatDAO;
 
 public class CompositionPlatDAOImpl extends CompositionPlatDAO{
 	

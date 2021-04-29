@@ -1,4 +1,4 @@
-package fr.ul.miage.restaurant.databse;
+package fr.ul.miage.restaurant.postgre;
 
 import java.sql.Connection;
 import java.sql.DriverManager;

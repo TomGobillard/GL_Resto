@@ -3,21 +3,21 @@ package fr.ul.miage.restaurant.restaurant;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+import fr.ul.miage.restaurant.Impl.CategoriePlatDAOImpl;
+import fr.ul.miage.restaurant.Impl.PersonnelDAOImpl;
+import fr.ul.miage.restaurant.Impl.PlatDAOImpl;
+import fr.ul.miage.restaurant.Impl.ProduitDAOImpl;
+import fr.ul.miage.restaurant.Impl.ServeurDAOImpl;
+import fr.ul.miage.restaurant.Impl.TableDAOImpl;
 import fr.ul.miage.restaurant.Models.CategoriePlat;
 import fr.ul.miage.restaurant.Models.Personnel;
 import fr.ul.miage.restaurant.Models.Produit;
-import fr.ul.miage.restaurant.databse.CategoriePlatDAO;
-import fr.ul.miage.restaurant.databse.CategoriePlatDAOImpl;
-import fr.ul.miage.restaurant.databse.PersonnelDAO;
-import fr.ul.miage.restaurant.databse.PersonnelDAOImpl;
-import fr.ul.miage.restaurant.databse.PlatDAO;
-import fr.ul.miage.restaurant.databse.PlatDAOImpl;
-import fr.ul.miage.restaurant.databse.ProduitDAO;
-import fr.ul.miage.restaurant.databse.ProduitDAOImpl;
-import fr.ul.miage.restaurant.databse.ServeurDAO;
-import fr.ul.miage.restaurant.databse.ServeurDAOImpl;
-import fr.ul.miage.restaurant.databse.TableDAO;
-import fr.ul.miage.restaurant.databse.TableDAOImpl;
+import fr.ul.miage.restaurant.dao.CategoriePlatDAO;
+import fr.ul.miage.restaurant.dao.PersonnelDAO;
+import fr.ul.miage.restaurant.dao.PlatDAO;
+import fr.ul.miage.restaurant.dao.ProduitDAO;
+import fr.ul.miage.restaurant.dao.ServeurDAO;
+import fr.ul.miage.restaurant.dao.TableDAO;
 
 public class main {
 
