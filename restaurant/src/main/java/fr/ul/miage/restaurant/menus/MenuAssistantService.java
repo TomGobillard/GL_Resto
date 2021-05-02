@@ -1,5 +1,11 @@
 package fr.ul.miage.restaurant.menus;
 
-public class MenuAssistantService {
+import fr.ul.miage.restaurant.models.Personnel;
 
+public class MenuAssistantService {
+	static Personnel user;
+
+	public void printOptions() {
+		
+	}
 }
