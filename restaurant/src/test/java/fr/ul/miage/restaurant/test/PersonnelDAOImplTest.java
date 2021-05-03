@@ -1,4 +1,4 @@
-package fr.ul.miage.restaurant.tests;
+package fr.ul.miage.restaurant.test;
 
 import static org.junit.Assert.*;
 

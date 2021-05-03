@@ -7,7 +7,7 @@ import fr.ul.miage.restaurant.dao.ProduitDAO;
 import fr.ul.miage.restaurant.models.Personnel;
 import fr.ul.miage.restaurant.models.Produit;
 
-public class MenuCommun {
+public abstract class MenuCommun {
 	boolean connected=false;
 	Personnel user;
 
