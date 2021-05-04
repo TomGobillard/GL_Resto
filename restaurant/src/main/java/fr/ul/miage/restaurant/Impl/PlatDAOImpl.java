@@ -129,4 +129,97 @@ public class PlatDAOImpl extends PlatDAO {
 
 		}
 	}
+
+	@Override
+	public ArrayList<Plat> getCarteduJour() {
+		ArrayList<Plat> carteduJour = new ArrayList<>();
+		// TODO Auto-generated method stub
+		try {
+			String sql = "SELECT * FROM Plat WHERE isplatdujour = true";
+			PreparedStatement stmt = connect.prepareStatement(sql);
+			ResultSet result = stmt.executeQuery();
+			
+			while(result.next()) {
+				Plat plat = new Plat(result.getLong(1), result.getString(2), result.getDouble(3), result.getBoolean(4), result.getLong(5), result.getLong(6));
+				carteduJour.add(plat);
+			}
+			
+			
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+		
+		return carteduJour;
+	}
+
+	@Override
+	public void initCarteduJour() {
+		// TODO Auto-generated method stub
+		try {
+			String sql = "UPDATE plat SET isplatdujour = false WHERE isplatdujour = true";
+			PreparedStatement stmt = connect.prepareStatement(sql);
+			ResultSet result = stmt.executeQuery();
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+	}
+
+	@Override
+	public ArrayList<Plat> platsCateg() {
+		ArrayList<Plat> plats = new ArrayList<>();
+		
+		String sql = "SELECT * FROM categorie_plat";
+		int choix =-1;
+		try {
+			PreparedStatement stmt = connect.prepareStatement(sql);
+			ResultSet result = stmt.executeQuery();
+			boolean entryNotValid = true;
+			while (entryNotValid) {
+				System.out.println("Sélectionnez la catégorie : \n");
+				while (result.next()) {
+					CategoriePlat ctgPlat = new CategoriePlat(result.getLong(1), result.getString(2));
+					System.out.println(ctgPlat.getLibelle() + " (" + ctgPlat.getId() + ")");
+				}
+				Scanner s = new Scanner(System.in);
+				choix = s.nextInt();
+
+				if (choix >= 1 || choix <= 5) {
+					entryNotValid = false;
+				} else {
+					System.out.println("Veuillez renseignez un identifiant de catégorie valide.");
+				}
+			}
+
+			try {
+				String sql2 = "SELECT * FROM plat WHERE idcategorie = ?";
+				PreparedStatement stmt2 = connect.prepareStatement(sql2);
+				stmt2.setLong(1, choix);
+				ResultSet result2 = stmt2.executeQuery();
+				while (result2.next()) {
+					Plat plat = new Plat(result2.getLong(1), result2.getString(2), result2.getDouble(3), result2.getBoolean(4), result2.getLong(5), result2.getLong(6));
+					plats.add(plat);
+				}
+			} catch (Exception e) {
+
+			}
+
+		} catch (Exception e) {
+
+		}
+		
+		return plats;
+	}
+
+	@Override
+	public void ajoutPlatCarteduJour(long idPlat) {
+		// TODO Auto-generated method stub
+		try {
+			String sql = "UPDATE Plat SET isplatdujour=true WHERE idPlat = ?";
+			PreparedStatement stmt = connect.prepareStatement(sql);
+			stmt.setLong(1, idPlat);
+			ResultSet result = stmt.executeQuery();
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+	}
 }
