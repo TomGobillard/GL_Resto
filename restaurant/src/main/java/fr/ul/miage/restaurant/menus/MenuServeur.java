@@ -4,8 +4,10 @@ import java.util.Scanner;
 
 import fr.ul.miage.restaurant.Impl.PlatDAOImpl;
 import fr.ul.miage.restaurant.Impl.ServeurDAOImpl;
+import fr.ul.miage.restaurant.Impl.TableDAOImpl;
 import fr.ul.miage.restaurant.dao.PlatDAO;
 import fr.ul.miage.restaurant.dao.ServeurDAO;
+import fr.ul.miage.restaurant.dao.TableDAO;
 import fr.ul.miage.restaurant.models.Personnel;
 
 public class MenuServeur extends MenuCommun {
@@ -20,7 +22,6 @@ public class MenuServeur extends MenuCommun {
 		System.out.println("BIENVENUE DANS L'APPLICATION DE VOTRE RESTAURANT !");
 		System.out.println("--------------------------------------------------\n");
 		System.out.println("Vous êtes connecté en tant que serveur");
-
 		
 		do {
 
@@ -36,7 +37,7 @@ public class MenuServeur extends MenuCommun {
 					consulterStocks();
 					break;
 				case 2:
-					ServeurDAO serveurDAO = new ServeurDAOImpl(user);
+					TableDAO serveurDAO = new TableDAOImpl(user);
 					serveurDAO.printOccupationAllTables();
 					break;
 				case 3:

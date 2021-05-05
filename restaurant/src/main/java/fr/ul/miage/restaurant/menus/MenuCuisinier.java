@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 import fr.ul.miage.restaurant.Impl.CategoriePlatDAOImpl;
+import fr.ul.miage.restaurant.Impl.CommandeDAOImpl;
 import fr.ul.miage.restaurant.Impl.PlatDAOImpl;
 import fr.ul.miage.restaurant.Impl.ProduitDAOImpl;
 import fr.ul.miage.restaurant.Impl.ServeurDAOImpl;
@@ -47,6 +48,8 @@ public class MenuCuisinier extends MenuCommun {
 				case 2:
 					creerPlat();
 					break;
+				case 3:
+					getCommandesEntrantes();
 				case 20:
 					deconnexion();
 					break;
@@ -65,19 +68,24 @@ public class MenuCuisinier extends MenuCommun {
 
 	public void printOptions() {
 		
-		
 		System.out.println("--------------------------------------------------");
 		System.out.println("Que souhaitez-vous faire ?\n");
 		
 		System.out.println("Consulter les stocks (1)");
 		System.out.println("Créer un plat (2)");
+		System.out.println("Visualiser les commandes entrantes (3)");
 		
 		System.out.println("Se déconnecter (20)");
 		System.out.println("Quitter (21)");
 		System.out.println("--------------------------------------------------");
 		
-		
 	}
+	
+	private void getCommandesEntrantes() {
+		CommandeDAOImpl cmdeDAO = new CommandeDAOImpl();
+		System.out.println(cmdeDAO.getCommandeEntrantes());
+	}
+
 		
 	public void creerPlat() {
 		ProduitDAO<Produit> produitDAO = new ProduitDAOImpl();
