@@ -2,6 +2,7 @@ package fr.ul.miage.restaurant.Impl;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map.Entry;
 
@@ -39,6 +40,24 @@ public class ServeurDAOImpl extends ServeurDAO {
 	public void delete(Serveur obj) {
 		// TODO Auto-generated method stub
 		
+	}
+	
+	public ArrayList<Integer> get() {
+		ArrayList<Integer> tables = new ArrayList<>();
+		try {
+
+			ResultSet result = this.connect
+					.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY).executeQuery(
+							"SELECT idtable FROM rtable WHERE idserveur = \'" + this.serveur.getId() + "\'");
+			while (result.next()) {
+				tables.add(Integer.valueOf(result.getInt("idtable")));
+			}
+
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return tables;
 	}
 
 	private HashMap<Integer, String> getOccupationAllTables() {
