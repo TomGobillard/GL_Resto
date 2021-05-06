@@ -3,11 +3,14 @@ package fr.ul.miage.restaurant.Impl;
 import fr.ul.miage.restaurant.models.CompositionPlat;
 import fr.ul.miage.restaurant.models.Plat;
 
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
 import fr.ul.miage.restaurant.dao.CompositionPlatDAO;
+import fr.ul.miage.restaurant.dao.PlatDAO;
+import fr.ul.miage.restaurant.dao.ProduitDAO;
 
 public class CompositionPlatDAOImpl extends CompositionPlatDAO {
 
@@ -56,5 +59,35 @@ public class CompositionPlatDAOImpl extends CompositionPlatDAO {
 			}
 		}
 		return compoPlats;
+	}
+
+	@Override
+	public boolean isDispo(long idPlat) {
+		// TODO Auto-generated method stub
+		ProduitDAO produitDAO = new ProduitDAOImpl();
+
+		ArrayList<CompositionPlat> compos = new ArrayList<>();
+
+		try {
+			String sql = "SELECT * FROM composition_plat WHERE idplat = ?";
+
+			PreparedStatement stmt = connect.prepareStatement(sql);
+			stmt.setLong(1, idPlat);
+
+			ResultSet result = stmt.executeQuery();
+
+			while(result.next()) {
+				if(!produitDAO.isDispo(result.getLong(1), result.getInt(3))) {
+					return false;
+				}
+			}
+
+			return true;
+
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+
+		return false;
 	}
 }

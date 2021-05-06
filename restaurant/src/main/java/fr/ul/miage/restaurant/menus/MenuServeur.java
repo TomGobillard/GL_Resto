@@ -215,7 +215,7 @@ public class MenuServeur extends MenuCommun {
 	public Plat ajoutPlatCommande() {
 		ArrayList<Plat> plats = new ArrayList<>();
 		PlatDAO platDAO = new PlatDAOImpl();
-		plats = platDAO.platsCateg();
+		plats = platDAO.platsDispoCateg();
 		Plat plat = new Plat();
 
 		if (plats.size() > 0) {

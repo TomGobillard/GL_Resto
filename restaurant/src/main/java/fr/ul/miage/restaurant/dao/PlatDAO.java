@@ -17,6 +17,8 @@ public abstract class PlatDAO extends DAO<Plat>{
 	
 	public abstract ArrayList<Plat> platsCateg();
 	
+	public abstract ArrayList<Plat> platsDispoCateg();
+	
 	public abstract void ajoutPlatCarteduJour(long idPlat);
 	
 	public abstract void incrementeNbCommandes(ArrayList<Plat> plats);

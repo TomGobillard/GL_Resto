@@ -170,7 +170,8 @@ public class MenuDirecteur extends MenuCommun {
 
 	public void ajoutPlatCarteduJour() {
 		ArrayList<Plat> plats = new ArrayList<>();
-		plats = platDAO.platsCateg();
+		//plats = platDAO.platsCateg();
+		plats = platDAO.platsDispoCateg();
 
 		if(plats.size()>0) {
 
