@@ -111,7 +111,7 @@ public class CommandeDAOImpl extends CommandeDAO {
 	@Override
 	public void creerCompositionCmde(int idCommande, int idPlat) {
 		try {
-			String sql = "INSERT INTO Composition_cmde (idcommande, idplat) VALUES (?,?)";
+			String sql = "INSERT INTO Composition_cmde (idcommande, idplat, etat) VALUES (?,?, 'EN PREPARATION'')";
 
 			PreparedStatement stmt = connect.prepareStatement(sql);
 			stmt.setInt(1, idCommande);

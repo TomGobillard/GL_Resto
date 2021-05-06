@@ -4,13 +4,18 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 import fr.ul.miage.restaurant.Impl.CommandeDAOImpl;
+import fr.ul.miage.restaurant.Impl.CompositionPlatDAOImpl;
 import fr.ul.miage.restaurant.Impl.PlatDAOImpl;
+import fr.ul.miage.restaurant.Impl.ProduitDAOImpl;
 import fr.ul.miage.restaurant.Impl.ServeurDAOImpl;
 import fr.ul.miage.restaurant.Impl.TableDAOImpl;
 import fr.ul.miage.restaurant.dao.CommandeDAO;
+import fr.ul.miage.restaurant.dao.CompositionPlatDAO;
 import fr.ul.miage.restaurant.dao.PlatDAO;
+import fr.ul.miage.restaurant.dao.ProduitDAO;
 import fr.ul.miage.restaurant.dao.ServeurDAO;
 import fr.ul.miage.restaurant.dao.TableDAO;
+import fr.ul.miage.restaurant.models.CompositionPlat;
 import fr.ul.miage.restaurant.models.Personnel;
 import fr.ul.miage.restaurant.models.Plat;
 
@@ -52,6 +57,9 @@ public class MenuServeur extends MenuCommun {
 
 					saisirCommande();
 					break;
+				case 5:
+					consulterServices();
+					break;
 				case 20:
 					deconnexion();
 					break;
@@ -68,6 +76,11 @@ public class MenuServeur extends MenuCommun {
 		} while (connected);
 	}
 
+	private void consulterServices() {
+		// TODO Auto-generated method stub
+		
+	}
+
 	public void printOptions() {
 		System.out.println("--------------------------------------------------");
 		System.out.println("Que souhaitez-vous faire ?\n");
@@ -76,6 +89,7 @@ public class MenuServeur extends MenuCommun {
 		System.out.println("Consulter l'état d'occupation des tables (2)");
 		System.out.println("Consulter les plats par catégorie (3)");
 		System.out.println("Saisir une commande (4)");
+		System.out.println("Consulter les plats à servir (5)");
 
 		System.out.println("Se déconnecter (20)");
 		System.out.println("Quitter (21)");
@@ -170,16 +184,29 @@ public class MenuServeur extends MenuCommun {
 
 	public void validerCommande(ArrayList<Plat> plats, int numTable) {
 
-
 		CommandeDAO commandeDAO = new CommandeDAOImpl();
 		commandeDAO.creerCommande(numTable);
 
 		int idCommande = commandeDAO.getLastCommande();
-		System.err.println(idCommande);
 
 		for (Plat p : plats) {
 			commandeDAO.creerCompositionCmde(idCommande, (int) p.getId());
 		}
+		
+		// incrémentation nombre de commandes d'un plat
+		PlatDAO platDAO = new PlatDAOImpl();
+		platDAO.incrementeNbCommandes(plats);
+		
+		//mise à jour des stocks de matières premières
+		CompositionPlatDAO compositionPlatDAO = new CompositionPlatDAOImpl();
+		ArrayList<CompositionPlat> compoPlats = new ArrayList<>();
+		compoPlats = compositionPlatDAO.getWithPlats(plats);
+		
+		ProduitDAO produitDAO = new ProduitDAOImpl();
+		for(CompositionPlat cp : compoPlats) {
+			produitDAO.updateQuantite(cp);
+		}
+		
 
 		System.out.println("La commande a été saisie.");
 

@@ -222,4 +222,19 @@ public class PlatDAOImpl extends PlatDAO {
 			// TODO: handle exception
 		}
 	}
+
+	@Override
+	public void incrementeNbCommandes(ArrayList<Plat> plats) {
+		for(Plat p : plats) {
+			try {
+				String sql = "UPDATE plat SET nbcommande = nbcommande + 1 WHERE idplat = ?";
+				PreparedStatement stmt = connect.prepareStatement(sql);
+				stmt.setLong(1, p.getId());
+				stmt.executeQuery();
+			} catch (Exception e) {
+				// TODO: handle exception
+			}
+		}
+
+	}
 }

@@ -2,15 +2,15 @@ package fr.ul.miage.restaurant.models;
 
 public class CompositionPlat {
 
-	private long idPlat;
 	private long idProduit;
+	private long idPlat;
 	private int quantite;
 	
 	public CompositionPlat() {
 		super();
 	}
 	
-	public CompositionPlat(long idPlat, long idProduit, int quantite) {
+	public CompositionPlat(long idProduit, long idPlat, int quantite) {
 		super();
 		this.idPlat = idPlat;
 		this.idProduit = idProduit;
