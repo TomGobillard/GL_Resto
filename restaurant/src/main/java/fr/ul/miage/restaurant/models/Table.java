@@ -25,6 +25,17 @@ public class Table {
 		this.avancement = avancement;
 		this.idServeur = idServeur;
 	}
+	
+	public Table(long id, long nbCouverts, long occupation, String etat, long etage, String avancement) {
+		super();
+		this.id = id;
+		this.nbCouverts = nbCouverts;
+		this.occupation = occupation;
+		this.etat = etat;
+		this.etage = etage;
+		this.avancement = avancement;
+		this.idServeur = -1;
+	}
 
 	public long getId() {
 		return id;

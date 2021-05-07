@@ -21,6 +21,7 @@ import fr.ul.miage.restaurant.dao.TableDAO;
 import fr.ul.miage.restaurant.menus.MenuAssistantService;
 import fr.ul.miage.restaurant.menus.MenuCuisinier;
 import fr.ul.miage.restaurant.menus.MenuDirecteur;
+import fr.ul.miage.restaurant.menus.MenuMaitreHotel;
 import fr.ul.miage.restaurant.menus.MenuServeur;
 
 public class main {
@@ -97,6 +98,8 @@ public class main {
 					break;
 					
 				case "MAITRE HOTEL":
+					MenuMaitreHotel menuMaitreHotel = new MenuMaitreHotel(connected, user);
+					menuMaitreHotel.printMenuMaitrehotel();
 					break;
 					
 				case "SERVEUR":

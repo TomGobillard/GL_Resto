@@ -131,4 +131,32 @@ public class TableDAOImpl extends TableDAO {
 		}
 		System.out.println();
 	}
+	
+	public void assignServeur(long idServeur, long idTable) {
+		String sql = "UPDATE rtable SET idserveur = ? WHERE idtable = ?";
+		try {
+			PreparedStatement stmt = connect.prepareStatement(sql);
+			stmt.setLong(1, idServeur);
+			stmt.setLong(2, idTable);
+			stmt.executeQuery();
+						
+		} catch (Exception e) {
+		}
+	}
+	
+	public boolean tableExists(long idTable) {
+		String sql = "SELECT * FROM rtable WHERE idtable = ?";
+		boolean res = false;
+		try {
+			PreparedStatement stmt = connect.prepareStatement(sql);
+			stmt.setLong(1, idTable);
+
+			ResultSet result = stmt.executeQuery();
+			res = result.next();
+			
+		} catch (Exception e) {
+			res = false;
+		}
+		return res;
+	}
 }

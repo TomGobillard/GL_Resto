@@ -1,5 +1,6 @@
 package fr.ul.miage.restaurant.Impl;
 
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -16,6 +17,10 @@ public class ServeurDAOImpl extends ServeurDAO {
 
 	public ServeurDAOImpl(Personnel serveur) {
 		this.serveur = (Serveur) serveur;
+	}
+	
+	public ServeurDAOImpl() {
+		this.serveur = null;
 	}
 
 	@Override
@@ -119,6 +124,22 @@ public class ServeurDAOImpl extends ServeurDAO {
 			System.out.println("Table n°" + entry.getKey() + " : " + entry.getValue());
 		}
 		System.out.println();
+	}
+	
+	public boolean serveurExists(long idServeur) {
+		String sql = "SELECT * FROM SERVEUR WHERE idserveur = ?";
+		boolean res = false;
+		try {
+			PreparedStatement stmt = connect.prepareStatement(sql);
+			stmt.setLong(1, idServeur);
+
+			ResultSet result = stmt.executeQuery();
+			res = result.next();
+			
+		} catch (Exception e) {
+			res = false;
+		}
+		return res;
 	}
 
 }

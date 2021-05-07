@@ -4,8 +4,10 @@ import java.util.Scanner;
 
 import fr.ul.miage.restaurant.Impl.PlatDAOImpl;
 import fr.ul.miage.restaurant.Impl.ServeurDAOImpl;
+import fr.ul.miage.restaurant.Impl.TableDAOImpl;
 import fr.ul.miage.restaurant.dao.PlatDAO;
 import fr.ul.miage.restaurant.dao.ServeurDAO;
+import fr.ul.miage.restaurant.dao.TableDAO;
 import fr.ul.miage.restaurant.models.Personnel;
 
 public class MenuMaitreHotel extends MenuCommun{
@@ -31,6 +33,8 @@ public class MenuMaitreHotel extends MenuCommun{
 				Scanner s = new Scanner(System.in);
 				c2 = s.nextInt();
 				switch (c2) {
+				case 1:
+					assignerServeurATable();
 				case 20:
 					deconnexion();
 					break;
@@ -47,10 +51,37 @@ public class MenuMaitreHotel extends MenuCommun{
 		} while(connected);
 	}
 
+	private void assignerServeurATable() {
+		TableDAO tableDAO = new TableDAOImpl();
+		ServeurDAO serveurDAO = new ServeurDAOImpl();
+		
+		boolean error = true;
+		
+		while(error == true) {
+			System.out.println("Veuillez renseignez l'id de la table à laquelle vous voulez affecter un serveur : ");
+			Scanner s = new Scanner(System.in);
+			long idTable = s.nextLong();
+			if(tableDAO.tableExists(idTable)) {
+				System.out.println("Veuillez renseignez l'id du serveur à affecter : ");
+				long idServeur = s.nextLong();
+				if(serveurDAO.serveurExists(idServeur)) {
+					tableDAO.assignServeur(idServeur, idTable);
+					error = false;
+					System.out.println("Le serveur n°" + idServeur + " a bien été assigné à la table n°" + idTable);
+				} else {
+					System.out.println("L'id du serveur renseigné n'existe pas.");
+				}
+			} else {
+				System.out.println("L'id de la table renseignée n'existe pas.");
+			}
+		}
+	}
+
 	public void printOptions() {
 		System.out.println("--------------------------------------------------");
 		System.out.println("Que souhaitez-vous faire ?\n");
 		
+		System.out.println("Assigner un serveur à une table (1)");
 		System.out.println("Se déconnecter (20)");
 		System.out.println("Quitter (21)");
 		System.out.println("--------------------------------------------------");
