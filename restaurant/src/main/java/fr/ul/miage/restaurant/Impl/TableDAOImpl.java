@@ -159,4 +159,27 @@ public class TableDAOImpl extends TableDAO {
 		}
 		return res;
 	}
+	
+	public void showAvancement(long idTable) {
+		String sql = "SELECT * FROM rtable WHERE idtable = ?";
+		try {
+			PreparedStatement stmt = connect.prepareStatement(sql);
+			stmt.setLong(1, idTable);
+
+			ResultSet result = stmt.executeQuery();
+			if(result.next()) {
+				String res = "Les clients de la table n°" + result.getInt("idtable") + " sont ";
+				if(result.getString("avancement").equals("ENTREE")) {
+					res += "à l'entrée";
+				} else if(result.getString("avancement").equals("PLAT")) {
+					res += "au plat";
+				} else {
+					res += "au dessert";
+				}
+				System.out.println(res);
+			}
+		} catch (Exception e) {
+		
+		}
+	}
 }

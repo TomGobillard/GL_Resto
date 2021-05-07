@@ -54,12 +54,13 @@ public class MenuServeur extends MenuCommun {
 					platDAO.listerPlatSelonCategorie();
 					break;
 				case 4:
-
 					saisirCommande();
 					break;
 				case 5:
 					consulterServices();
 					break;
+				case 6:
+					consulterAvancementTable();
 				case 20:
 					deconnexion();
 					break;
@@ -76,6 +77,23 @@ public class MenuServeur extends MenuCommun {
 		} while (connected);
 	}
 
+	private void consulterAvancementTable() {
+		TableDAO tableDAO = new TableDAOImpl(user);
+		boolean error = true;
+		
+		while(error == true) {
+		System.out.println("Veuillez renseignez le numéro de la table dont vous souhaitez connaître l'avancement : ");
+		Scanner s = new Scanner(System.in);
+		long idTable = s.nextLong();
+		if(tableDAO.tableExists(idTable)) {
+			error = false;
+			tableDAO.showAvancement(idTable);
+		} else {
+			System.out.println("L'id de la table renseignée n'existe pas.");
+		}
+		}
+	}
+
 	private void consulterServices() {
 		// TODO Auto-generated method stub
 		
@@ -90,6 +108,7 @@ public class MenuServeur extends MenuCommun {
 		System.out.println("Consulter les plats par catégorie (3)");
 		System.out.println("Saisir une commande (4)");
 		System.out.println("Consulter les plats à servir (5)");
+		System.out.println("Consulter l'avancement du repas d'une table (6)");
 
 		System.out.println("Se déconnecter (20)");
 		System.out.println("Quitter (21)");
