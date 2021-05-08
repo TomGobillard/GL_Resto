@@ -2,10 +2,8 @@ package fr.ul.miage.restaurant.menus;
 
 import java.util.Scanner;
 
-import fr.ul.miage.restaurant.Impl.PlatDAOImpl;
 import fr.ul.miage.restaurant.Impl.ServeurDAOImpl;
 import fr.ul.miage.restaurant.Impl.TableDAOImpl;
-import fr.ul.miage.restaurant.dao.PlatDAO;
 import fr.ul.miage.restaurant.dao.ServeurDAO;
 import fr.ul.miage.restaurant.dao.TableDAO;
 import fr.ul.miage.restaurant.models.Personnel;

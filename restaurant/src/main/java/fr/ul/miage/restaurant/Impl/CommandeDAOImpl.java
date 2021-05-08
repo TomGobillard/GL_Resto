@@ -1,13 +1,9 @@
 package fr.ul.miage.restaurant.Impl;
 
 import fr.ul.miage.restaurant.models.Commande;
-import fr.ul.miage.restaurant.models.Produit;
-
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-
 import fr.ul.miage.restaurant.dao.CommandeDAO;
 
 public class CommandeDAOImpl extends CommandeDAO {

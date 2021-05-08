@@ -9,13 +9,11 @@ import fr.ul.miage.restaurant.Impl.CommandeDAOImpl;
 import fr.ul.miage.restaurant.Impl.CompositionPlatDAOImpl;
 import fr.ul.miage.restaurant.Impl.PlatDAOImpl;
 import fr.ul.miage.restaurant.Impl.ProduitDAOImpl;
-import fr.ul.miage.restaurant.Impl.ServeurDAOImpl;
 import fr.ul.miage.restaurant.Impl.TableDAOImpl;
 import fr.ul.miage.restaurant.dao.CommandeDAO;
 import fr.ul.miage.restaurant.dao.CompositionPlatDAO;
 import fr.ul.miage.restaurant.dao.PlatDAO;
 import fr.ul.miage.restaurant.dao.ProduitDAO;
-import fr.ul.miage.restaurant.dao.ServeurDAO;
 import fr.ul.miage.restaurant.dao.TableDAO;
 import fr.ul.miage.restaurant.models.CompositionPlat;
 import fr.ul.miage.restaurant.models.Personnel;
@@ -182,9 +180,9 @@ public class MenuServeur extends MenuCommun {
 	}
 
 	private int choisirTable() {
-		ServeurDAO serveurDAO = new ServeurDAOImpl(user);
+		TableDAO tableDAO = new TableDAOImpl(user);
 		ArrayList<Integer> tables = new ArrayList<>();
-		tables = serveurDAO.get();
+		tables = tableDAO.getServeurTables(user.getId());
 		
 		int numTable=0;
 

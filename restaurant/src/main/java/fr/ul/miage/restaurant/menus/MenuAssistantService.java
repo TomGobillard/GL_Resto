@@ -56,7 +56,6 @@ public class MenuAssistantService extends MenuCommun{
 		System.out.println("Que souhaitez-vous faire ?\n");
 		
 		System.out.println("Obtenir les informations d'une table (1)");
-		
 		System.out.println("Se déconnecter (20)");
 		System.out.println("Quitter (21)");
 		System.out.println("--------------------------------------------------");

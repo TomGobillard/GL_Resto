@@ -3,6 +3,7 @@ package fr.ul.miage.restaurant.Impl;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Scanner;
 import java.util.Map.Entry;
@@ -18,7 +19,7 @@ public class TableDAOImpl extends TableDAO {
 	public TableDAOImpl(Personnel serveur) {
 		this.serveur = (Serveur) serveur;
 	}
-	
+
 	public TableDAOImpl() {
 		// TODO Auto-generated constructor stub
 	}
@@ -76,13 +77,17 @@ public class TableDAOImpl extends TableDAO {
 		}
 	}
 	
+	
+
 	private HashMap<Integer, String> getOccupationAllTables() {
 		HashMap<Integer, String> occupations = new HashMap<Integer, String>();
 		try {
+			String sql = "SELECT idtable, etat FROM rtable WHERE idServeur = ?";
+			PreparedStatement stmt = connect.prepareStatement(sql);
+			stmt.setLong(1, this.serveur.getId());
 
-			ResultSet result = this.connect
-					.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY).executeQuery(
-							"SELECT idtable, etat FROM rtable WHERE idserveur = \'" + this.serveur.getId() + "\'");
+			ResultSet result = stmt.executeQuery();
+
 			while (result.next()) {
 				occupations.put(Integer.valueOf(result.getInt("idtable")), result.getString("etat"));
 			}
@@ -93,19 +98,24 @@ public class TableDAOImpl extends TableDAO {
 		}
 		return occupations;
 	}
-	
+
 	public HashMap<Integer, String> getTableForInitPrint() {
 		HashMap<Integer, String> occupations = new HashMap<Integer, String>();
 		try {
 
-			ResultSet result = this.connect
-					.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY).executeQuery(
-							"SELECT idtable, etat, avancement FROM rtable WHERE idserveur = \'" + this.serveur.getId() + "\' AND etage = \'" + this.serveur.getEtage() + "\'");
+			String sql = "SELECT idtable, etat, avancement FROM rtable WHERE idServeur = ? AND etage = ?";
+			PreparedStatement stmt = connect.prepareStatement(sql);
+			stmt.setLong(1, this.serveur.getId());
+			stmt.setLong(2, this.serveur.getEtage());
+
+			ResultSet result = stmt.executeQuery();
+
 			while (result.next()) {
-				if(result.getString("avancement") == null) {
+				if (result.getString("avancement") == null) {
 					occupations.put(Integer.valueOf(result.getInt("idtable")), result.getString("etat"));
 				} else {
-					occupations.put(Integer.valueOf(result.getInt("idtable")), result.getString("etat") + " (" + result.getString("avancement") + ")");
+					occupations.put(Integer.valueOf(result.getInt("idtable")),
+							result.getString("etat") + " (" + result.getString("avancement") + ")");
 				}
 			}
 		} catch (SQLException e) {
@@ -122,9 +132,7 @@ public class TableDAOImpl extends TableDAO {
 		}
 		System.out.println();
 	}
-	
-	
-	
+
 	public void assignServeur(long idServeur, long idTable) {
 		String sql = "UPDATE rtable SET idserveur = ? WHERE idtable = ?";
 		try {
@@ -132,11 +140,11 @@ public class TableDAOImpl extends TableDAO {
 			stmt.setLong(1, idServeur);
 			stmt.setLong(2, idTable);
 			stmt.executeQuery();
-						
+
 		} catch (Exception e) {
 		}
 	}
-	
+
 	public boolean tableExists(long idTable) {
 		String sql = "SELECT * FROM rtable WHERE idtable = ?";
 		boolean res = false;
@@ -146,13 +154,13 @@ public class TableDAOImpl extends TableDAO {
 
 			ResultSet result = stmt.executeQuery();
 			res = result.next();
-			
+
 		} catch (Exception e) {
 			res = false;
 		}
 		return res;
 	}
-	
+
 	public void showAvancement(long idTable) {
 		String sql = "SELECT * FROM rtable WHERE idtable = ?";
 		try {
@@ -160,13 +168,13 @@ public class TableDAOImpl extends TableDAO {
 			stmt.setLong(1, idTable);
 
 			ResultSet result = stmt.executeQuery();
-			if(result.next()) {
+			if (result.next()) {
 				String res = "Les clients de la table n°" + result.getInt("idtable") + " sont ";
-				if(result.getString("avancement").equals("ENTREE")) {
+				if (result.getString("avancement").equals("ENTREE")) {
 					res += "à l'entrée.";
-				} else if(result.getString("avancement").equals("PLAT")) {
+				} else if (result.getString("avancement").equals("PLAT")) {
 					res += "au plat.";
-				} else if(result.getString("avancement").equals("INSTALLE")) {
+				} else if (result.getString("avancement").equals("INSTALLE")) {
 					res += "installés.";
 				} else {
 					res += "au dessert.";
@@ -174,7 +182,27 @@ public class TableDAOImpl extends TableDAO {
 				System.out.println(res);
 			}
 		} catch (Exception e) {
-		
+
 		}
+	}
+	
+	public ArrayList<Integer> getServeurTables(long serveurId) {
+		ArrayList<Integer> tables = new ArrayList<>();
+		try {
+
+			String sql = "SELECT idtable FROM rtable WHERE idServeur = ?";
+			PreparedStatement stmt = connect.prepareStatement(sql);
+			stmt.setLong(1, serveurId);
+
+			ResultSet result = stmt.executeQuery();
+			while (result.next()) {
+				tables.add(Integer.valueOf(result.getInt("idtable")));
+			}
+
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return tables;
 	}
 }

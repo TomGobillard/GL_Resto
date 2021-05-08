@@ -6,9 +6,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import fr.ul.miage.restaurant.models.CategoriePlat;
 import fr.ul.miage.restaurant.models.CompositionPlat;
-import fr.ul.miage.restaurant.models.Plat;
 import fr.ul.miage.restaurant.models.Produit;
 import fr.ul.miage.restaurant.dao.ProduitDAO;
 
