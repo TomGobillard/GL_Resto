@@ -51,7 +51,7 @@ public class TableDAOImpl extends TableDAO {
 	public void obtenirInfoTable() {
 		boolean reqFind = false;
 		while (!reqFind) {
-			System.out.println("Veuillez renseigner l'id de la table.");
+			System.out.println("Veuillez renseignez le numéro de la table dont vous souhaitez obtenir les informations : ");
 			Scanner s = new Scanner(System.in);
 			int choix = s.nextInt();
 			String sql = "SELECT * FROM rtable WHERE idtable = ?";
@@ -94,7 +94,7 @@ public class TableDAOImpl extends TableDAO {
 		return occupations;
 	}
 	
-	private HashMap<Integer, String> getOccupationTablesWithAvancement() {
+	public HashMap<Integer, String> getTableForInitPrint() {
 		HashMap<Integer, String> occupations = new HashMap<Integer, String>();
 		try {
 
@@ -123,14 +123,7 @@ public class TableDAOImpl extends TableDAO {
 		System.out.println();
 	}
 	
-	public void printOccupationTablesWithAvancement() {
-		System.out.println("Etat de vos tables : \n");
-		HashMap<Integer, String> occupations = getOccupationTablesWithAvancement();
-		for (Entry<Integer, String> entry : occupations.entrySet()) {
-			System.out.println("Table n°" + entry.getKey() + " : " + entry.getValue());
-		}
-		System.out.println();
-	}
+	
 	
 	public void assignServeur(long idServeur, long idTable) {
 		String sql = "UPDATE rtable SET idserveur = ? WHERE idtable = ?";
@@ -170,11 +163,13 @@ public class TableDAOImpl extends TableDAO {
 			if(result.next()) {
 				String res = "Les clients de la table n°" + result.getInt("idtable") + " sont ";
 				if(result.getString("avancement").equals("ENTREE")) {
-					res += "à l'entrée";
+					res += "à l'entrée.";
 				} else if(result.getString("avancement").equals("PLAT")) {
-					res += "au plat";
+					res += "au plat.";
+				} else if(result.getString("avancement").equals("INSTALLE")) {
+					res += "installés.";
 				} else {
-					res += "au dessert";
+					res += "au dessert.";
 				}
 				System.out.println(res);
 			}

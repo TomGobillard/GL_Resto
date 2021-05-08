@@ -1,7 +1,9 @@
 package fr.ul.miage.restaurant.menus;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Scanner;
+import java.util.Map.Entry;
 
 import fr.ul.miage.restaurant.Impl.CommandeDAOImpl;
 import fr.ul.miage.restaurant.Impl.CompositionPlatDAOImpl;
@@ -20,6 +22,8 @@ import fr.ul.miage.restaurant.models.Personnel;
 import fr.ul.miage.restaurant.models.Plat;
 
 public class MenuServeur extends MenuCommun {
+	
+	boolean tableInfoInitPrinted = false;
 
 	public MenuServeur(boolean connected, Personnel user) {
 		super(connected, user);
@@ -31,12 +35,12 @@ public class MenuServeur extends MenuCommun {
 		System.out.println("BIENVENUE DANS L'APPLICATION DE VOTRE RESTAURANT !");
 		System.out.println("--------------------------------------------------\n");
 		System.out.println("Vous êtes connecté en tant que serveur");
-
+		
 		do {
 
 			int c;
 			do {
-
+				
 				printOptions();
 
 				Scanner s = new Scanner(System.in);
@@ -61,8 +65,13 @@ public class MenuServeur extends MenuCommun {
 					break;
 				case 6:
 					consulterAvancementTable();
+					break;
+				case 7:
+					showInfoTable();
+					break;
 				case 20:
 					deconnexion();
+					tableInfoInitPrinted = false;
 					break;
 				case 21:
 					System.out.println("Fermeture de l'application.");
@@ -75,6 +84,11 @@ public class MenuServeur extends MenuCommun {
 
 			} while (c != 20);
 		} while (connected);
+	}
+
+	private void showInfoTable() {
+		TableDAO tableDAO = new TableDAOImpl(user);
+		tableDAO.obtenirInfoTable();
 	}
 
 	private void consulterAvancementTable() {
@@ -100,6 +114,10 @@ public class MenuServeur extends MenuCommun {
 	}
 
 	public void printOptions() {
+		if(!tableInfoInitPrinted) {
+			printOccupationTablesWithAvancement();
+		}
+		
 		System.out.println("--------------------------------------------------");
 		System.out.println("Que souhaitez-vous faire ?\n");
 
@@ -109,6 +127,7 @@ public class MenuServeur extends MenuCommun {
 		System.out.println("Saisir une commande (4)");
 		System.out.println("Consulter les plats à servir (5)");
 		System.out.println("Consulter l'avancement du repas d'une table (6)");
+		System.out.println("Consulter les informations d'une table (7)");
 
 		System.out.println("Se déconnecter (20)");
 		System.out.println("Quitter (21)");
@@ -267,6 +286,17 @@ public class MenuServeur extends MenuCommun {
 
 		}
 		return plat;
+	}
+	
+	private void printOccupationTablesWithAvancement() {
+		TableDAO tableDAO = new TableDAOImpl(user);
+		System.out.println("Etat de vos tables : \n");
+		HashMap<Integer, String> occupations = tableDAO.getTableForInitPrint();
+		for (Entry<Integer, String> entry : occupations.entrySet()) {
+			System.out.println("Table n°" + entry.getKey() + " : " + entry.getValue());
+		}
+		System.out.println();
+		tableInfoInitPrinted = true;
 	}
 
 }

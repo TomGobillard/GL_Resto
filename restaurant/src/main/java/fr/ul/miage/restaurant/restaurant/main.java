@@ -1,23 +1,10 @@
 package fr.ul.miage.restaurant.restaurant;
 
-import java.util.ArrayList;
 import java.util.Scanner;
 
-import fr.ul.miage.restaurant.Impl.CategoriePlatDAOImpl;
 import fr.ul.miage.restaurant.Impl.PersonnelDAOImpl;
-import fr.ul.miage.restaurant.Impl.PlatDAOImpl;
-import fr.ul.miage.restaurant.Impl.ProduitDAOImpl;
-import fr.ul.miage.restaurant.Impl.ServeurDAOImpl;
-import fr.ul.miage.restaurant.Impl.TableDAOImpl;
-import fr.ul.miage.restaurant.models.CategoriePlat;
 import fr.ul.miage.restaurant.models.Personnel;
-import fr.ul.miage.restaurant.models.Produit;
-import fr.ul.miage.restaurant.dao.CategoriePlatDAO;
 import fr.ul.miage.restaurant.dao.PersonnelDAO;
-import fr.ul.miage.restaurant.dao.PlatDAO;
-import fr.ul.miage.restaurant.dao.ProduitDAO;
-import fr.ul.miage.restaurant.dao.ServeurDAO;
-import fr.ul.miage.restaurant.dao.TableDAO;
 import fr.ul.miage.restaurant.menus.MenuAssistantService;
 import fr.ul.miage.restaurant.menus.MenuCuisinier;
 import fr.ul.miage.restaurant.menus.MenuDirecteur;
@@ -41,6 +28,7 @@ public class main {
 				System.out.println("Que souhaitez-vous faire ?\n");
 				System.out.println("Se connecter (1)");
 				System.out.println("Quitter (2)");
+				System.out.println("Vous pouvez quitter l'application à tout instant avec le raccourci Ctrl+C.");
 
 				Scanner s = new Scanner(System.in);
 				c = s.nextInt();

@@ -87,13 +87,13 @@ public class Table {
 
 	@Override
 	public String toString() {
-		String res = "Table n° " + this.id + "\n" + "Nombre de couverts : " + this.nbCouverts + "\n" + "Occupation : "
+		String res = "Table n°" + this.id + "\n" + "Nombre de couverts : " + this.nbCouverts + "\n" + "Occupation : "
 				+ this.occupation + "%" + "\n" + "Etat : " + this.etat + "\n" + "Etage : " + this.etage + "\n";
 		
 		if (this.etat.toUpperCase().equals("OCCUPEE")) {
 			res += "Avancement du repas : " + this.avancement + "\n";
 		}
-		res += "N° de serveur associé : " + this.idServeur + "\n";
+		res += "Numéro du serveur associé : " + this.idServeur + "\n";
 		return res;
 	}
 
