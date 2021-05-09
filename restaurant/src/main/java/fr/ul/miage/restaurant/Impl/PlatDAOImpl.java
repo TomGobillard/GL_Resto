@@ -306,7 +306,7 @@ public class PlatDAOImpl extends PlatDAO {
 				System.out.println("Commande n°" + idCmde + " sélectionnée.");
 				cmdeDAO.showPlatCommande(idCmde);
 				boolean platError = true;
-				while (error) {
+				while (platError) {
 					System.out.println("Sélectionnez maintenant l'id du plat : ");
 					long idPlat = s.nextLong();
 					if (platExists(idPlat)) {
