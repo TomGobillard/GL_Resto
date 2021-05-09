@@ -22,5 +22,6 @@ public abstract class PlatDAO extends DAO<Plat>{
 	public abstract void ajoutPlatCarteduJour(long idPlat);
 	
 	public abstract void incrementeNbCommandes(ArrayList<Plat> plats);
-
+	
+	public abstract void setEtatPlat();
 }

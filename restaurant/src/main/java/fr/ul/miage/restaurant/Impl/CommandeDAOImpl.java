@@ -127,6 +127,7 @@ public class CommandeDAOImpl extends CommandeDAO {
 		}
 	}
 
+<<<<<<< HEAD
 	@Override
 	public void deleteLastCmdeforTest() {
 		// TODO Auto-generated method stub
@@ -164,5 +165,48 @@ public class CommandeDAOImpl extends CommandeDAO {
 	public ArrayList<Commande> getAll() {
 		// TODO Auto-generated method stub
 		return null;
+=======
+	public boolean cmdeEntranteExists(long idCmde) {
+		String sql = "SELECT * FROM COMMANDE WHERE idcommande = ? AND etat = 'EN PREPARATION'";
+		boolean res = false;
+		try {
+			PreparedStatement stmt = connect.prepareStatement(sql);
+			stmt.setLong(1, idCmde);
+
+			ResultSet result = stmt.executeQuery();
+			res = result.next();
+
+		} catch (Exception e) {
+			res = false;
+		}
+		return res;
+	}
+
+	public void showPlatCommande(long idCmde) {
+		String resultat = "";
+		try {
+
+			String sql = "SELECT * FROM COMPOSITION_CMDE WHERE idcommande = ?";
+			PreparedStatement stmt = connect.prepareStatement(sql);
+			stmt.setLong(1, idCmde);
+			ResultSet result = stmt.executeQuery();
+
+			while (result.next()) {
+				resultat += result.getInt(2) + " : ";
+
+				String sql2 = "SELECT libelle FROM PLAT WHERE idplat = ?";
+				PreparedStatement stmt2 = connect.prepareStatement(sql2);
+				stmt2.setLong(1, result.getInt(2));
+				ResultSet result2 = stmt2.executeQuery();
+
+				if (result2.next()) {
+					resultat += result2.getString(1) + " (" + result.getString(3) + "). \n";
+				}
+			}
+			System.out.println(resultat);
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+>>>>>>> 2bc419be778980034d570f23a4090276552eb223
 	}
 }
