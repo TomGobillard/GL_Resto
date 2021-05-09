@@ -90,4 +90,10 @@ public class CompositionPlatDAOImpl extends CompositionPlatDAO {
 
 		return false;
 	}
+
+	@Override
+	public ArrayList<CompositionPlat> getAll() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

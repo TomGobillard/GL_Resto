@@ -73,4 +73,10 @@ public class CategoriePlatDAOImpl extends CategoriePlatDAO{
 		return listCateg;
 	}
 
+	@Override
+	public ArrayList<CategoriePlat> getAll() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

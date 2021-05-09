@@ -4,6 +4,8 @@ import fr.ul.miage.restaurant.models.Commande;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+
 import fr.ul.miage.restaurant.dao.CommandeDAO;
 
 public class CommandeDAOImpl extends CommandeDAO {
@@ -31,6 +33,7 @@ public class CommandeDAOImpl extends CommandeDAO {
 
 	}
 
+	@Override
 	public String getCommandeEntrantes() {
 		String ligneResultat = "";
 		try {
@@ -122,5 +125,44 @@ public class CommandeDAOImpl extends CommandeDAO {
 		} catch (Exception e) {
 			// TODO: handle exception
 		}
+	}
+
+	@Override
+	public void deleteLastCmdeforTest() {
+		// TODO Auto-generated method stub
+		try {
+			Long idcmde = (long) 1;
+			
+			String sql = "SELECT idcommande FROM commande ORDER BY idcommande DESC";
+			PreparedStatement stmt = connect.prepareStatement(sql);
+			
+			ResultSet result = stmt.executeQuery();
+			
+			if(result.next()) {
+				idcmde = result.getLong(1);
+			}
+			
+			String sqlDeleteCompoCmde = "DELETE FROM composition_cmde WHERE idcommande = ?";
+			PreparedStatement stmtDeleteCompoCmde = connect.prepareStatement(sqlDeleteCompoCmde);
+			stmtDeleteCompoCmde.setLong(1, idcmde);
+			
+			ResultSet resultDeleteCompocmde = stmtDeleteCompoCmde.executeQuery();
+			
+			String sqlDeleteCmde = "DELETE FROM commande WHERE idcommande = ?";
+			PreparedStatement stmtDeleteCmde = connect.prepareStatement(sqlDeleteCmde);
+			stmtDeleteCmde.setLong(1, idcmde);
+			
+			ResultSet resultDeleteCmde = stmtDeleteCmde.executeQuery();
+			
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+
+	}
+
+	@Override
+	public ArrayList<Commande> getAll() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

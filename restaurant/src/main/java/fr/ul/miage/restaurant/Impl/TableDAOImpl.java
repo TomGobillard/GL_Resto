@@ -27,7 +27,25 @@ public class TableDAOImpl extends TableDAO {
 	@Override
 	public Table find(long id) {
 		// TODO Auto-generated method stub
-		return null;
+		Table table = new Table();
+
+		try {
+			String sql = "SELECT * FROM rtable WHERE idTable = ?";
+			PreparedStatement stmt = connect.prepareStatement(sql);
+			stmt.setLong(1, id);
+
+			ResultSet result = stmt.executeQuery();
+
+			if(result.next()) {
+				table = new Table(id, result.getLong(2), result.getLong(3), result.getString(4), result.getLong(5), result.getString(6));
+				table.setIdServeur(result.getLong(7));
+			}
+
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+
+		return table;
 	}
 
 	@Override
@@ -76,8 +94,8 @@ public class TableDAOImpl extends TableDAO {
 			}
 		}
 	}
-	
-	
+
+
 
 	private HashMap<Integer, String> getOccupationAllTables() {
 		HashMap<Integer, String> occupations = new HashMap<Integer, String>();
@@ -185,7 +203,7 @@ public class TableDAOImpl extends TableDAO {
 
 		}
 	}
-	
+
 	public ArrayList<Integer> getServeurTables(long serveurId) {
 		ArrayList<Integer> tables = new ArrayList<>();
 		try {
@@ -203,6 +221,29 @@ public class TableDAOImpl extends TableDAO {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		return tables;
+	}
+
+	@Override
+	public ArrayList<Table> getAll() {
+		// TODO Auto-generated method stub
+		ArrayList<Table> tables = new ArrayList<Table>();
+		Table table;
+		try {
+			String sql = "SELECT * FROM rtable";
+			PreparedStatement stmt = connect.prepareStatement(sql);
+			
+			ResultSet result = stmt.executeQuery();
+			
+			while(result.next()) {
+				table = new Table(result.getLong(1), result.getLong(2), result.getLong(3), result.getString(4),
+						result.getLong(5), result.getString(6), result.getLong(7));
+				tables.add(table);
+			}
+		}catch (Exception e) {
+			// TODO: handle exception
+		}
+		
 		return tables;
 	}
 }

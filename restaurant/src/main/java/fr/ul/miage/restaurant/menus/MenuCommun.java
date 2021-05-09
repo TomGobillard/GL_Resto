@@ -16,6 +16,8 @@ public abstract class MenuCommun {
 		this.connected = connected;
 		this.user = user;
 	}
+	
+	public MenuCommun() {}
 
 	protected void deconnexion() {
 		connected=false;		

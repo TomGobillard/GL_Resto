@@ -163,5 +163,11 @@ public class ProduitDAOImpl extends ProduitDAO<Produit> {
 		}
 	}
 
+	@Override
+	public ArrayList<Produit> getAll() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 
 }

@@ -27,6 +27,8 @@ public class MenuServeur extends MenuCommun {
 		super(connected, user);
 		// TODO Auto-generated constructor stub
 	}
+	
+	public MenuServeur() {}
 
 	public void printMenuServeur() {
 		System.out.println("--------------------------------------------------");

@@ -2,6 +2,8 @@ package fr.ul.miage.restaurant.Impl;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.util.ArrayList;
+
 import fr.ul.miage.restaurant.models.Personnel;
 import fr.ul.miage.restaurant.models.Serveur;
 import fr.ul.miage.restaurant.dao.ServeurDAO;
@@ -56,6 +58,12 @@ public class ServeurDAOImpl extends ServeurDAO {
 			res = false;
 		}
 		return res;
+	}
+
+	@Override
+	public ArrayList<Serveur> getAll() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

@@ -1,6 +1,9 @@
 package fr.ul.miage.restaurant.Impl;
 
 import fr.ul.miage.restaurant.models.Client;
+
+import java.util.ArrayList;
+
 import fr.ul.miage.restaurant.dao.ClientDAO;
 
 public class ClientDAOImpl extends ClientDAO{
@@ -27,5 +30,11 @@ public class ClientDAOImpl extends ClientDAO{
 	public void delete(Client obj) {
 		// TODO Auto-generated method stub
 		
+	}
+
+	@Override
+	public ArrayList<Client> getAll() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

@@ -290,4 +290,28 @@ public class PlatDAOImpl extends PlatDAO {
 
 		return plats;
 	}
+
+	@Override
+	public ArrayList<Plat> getAll() {
+		// TODO Auto-generated method stub
+		ArrayList<Plat> plats = new ArrayList<>();
+		Plat plat;
+		
+		try {
+			String sql = "SELECT * FROM plat";
+			PreparedStatement stmt = connect.prepareStatement(sql);
+			
+			ResultSet result = stmt.executeQuery();
+			
+			while(result.next()) {
+				plat = new Plat(result.getLong(1), result.getString(2), result.getDouble(3), result.getBoolean(4), 
+						result.getLong(5), result.getLong(6));
+				plats.add(plat);
+			}
+		}catch (Exception e) {
+			// TODO: handle exception
+		}
+		
+		return plats;
+	}
 }
