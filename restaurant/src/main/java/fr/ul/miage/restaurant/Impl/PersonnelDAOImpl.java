@@ -2,9 +2,10 @@ package fr.ul.miage.restaurant.Impl;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
-import fr.ul.miage.restaurant.Models.Personnel;
-import fr.ul.miage.restaurant.Models.Serveur;
+import fr.ul.miage.restaurant.models.Personnel;
+import fr.ul.miage.restaurant.models.Serveur;
 import fr.ul.miage.restaurant.dao.PersonnelDAO;
 
 public class PersonnelDAOImpl extends PersonnelDAO<Personnel> {
@@ -78,6 +79,12 @@ public class PersonnelDAOImpl extends PersonnelDAO<Personnel> {
 		}
 
 		return personnel;
+	}
+
+	@Override
+	public ArrayList<Personnel> getAll() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

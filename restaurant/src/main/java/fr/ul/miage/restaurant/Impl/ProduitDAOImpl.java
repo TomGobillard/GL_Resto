@@ -6,8 +6,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import fr.ul.miage.restaurant.Models.CategoriePlat;
-import fr.ul.miage.restaurant.Models.Produit;
+import fr.ul.miage.restaurant.models.CompositionPlat;
+import fr.ul.miage.restaurant.models.Produit;
 import fr.ul.miage.restaurant.dao.ProduitDAO;
 
 public class ProduitDAOImpl extends ProduitDAO<Produit> {
@@ -148,6 +148,25 @@ public class ProduitDAOImpl extends ProduitDAO<Produit> {
 		}
 
 		return false;
+	}
+
+	@Override
+	public void updateQuantite(CompositionPlat compoPlat) {
+		try {
+			String sql = "UPDATE produit SET quantite = quantite - ? WHERE idproduit = ?";
+			PreparedStatement stmt = connect.prepareStatement(sql);
+			stmt.setInt(1, compoPlat.getQuantite());
+			stmt.setLong(2, compoPlat.getIdProduit());
+			stmt.executeQuery();
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+	}
+
+	@Override
+	public ArrayList<Produit> getAll() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 

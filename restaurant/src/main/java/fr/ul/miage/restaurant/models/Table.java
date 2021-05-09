@@ -1,4 +1,4 @@
-package fr.ul.miage.restaurant.Models;
+package fr.ul.miage.restaurant.models;
 
 public class Table {
 
@@ -24,6 +24,17 @@ public class Table {
 		this.etage = etage;
 		this.avancement = avancement;
 		this.idServeur = idServeur;
+	}
+	
+	public Table(long id, long nbCouverts, long occupation, String etat, long etage, String avancement) {
+		super();
+		this.id = id;
+		this.nbCouverts = nbCouverts;
+		this.occupation = occupation;
+		this.etat = etat;
+		this.etage = etage;
+		this.avancement = avancement;
+		this.idServeur = -1;
 	}
 
 	public long getId() {
@@ -76,13 +87,13 @@ public class Table {
 
 	@Override
 	public String toString() {
-		String res = "Table n° " + this.id + "\n" + "Nombre de couverts : " + this.nbCouverts + "\n" + "Occupation : "
+		String res = "Table n°" + this.id + "\n" + "Nombre de couverts : " + this.nbCouverts + "\n" + "Occupation : "
 				+ this.occupation + "%" + "\n" + "Etat : " + this.etat + "\n" + "Etage : " + this.etage + "\n";
 		
 		if (this.etat.toUpperCase().equals("OCCUPEE")) {
 			res += "Avancement du repas : " + this.avancement + "\n";
 		}
-		res += "N° de serveur associé : " + this.idServeur + "\n";
+		res += "Numéro du serveur associé : " + this.idServeur + "\n";
 		return res;
 	}
 

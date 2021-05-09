@@ -5,7 +5,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-import fr.ul.miage.restaurant.Models.CategoriePlat;
+import fr.ul.miage.restaurant.models.CategoriePlat;
 import fr.ul.miage.restaurant.dao.CategoriePlatDAO;
 
 public class CategoriePlatDAOImpl extends CategoriePlatDAO{
@@ -71,6 +71,12 @@ public class CategoriePlatDAOImpl extends CategoriePlatDAO{
 		}
 		
 		return listCateg;
+	}
+
+	@Override
+	public ArrayList<CategoriePlat> getAll() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

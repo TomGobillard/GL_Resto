@@ -1,6 +1,9 @@
 package fr.ul.miage.restaurant.Impl;
 
-import fr.ul.miage.restaurant.Models.Facture;
+import fr.ul.miage.restaurant.models.Facture;
+
+import java.util.ArrayList;
+
 import fr.ul.miage.restaurant.dao.FactureDAO;
 
 public class FactureDAOImpl extends FactureDAO {
@@ -26,5 +29,11 @@ public class FactureDAOImpl extends FactureDAO {
 	public void delete(Facture obj) {
 		// TODO Auto-generated method stub
 		
+	}
+
+	@Override
+	public ArrayList<Facture> getAll() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

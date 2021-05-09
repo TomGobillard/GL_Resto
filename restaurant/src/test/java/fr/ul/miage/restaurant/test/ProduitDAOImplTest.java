@@ -1,4 +1,4 @@
-package fr.ul.miage.restaurant.tests;
+package fr.ul.miage.restaurant.test;
 
 import static org.junit.Assert.*;
 
@@ -8,7 +8,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import fr.ul.miage.restaurant.Impl.ProduitDAOImpl;
-import fr.ul.miage.restaurant.Models.Produit;
+import fr.ul.miage.restaurant.models.Produit;
 import fr.ul.miage.restaurant.dao.ProduitDAO;
 
 public class ProduitDAOImplTest {

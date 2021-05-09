@@ -1,4 +1,4 @@
-package fr.ul.miage.restaurant.Models;
+package fr.ul.miage.restaurant.models;
 
 public class Facture {
 

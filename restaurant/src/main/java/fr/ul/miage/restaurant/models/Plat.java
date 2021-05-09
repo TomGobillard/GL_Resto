@@ -1,4 +1,6 @@
-package fr.ul.miage.restaurant.Models;
+package fr.ul.miage.restaurant.models;
+
+import java.util.ArrayList;
 
 public class Plat {
 
