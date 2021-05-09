@@ -46,6 +46,10 @@ public class MenuCuisinier extends MenuCommun {
 					break;
 				case 3:
 					getCommandesEntrantes();
+					break;
+				case 4:
+					setEtatPlat();
+					break;
 				case 20:
 					deconnexion();
 					break;
@@ -62,6 +66,12 @@ public class MenuCuisinier extends MenuCommun {
 		} while(connected);
 	}
 
+	private void setEtatPlat() {
+		getCommandesEntrantes();
+		PlatDAO platDAO = new PlatDAOImpl();
+		platDAO.setEtatPlat();
+	}
+
 	public void printOptions() {
 		
 		System.out.println("--------------------------------------------------");
@@ -70,6 +80,7 @@ public class MenuCuisinier extends MenuCommun {
 		System.out.println("Consulter les stocks (1)");
 		System.out.println("Créer un plat (2)");
 		System.out.println("Visualiser les commandes entrantes (3)");
+		System.out.println("Mettre à jour l'état d'un plat (4)");
 		
 		System.out.println("Se déconnecter (20)");
 		System.out.println("Quitter (21)");
