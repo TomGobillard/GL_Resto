@@ -295,19 +295,18 @@ public class PlatDAOImpl extends PlatDAO {
 		return plats;
 	}
 
-<<<<<<< HEAD
 	@Override
 	public ArrayList<Plat> getAll() {
 		// TODO Auto-generated method stub
 		ArrayList<Plat> plats = new ArrayList<>();
 		Plat plat;
-		
+
 		try {
 			String sql = "SELECT * FROM plat";
 			PreparedStatement stmt = connect.prepareStatement(sql);
-			
+
 			ResultSet result = stmt.executeQuery();
-			
+
 			while(result.next()) {
 				plat = new Plat(result.getLong(1), result.getString(2), result.getDouble(3), result.getBoolean(4), 
 						result.getLong(5), result.getLong(6));
@@ -316,9 +315,10 @@ public class PlatDAOImpl extends PlatDAO {
 		}catch (Exception e) {
 			// TODO: handle exception
 		}
-		
+
 		return plats;
-=======
+	}
+
 	public void setEtatPlat() {
 		CommandeDAO cmdeDAO = new CommandeDAOImpl();
 		Scanner s = new Scanner(System.in);
@@ -398,6 +398,5 @@ public class PlatDAOImpl extends PlatDAO {
 			res = false;
 		}
 		return res;
->>>>>>> 2bc419be778980034d570f23a4090276552eb223
 	}
 }

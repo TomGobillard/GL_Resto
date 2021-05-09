@@ -127,34 +127,33 @@ public class CommandeDAOImpl extends CommandeDAO {
 		}
 	}
 
-<<<<<<< HEAD
 	@Override
 	public void deleteLastCmdeforTest() {
 		// TODO Auto-generated method stub
 		try {
 			Long idcmde = (long) 1;
-			
+
 			String sql = "SELECT idcommande FROM commande ORDER BY idcommande DESC";
 			PreparedStatement stmt = connect.prepareStatement(sql);
-			
+
 			ResultSet result = stmt.executeQuery();
-			
+
 			if(result.next()) {
 				idcmde = result.getLong(1);
 			}
-			
+
 			String sqlDeleteCompoCmde = "DELETE FROM composition_cmde WHERE idcommande = ?";
 			PreparedStatement stmtDeleteCompoCmde = connect.prepareStatement(sqlDeleteCompoCmde);
 			stmtDeleteCompoCmde.setLong(1, idcmde);
-			
+
 			ResultSet resultDeleteCompocmde = stmtDeleteCompoCmde.executeQuery();
-			
+
 			String sqlDeleteCmde = "DELETE FROM commande WHERE idcommande = ?";
 			PreparedStatement stmtDeleteCmde = connect.prepareStatement(sqlDeleteCmde);
 			stmtDeleteCmde.setLong(1, idcmde);
-			
+
 			ResultSet resultDeleteCmde = stmtDeleteCmde.executeQuery();
-			
+
 		} catch (Exception e) {
 			// TODO: handle exception
 		}
@@ -165,7 +164,7 @@ public class CommandeDAOImpl extends CommandeDAO {
 	public ArrayList<Commande> getAll() {
 		// TODO Auto-generated method stub
 		return null;
-=======
+	}
 	public boolean cmdeEntranteExists(long idCmde) {
 		String sql = "SELECT * FROM COMMANDE WHERE idcommande = ? AND etat = 'EN PREPARATION'";
 		boolean res = false;
@@ -207,6 +206,5 @@ public class CommandeDAOImpl extends CommandeDAO {
 		} catch (Exception e) {
 			// TODO: handle exception
 		}
->>>>>>> 2bc419be778980034d570f23a4090276552eb223
 	}
 }
