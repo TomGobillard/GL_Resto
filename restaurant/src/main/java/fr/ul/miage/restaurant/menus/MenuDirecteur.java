@@ -46,6 +46,11 @@ public class MenuDirecteur extends MenuCommun {
 				case 3:
 					majCarteduJour();
 					break;
+				
+				case 4:
+					checkPopularitePlat();
+					break;
+					
 				case 20:
 					deconnexion();
 					break;
@@ -69,6 +74,7 @@ public class MenuDirecteur extends MenuCommun {
 		System.out.println("Consulter les stocks (1)");
 		System.out.println("Mettre à jour les stocks (2)");
 		System.out.println("Gérer la carte du jour (3)");
+		System.out.println("Consulter la popularité des plats (4)");
 
 		System.out.println("Se déconnecter (20)");
 		System.out.println("Quitter (21)");
@@ -243,6 +249,16 @@ public class MenuDirecteur extends MenuCommun {
 			}
 
 		} while (c2 != 1 && c2 != 2 && c2 != 10);
+	}
+	
+	public void checkPopularitePlat() {
+		ArrayList<Plat> listPlats = platDAO.getAll();
+		
+		if(listPlats.size()>0) {			
+			for(Plat plat : listPlats) {
+				System.out.println(plat.getLibelle() + " - Popularité : " + plat.getNbCommandes());
+			}
+		}
 	}
 
 }
