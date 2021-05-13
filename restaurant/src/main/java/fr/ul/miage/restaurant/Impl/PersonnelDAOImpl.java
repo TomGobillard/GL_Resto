@@ -109,23 +109,23 @@ public class PersonnelDAOImpl extends PersonnelDAO<Personnel> {
 
 	@Override
 	public ArrayList<Personnel> getAll() {
-		// TODO Auto-generated method stub
-		ArrayList<Personnel> listPersonnel = new ArrayList<>();
+		ArrayList<Personnel> listPersonnel = new ArrayList<Personnel>();
 		
 		try {
 			String sql = "SELECT * FROM personnel";
-			PreparedStatement stmt = connect.prepareStatement(sql);
 			
+			PreparedStatement stmt = connect.prepareStatement(sql);
 			ResultSet result = stmt.executeQuery();
 			
 			while(result.next()) {
-				Personnel personnel = new Personnel(result.getLong(1), result.getString(2));
-				listPersonnel.add(personnel);
+				Personnel personel = new Personnel(result.getLong(1), result.getString(2), result.getString(3), result.getString(4), result.getString(5), result.getString(6));
+				listPersonnel.add(personel);
 			}
+			
 		} catch (Exception e) {
 			// TODO: handle exception
 		}
-		
+		// TODO Auto-generated method stub
 		return listPersonnel;
 	}
 

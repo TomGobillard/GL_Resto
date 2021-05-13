@@ -3,7 +3,21 @@ package fr.ul.miage.restaurant.models;
 public class Personnel {
 	private long identifiant = 0;
 	private String role = "";
+	private String login;
+	private String mdp;
+	private String nom;
+	private String prenom;
 	
+	public Personnel(long identifiant, String role, String login, String mdp, String nom, String prenom) {
+		super();
+		this.identifiant = identifiant;
+		this.role = role;
+		this.login = login;
+		this.mdp = mdp;
+		this.nom = nom;
+		this.prenom = prenom;
+	}
+
 	public Personnel() {
 		super();
 	}
@@ -30,10 +44,48 @@ public class Personnel {
 		this.role = role;
 	}
 	
+	public long getIdentifiant() {
+		return identifiant;
+	}
+
+	public void setIdentifiant(long identifiant) {
+		this.identifiant = identifiant;
+	}
+
+	public String getLogin() {
+		return login;
+	}
+
+	public void setLogin(String login) {
+		this.login = login;
+	}
+
+	public String getMdp() {
+		return mdp;
+	}
+
+	public void setMdp(String mdp) {
+		this.mdp = mdp;
+	}
+
+	public String getNom() {
+		return nom;
+	}
+
+	public void setNom(String nom) {
+		this.nom = nom;
+	}
+
+	public String getPrenom() {
+		return prenom;
+	}
+
+	public void setPrenom(String prenom) {
+		this.prenom = prenom;
+	}
+
 	@Override
 	public String toString() {
-		return "id : " + this.identifiant + " | role : " + this.role; 
+		return "Personnel [identifiant=" + identifiant + ", role=" + role + ", nom=" + nom + ", prenom=" + prenom + "]";
 	}
-	
-	
 }

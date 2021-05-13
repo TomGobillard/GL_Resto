@@ -16,8 +16,8 @@ import fr.ul.miage.restaurant.models.Produit;
 public class MenuDirecteur extends MenuCommun {
 
 	PlatDAO platDAO;
-	PersonnelDAO<Personnel> personnelDAO;
-
+	PersonnelDAO personnelDAO;
+	
 	public MenuDirecteur(boolean connected, Personnel user) {
 		super(connected, user);
 		// TODO Auto-generated constructor stub
@@ -54,9 +54,9 @@ public class MenuDirecteur extends MenuCommun {
 				case 4:
 					checkPopularitePlat();
 					break;
-					
+				
 				case 5:
-					gererEmploye();
+					gererEmployes();
 					break;
 					
 				case 20:
@@ -83,7 +83,7 @@ public class MenuDirecteur extends MenuCommun {
 		System.out.println("Mettre à jour les stocks (2)");
 		System.out.println("Gérer la carte du jour (3)");
 		System.out.println("Consulter la popularité des plats (4)");
-		System.out.println("Gérer un employé (5)");
+		System.out.println("Gérer les employés (5)");
 
 		System.out.println("Se déconnecter (20)");
 		System.out.println("Quitter (21)");
@@ -118,7 +118,7 @@ public class MenuDirecteur extends MenuCommun {
 					}
 				} catch (Exception e) {
 					// TODO: handle exception
-					System.out.println("Il faut une valeur num�rique");
+					System.out.println("Il faut une valeur numérique");
 				}
 			}
 
@@ -138,7 +138,7 @@ public class MenuDirecteur extends MenuCommun {
 					}
 				} catch (Exception e) {
 					// TODO: handle exception
-					System.out.println("Il faut une valeur num�rique");
+					System.out.println("Il faut une valeur numérique");
 				}
 			}
 
@@ -160,7 +160,7 @@ public class MenuDirecteur extends MenuCommun {
 					error = false;
 				} catch (Exception e) {
 					// TODO: handle exception
-					System.out.println("Il faut une valeur num�rique");
+					System.out.println("Il faut une valeur numérique");
 				}
 			}
 
@@ -284,9 +284,50 @@ public class MenuDirecteur extends MenuCommun {
 			System.out.println(personnel.toString());
 		}
 	}
+
+	public void gererEmployes() {
+		System.out.println("--------------------------------------------------");
+		System.out.println("Que souhaitez-vous faire ?\n");
+
+		System.out.println("Lister les employés (1)");
+		System.out.println("Créer un employé (2)");
+
+		System.out.println("Retour (10)");
+		System.out.println("--------------------------------------------------");
+		
+		int c2;
+		do {
+			Scanner s = new Scanner(System.in);
+			c2 = s.nextInt();
+			switch (c2) {
+			case 1:
+				listerEmployes();
+				break;
+				
+			case 2:
+				creerEmploye();
+				break;
+			
+			case 10:
+				break;
+				
+			default:
+				System.out.println("Erreur de choix, réessayez.\n");
+				break;
+			}
+
+		} while (c2 != 1 && c2 != 2 && c2 != 10);
+	}
+	
+	public void listerEmployes() {
+		ArrayList<Personnel> listPersonnel = personnelDAO.getAll();
+		
+		for(Personnel personnel : listPersonnel) {
+			System.out.println(personnel.toString());
+		}
+	}
 	
 	public void creerEmploye() {
 		
 	}
-
 }
