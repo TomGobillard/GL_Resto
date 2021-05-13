@@ -20,14 +20,14 @@ import fr.ul.miage.restaurant.models.Personnel;
 import fr.ul.miage.restaurant.models.Plat;
 
 public class MenuServeur extends MenuCommun {
-	
+
 	boolean tableInfoInitPrinted = false;
 
 	public MenuServeur(boolean connected, Personnel user) {
 		super(connected, user);
 		// TODO Auto-generated constructor stub
 	}
-	
+
 	public MenuServeur() {}
 
 	public void printMenuServeur() {
@@ -35,12 +35,12 @@ public class MenuServeur extends MenuCommun {
 		System.out.println("BIENVENUE DANS L'APPLICATION DE VOTRE RESTAURANT !");
 		System.out.println("--------------------------------------------------\n");
 		System.out.println("Vous êtes connecté en tant que serveur");
-		
+
 		do {
 
 			int c;
 			do {
-				
+
 				printOptions();
 
 				Scanner s = new Scanner(System.in);
@@ -94,30 +94,30 @@ public class MenuServeur extends MenuCommun {
 	private void consulterAvancementTable() {
 		TableDAO tableDAO = new TableDAOImpl(user);
 		boolean error = true;
-		
+
 		while(error == true) {
-		System.out.println("Veuillez renseignez le numéro de la table dont vous souhaitez connaître l'avancement : ");
-		Scanner s = new Scanner(System.in);
-		long idTable = s.nextLong();
-		if(tableDAO.tableExists(idTable)) {
-			error = false;
-			tableDAO.showAvancement(idTable);
-		} else {
-			System.out.println("L'id de la table renseignée n'existe pas.");
-		}
+			System.out.println("Veuillez renseignez le numéro de la table dont vous souhaitez connaître l'avancement : ");
+			Scanner s = new Scanner(System.in);
+			long idTable = s.nextLong();
+			if(tableDAO.tableExists(idTable)) {
+				error = false;
+				tableDAO.showAvancement(idTable);
+			} else {
+				System.out.println("L'id de la table renseignée n'existe pas.");
+			}
 		}
 	}
 
 	private void consulterServices() {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	public void printOptions() {
 		if(!tableInfoInitPrinted) {
 			printOccupationTablesWithAvancement();
 		}
-		
+
 		System.out.println("--------------------------------------------------");
 		System.out.println("Que souhaitez-vous faire ?\n");
 
@@ -136,7 +136,7 @@ public class MenuServeur extends MenuCommun {
 
 	public void saisirCommande() {
 		ArrayList<Plat> plats = new ArrayList<>();
-		
+
 		int numTable = choisirTable();
 
 		int c;
@@ -155,7 +155,9 @@ public class MenuServeur extends MenuCommun {
 			switch (c) {
 			case 1:
 				Plat plat = ajoutPlatCommande();
-				plats.add(plat);
+				if(plat != null) {
+					plats.add(plat);
+				}
 				break;
 			case 2:
 				System.out.println("Voici la commande :\n");
@@ -169,10 +171,10 @@ public class MenuServeur extends MenuCommun {
 					c++;
 				}
 				break;
-			
+
 			case 10:
 				break;
-				
+
 			default:
 				System.out.println("Erreur de choix, réessayez.\n");
 				break;
@@ -185,7 +187,7 @@ public class MenuServeur extends MenuCommun {
 		TableDAO tableDAO = new TableDAOImpl(user);
 		ArrayList<Integer> tables = new ArrayList<>();
 		tables = tableDAO.getServeurTables(user.getId());
-		
+
 		int numTable=0;
 
 		System.out.println("Sélectionner la table correspondante :");
@@ -216,7 +218,7 @@ public class MenuServeur extends MenuCommun {
 				}
 			} while(error);
 		}
-		
+
 		return numTable;
 	}
 
@@ -230,21 +232,21 @@ public class MenuServeur extends MenuCommun {
 		for (Plat p : plats) {
 			commandeDAO.creerCompositionCmde(idCommande, (int) p.getId());
 		}
-		
+
 		// incrémentation nombre de commandes d'un plat
 		PlatDAO platDAO = new PlatDAOImpl();
 		platDAO.incrementeNbCommandes(plats);
-		
+
 		//mise à jour des stocks de matières premières
 		CompositionPlatDAO compositionPlatDAO = new CompositionPlatDAOImpl();
 		ArrayList<CompositionPlat> compoPlats = new ArrayList<>();
 		compoPlats = compositionPlatDAO.getWithPlats(plats);
-		
+
 		ProduitDAO produitDAO = new ProduitDAOImpl();
 		for(CompositionPlat cp : compoPlats) {
 			produitDAO.updateQuantite(cp);
 		}
-		
+
 
 		System.out.println("La commande a été saisie.");
 
@@ -284,10 +286,12 @@ public class MenuServeur extends MenuCommun {
 			}
 			plat = plats.get(indexPlat);
 
+		} else {
+			return null;
 		}
 		return plat;
 	}
-	
+
 	private void printOccupationTablesWithAvancement() {
 		TableDAO tableDAO = new TableDAOImpl(user);
 		System.out.println("Etat de vos tables : \n");

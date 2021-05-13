@@ -1,5 +1,6 @@
 package fr.ul.miage.restaurant.Impl;
 
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -34,14 +35,39 @@ public class PersonnelDAOImpl extends PersonnelDAO<Personnel> {
 
 	@Override
 	public Personnel create(Personnel obj) {
-		// TODO Auto-generated method stub
-		return null;
+		// TODO Auto-generated method stub		
+		try {
+			String sql = "INSERT INTO personnel VALUES (?, ?, ?, ?)";
+			PreparedStatement stmt = connect.prepareStatement(sql);
+			stmt.setLong(1, obj.getId());
+			stmt.setString(2, obj.getRole());
+			
+			ResultSet result = stmt.executeQuery();
+			
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+		
+		return obj;
 	}
 
 	@Override
 	public Personnel update(Personnel obj) {
 		// TODO Auto-generated method stub
-		return null;
+		
+		try {
+			String sql = "UPDATE personnel SET id = ?, role = ? WHERE idpersonnel = ?";
+			PreparedStatement stmt = connect.prepareStatement(sql);
+			stmt.setLong(1, obj.getId());
+			stmt.setString(2, obj.getRole());
+			
+			ResultSet result = stmt.executeQuery();
+			
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+		
+		return obj;
 	}
 
 	@Override
@@ -84,7 +110,23 @@ public class PersonnelDAOImpl extends PersonnelDAO<Personnel> {
 	@Override
 	public ArrayList<Personnel> getAll() {
 		// TODO Auto-generated method stub
-		return null;
+		ArrayList<Personnel> listPersonnel = new ArrayList<>();
+		
+		try {
+			String sql = "SELECT * FROM personnel";
+			PreparedStatement stmt = connect.prepareStatement(sql);
+			
+			ResultSet result = stmt.executeQuery();
+			
+			while(result.next()) {
+				Personnel personnel = new Personnel(result.getLong(1), result.getString(2));
+				listPersonnel.add(personnel);
+			}
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+		
+		return listPersonnel;
 	}
 
 }

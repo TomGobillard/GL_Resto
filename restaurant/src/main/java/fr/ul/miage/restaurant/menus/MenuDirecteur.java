@@ -3,8 +3,10 @@ package fr.ul.miage.restaurant.menus;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+import fr.ul.miage.restaurant.Impl.PersonnelDAOImpl;
 import fr.ul.miage.restaurant.Impl.PlatDAOImpl;
 import fr.ul.miage.restaurant.Impl.ProduitDAOImpl;
+import fr.ul.miage.restaurant.dao.PersonnelDAO;
 import fr.ul.miage.restaurant.dao.PlatDAO;
 import fr.ul.miage.restaurant.dao.ProduitDAO;
 import fr.ul.miage.restaurant.models.Personnel;
@@ -14,11 +16,13 @@ import fr.ul.miage.restaurant.models.Produit;
 public class MenuDirecteur extends MenuCommun {
 
 	PlatDAO platDAO;
+	PersonnelDAO<Personnel> personnelDAO;
 
 	public MenuDirecteur(boolean connected, Personnel user) {
 		super(connected, user);
 		// TODO Auto-generated constructor stub
 		platDAO = new PlatDAOImpl();
+		personnelDAO = new PersonnelDAOImpl();
 	}
 
 	public void printMenuDirecteur() {
@@ -51,6 +55,10 @@ public class MenuDirecteur extends MenuCommun {
 					checkPopularitePlat();
 					break;
 					
+				case 5:
+					gererEmploye();
+					break;
+					
 				case 20:
 					deconnexion();
 					break;
@@ -75,6 +83,7 @@ public class MenuDirecteur extends MenuCommun {
 		System.out.println("Mettre à jour les stocks (2)");
 		System.out.println("Gérer la carte du jour (3)");
 		System.out.println("Consulter la popularité des plats (4)");
+		System.out.println("Gérer un employé (5)");
 
 		System.out.println("Se déconnecter (20)");
 		System.out.println("Quitter (21)");
@@ -259,6 +268,25 @@ public class MenuDirecteur extends MenuCommun {
 				System.out.println(plat.getLibelle() + " - Popularité : " + plat.getNbCommandes());
 			}
 		}
+	}
+	
+	public void gererEmploye() {
+		
+		suiviEmploye();
+	}
+	
+	public void suiviEmploye() {
+		ArrayList<Personnel> listPersonnel = personnelDAO.getAll();
+		Personnel personnel;
+		
+		for(int i=0; i<listPersonnel.size(); i++) {
+			personnel = listPersonnel.get(i);
+			System.out.println(personnel.toString());
+		}
+	}
+	
+	public void creerEmploye() {
+		
 	}
 
 }

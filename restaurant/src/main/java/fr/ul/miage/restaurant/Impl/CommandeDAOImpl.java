@@ -114,16 +114,40 @@ public class CommandeDAOImpl extends CommandeDAO {
 	@Override
 	public void creerCompositionCmde(int idCommande, int idPlat) {
 		try {
-			String sql = "INSERT INTO Composition_cmde (idcommande, idplat, etat) VALUES (?,?, 'EN PREPARATION'')";
+			String sql1 = "SELECT quantite FROM composition_cmde WHERE idcommande = ? AND idplat = ?";
 
-			PreparedStatement stmt = connect.prepareStatement(sql);
-			stmt.setInt(1, idCommande);
-			stmt.setInt(2, idPlat);
+			PreparedStatement stmt1 = connect.prepareStatement(sql1);
+			stmt1.setInt(1, idCommande);
+			stmt1.setInt(2, idPlat);
 
-			stmt.executeQuery();
+			ResultSet result = stmt1.executeQuery();
+
+			if(result.next()) {
+				int oldQte = result.getInt(1);
+				
+				String sql2 = "UPDATE composition_cmde SET quantite = ? WHERE idcommande = ? AND idplat = ?";
+				
+				PreparedStatement stmt2 = connect.prepareStatement(sql2);
+				stmt2.setInt(1, oldQte+1);
+				stmt2.setInt(2, idCommande);
+				stmt2.setInt(3, idPlat);
+				
+				stmt2.executeQuery();
+				
+			} else {
+
+				String sql = "INSERT INTO Composition_cmde (idcommande, idplat, etat, quantite) VALUES (?,?, 'EN PREPARATION', 1)";
+
+				PreparedStatement stmt = connect.prepareStatement(sql);
+				stmt.setInt(1, idCommande);
+				stmt.setInt(2, idPlat);
+
+				stmt.executeQuery();
+			}
 
 		} catch (Exception e) {
 			// TODO: handle exception
+			//e.printStackTrace();
 		}
 	}
 
