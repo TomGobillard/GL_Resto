@@ -4,6 +4,7 @@ import java.util.Scanner;
 
 import fr.ul.miage.restaurant.Impl.PersonnelDAOImpl;
 import fr.ul.miage.restaurant.models.Personnel;
+import fr.ul.miage.restaurant.systeme.ScanEntree;
 import fr.ul.miage.restaurant.dao.PersonnelDAO;
 import fr.ul.miage.restaurant.menus.MenuAssistantService;
 import fr.ul.miage.restaurant.menus.MenuCuisinier;
@@ -30,8 +31,9 @@ public class main {
 				System.out.println("Quitter (2)");
 				System.out.println("Vous pouvez quitter l'application à tout instant avec le raccourci Ctrl+C.");
 
-				Scanner s = new Scanner(System.in);
-				c = s.nextInt();
+				c = ScanEntree.readIntegerWithDelimitations(1, 2);
+				//Scanner s = new Scanner(System.in);
+				//c = s.nextInt();
 				switch (c) {
 				case 1:
 					connexion();
