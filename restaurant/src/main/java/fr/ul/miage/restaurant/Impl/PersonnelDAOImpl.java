@@ -1,5 +1,6 @@
 package fr.ul.miage.restaurant.Impl;
 
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -83,8 +84,24 @@ public class PersonnelDAOImpl extends PersonnelDAO<Personnel> {
 
 	@Override
 	public ArrayList<Personnel> getAll() {
+		ArrayList<Personnel> listPersonnel = new ArrayList<Personnel>();
+		
+		try {
+			String sql = "SELECT * FROM personnel";
+			
+			PreparedStatement stmt = connect.prepareStatement(sql);
+			ResultSet result = stmt.executeQuery();
+			
+			while(result.next()) {
+				Personnel personel = new Personnel(result.getInt(1), result.getString(4));
+				listPersonnel.add(personel);
+			}
+			
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
 		// TODO Auto-generated method stub
-		return null;
+		return listPersonnel;
 	}
 
 }
