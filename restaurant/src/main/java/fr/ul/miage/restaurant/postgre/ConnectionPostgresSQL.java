@@ -15,23 +15,12 @@ public class ConnectionPostgresSQL {
 	private static Connection connect;
 
 	public static Connection getInstance() {
-		//connect = null;
-
-//		try {
-//			connect = DriverManager.getConnection(url, user, passwd);
-//
-//			//System.out.println("Lien avec la base établie");
-//		} catch (SQLException e) {
-//			// TODO: handle exception
-//			System.out.println(e.getMessage());
-//		}
-
 		if (connect == null) {
 			try {
 				connect = DriverManager.getConnection(url, user, passwd);
 			} catch (SQLException e) {
 				System.out.println(e.getMessage());
-
+				System.err.println("Vous devez être connecté au serveur de l'IDMC pour pouvoir utiliser l'application");
 			}
 		}
 

@@ -301,7 +301,7 @@ public class MenuDirecteur extends MenuCommun {
 				break;
 			}
 
-		} while (c2 != 1 || c2 != 2 || c2 != 10);
+		} while (c2 != 1 && c2 != 2 && c2 != 10);
 	}
 	
 	public void listerEmployes() {
