@@ -295,7 +295,7 @@ public class MenuDirecteur extends MenuCommun {
 				break;
 				
 			case 3:
-				modifEmploye();
+				modifierEmployes();
 				break;
 
 			case 10:
@@ -398,7 +398,85 @@ public class MenuDirecteur extends MenuCommun {
 		return role;
 	}
 
-	public void modifEmploye() {
+	public void modifierEmployes() {
+		System.out.println("Séléctionnez un employé à modifier : ");
 		
+		ArrayList<Personnel> listPersonnel = personnelDAO.getAll();
+		
+		for (int i = 0; i < listPersonnel.size(); i++) {
+			Personnel personnel = listPersonnel.get(i);
+			System.out.println(i + ": " + personnel.getNom() + " " + personnel.getPrenom());
+		}
+		
+		System.out.println("\nId : ");
+		
+		boolean error = true;
+
+		int intSelect = 0;
+
+		while(error == true) {
+			try {
+				Scanner sc = new Scanner(System.in);
+				intSelect = sc.nextInt();
+				if(intSelect >= 0 && intSelect < listPersonnel.size()) {
+					error = false;
+				} else {
+					System.out.println("Choix hors limites");
+				}
+			} catch (Exception e) {
+				// TODO: handle exception
+				System.out.println("Il faut une valeur numérique");
+			}
+		}
+		
+		int idPersonnel = (int) listPersonnel.get(intSelect).getId();
+		modifEmploye(idPersonnel);
+	}
+	
+	public void modifEmploye(int idPersonnel) {
+		System.out.println("Quel attribut voulez-vous modifier ?");
+		
+		System.out.println("1 : Login");
+		
+		boolean error = true;
+
+		int intSelect = 0;
+
+		while(error == true) {
+			try {
+				Scanner sc = new Scanner(System.in);
+				intSelect = sc.nextInt();
+				if(intSelect >= 0 && intSelect <= 1) {
+					error = false;
+				} else {
+					System.out.println("Choix hors limites");
+				}
+			} catch (Exception e) {
+				// TODO: handle exception
+				System.out.println("Il faut une valeur numérique");
+			}
+		}
+		
+		switch (intSelect) {
+		case 1:
+			updateLoginPersonnel(idPersonnel);
+			break;
+
+		default:
+			break;
+		}
+	}
+	
+	public void updateLoginPersonnel(int idPersonnel) {
+		System.out.println("Veuillez rentrer le nouveau login :");
+		
+		Scanner sc = new Scanner(System.in);
+		String newLogin = sc.next();
+		
+		Personnel personnel = (Personnel) personnelDAO.find((long)idPersonnel);
+		
+		personnel.setLogin(newLogin);
+		
+		personnelDAO.update(personnel);
 	}
 }
