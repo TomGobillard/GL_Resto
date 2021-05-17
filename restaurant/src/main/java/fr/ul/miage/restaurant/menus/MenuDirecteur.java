@@ -17,7 +17,7 @@ public class MenuDirecteur extends MenuCommun {
 
 	PlatDAO platDAO;
 	PersonnelDAO personnelDAO;
-	
+
 	public MenuDirecteur(boolean connected, Personnel user) {
 		super(connected, user);
 		// TODO Auto-generated constructor stub
@@ -50,15 +50,15 @@ public class MenuDirecteur extends MenuCommun {
 				case 3:
 					majCarteduJour();
 					break;
-				
+
 				case 4:
 					checkPopularitePlat();
 					break;
-				
+
 				case 5:
 					gererEmployes();
 					break;
-					
+
 				case 20:
 					deconnexion();
 					break;
@@ -214,9 +214,9 @@ public class MenuDirecteur extends MenuCommun {
 					System.out.println("Il faut une valeur numérique");
 				}
 			}
-			
+
 			Plat plat = plats.get(indexPlat);
-			
+
 			platDAO.ajoutPlatCarteduJour(plat.getId());
 		}
 
@@ -244,14 +244,14 @@ public class MenuDirecteur extends MenuCommun {
 			case 1:
 				ajoutPlatCarteduJour();
 				break;
-				
+
 			case 2:
 				platDAO.initCarteduJour();
 				break;
-			
+
 			case 10:
 				break;
-				
+
 			default:
 				System.out.println("Erreur de choix, réessayez.\n");
 				break;
@@ -259,10 +259,10 @@ public class MenuDirecteur extends MenuCommun {
 
 		} while (c2 != 1 && c2 != 2 && c2 != 10);
 	}
-	
+
 	public void checkPopularitePlat() {
 		ArrayList<Plat> listPlats = platDAO.getAll();
-		
+
 		if(listPlats.size()>0) {			
 			for(Plat plat : listPlats) {
 				System.out.println(plat.getLibelle() + " - Popularité : " + plat.getNbCommandes());
@@ -291,10 +291,11 @@ public class MenuDirecteur extends MenuCommun {
 
 		System.out.println("Lister les employés (1)");
 		System.out.println("Créer un employé (2)");
+		System.out.println("Modifier un employé (3)");
 
 		System.out.println("Retour (10)");
 		System.out.println("--------------------------------------------------");
-		
+
 		int c2;
 		do {
 			Scanner s = new Scanner(System.in);
@@ -303,31 +304,194 @@ public class MenuDirecteur extends MenuCommun {
 			case 1:
 				listerEmployes();
 				break;
-				
+
 			case 2:
 				creerEmploye();
 				break;
-			
+				
+			case 3:
+				modifierEmployes();
+				break;
+
 			case 10:
 				break;
-				
+
 			default:
 				System.out.println("Erreur de choix, réessayez.\n");
 				break;
 			}
 
-		} while (c2 != 1 && c2 != 2 && c2 != 10);
+		} while (c2 != 1 && c2 != 2 && c2 != 3 && c2 != 10);
 	}
-	
+
 	public void listerEmployes() {
+		System.out.println("Voici la liste des employés : ");
+
 		ArrayList<Personnel> listPersonnel = personnelDAO.getAll();
-		
+
 		for(Personnel personnel : listPersonnel) {
 			System.out.println(personnel.toString());
 		}
 	}
-	
+
 	public void creerEmploye() {
+		System.out.println("Création d'un nouvel employé");
+		Scanner sc = new Scanner(System.in);
+
+		System.out.println("Nom : ");
+		String nom = sc.next();
+
+		System.out.println("Prénom : ");
+		String prenom = sc.next();
 		
+		System.out.println("Login : ");
+		String login = sc.next();
+		
+		System.out.println("Mdp : ");
+		String mdp = sc.next();
+
+		String role = selectRole();
+		
+		Personnel personnel = new Personnel(role, login, mdp, nom, prenom);
+		
+		personnelDAO.create(personnel);
+	}
+
+	public String selectRole() {
+		System.out.println("\nRoles : ");
+		System.out.println("1: Maître d'hôtel");
+		System.out.println("2: Serveur");
+		System.out.println("3: Assistant de service");
+		System.out.println("4: Cuisinier");
+		System.out.println("5: Directeur");
+
+		String role = null;
+
+		System.out.println("Veuillez choisir un rôle");
+		
+		boolean error = true;
+
+		int intSelect = 0;
+
+		while(error == true) {
+			try {
+				Scanner sc = new Scanner(System.in);
+				intSelect = sc.nextInt();
+				if(intSelect >= 0 && intSelect <= 5) {
+					error = false;
+				} else {
+					System.out.println("Choix hors limites");
+				}
+			} catch (Exception e) {
+				// TODO: handle exception
+				System.out.println("Il faut une valeur numérique");
+			}
+		}
+
+		switch (intSelect) {
+			case 1:
+				role = "MAITRE HOTEL";
+				break;
+				
+			case 2:
+				role = "SERVEUR";
+				break;
+				
+			case 3:
+				role = "ASSISTANT DE SERVICE";
+				break;
+				
+			case 4:
+				role = "CUISINIER";
+				break;
+				
+			case 5:
+				role = "DIRECTEUR";
+				break;
+		}
+
+		return role;
+	}
+
+	public void modifierEmployes() {
+		System.out.println("Séléctionnez un employé à modifier : ");
+		
+		ArrayList<Personnel> listPersonnel = personnelDAO.getAll();
+		
+		for (int i = 0; i < listPersonnel.size(); i++) {
+			Personnel personnel = listPersonnel.get(i);
+			System.out.println(i + ": " + personnel.getNom() + " " + personnel.getPrenom());
+		}
+		
+		System.out.println("\nId : ");
+		
+		boolean error = true;
+
+		int intSelect = 0;
+
+		while(error == true) {
+			try {
+				Scanner sc = new Scanner(System.in);
+				intSelect = sc.nextInt();
+				if(intSelect >= 0 && intSelect < listPersonnel.size()) {
+					error = false;
+				} else {
+					System.out.println("Choix hors limites");
+				}
+			} catch (Exception e) {
+				// TODO: handle exception
+				System.out.println("Il faut une valeur numérique");
+			}
+		}
+		
+		int idPersonnel = (int) listPersonnel.get(intSelect).getId();
+		modifEmploye(idPersonnel);
+	}
+	
+	public void modifEmploye(int idPersonnel) {
+		System.out.println("Quel attribut voulez-vous modifier ?");
+		
+		System.out.println("1 : Login");
+		
+		boolean error = true;
+
+		int intSelect = 0;
+
+		while(error == true) {
+			try {
+				Scanner sc = new Scanner(System.in);
+				intSelect = sc.nextInt();
+				if(intSelect >= 0 && intSelect <= 1) {
+					error = false;
+				} else {
+					System.out.println("Choix hors limites");
+				}
+			} catch (Exception e) {
+				// TODO: handle exception
+				System.out.println("Il faut une valeur numérique");
+			}
+		}
+		
+		switch (intSelect) {
+		case 1:
+			updateLoginPersonnel(idPersonnel);
+			break;
+
+		default:
+			break;
+		}
+	}
+	
+	public void updateLoginPersonnel(int idPersonnel) {
+		System.out.println("Veuillez rentrer le nouveau login :");
+		
+		Scanner sc = new Scanner(System.in);
+		String newLogin = sc.next();
+		
+		Personnel personnel = (Personnel) personnelDAO.find((long)idPersonnel);
+		
+		personnel.setLogin(newLogin);
+		
+		personnelDAO.update(personnel);
 	}
 }
