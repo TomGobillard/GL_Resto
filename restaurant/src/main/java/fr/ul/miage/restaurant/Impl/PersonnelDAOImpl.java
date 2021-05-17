@@ -5,6 +5,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
+import javax.naming.spi.DirStateFactory.Result;
+
 import fr.ul.miage.restaurant.models.Personnel;
 import fr.ul.miage.restaurant.models.Serveur;
 import fr.ul.miage.restaurant.dao.PersonnelDAO;
@@ -35,6 +37,20 @@ public class PersonnelDAOImpl extends PersonnelDAO<Personnel> {
 
 	@Override
 	public Personnel create(Personnel obj) {
+		try {
+			String sql = "INSERT INTO personnel (identifiant, mdp, role, prenom, nom) VALUES (?, ?, ?, ?, ?)";
+			PreparedStatement stmt = connect.prepareStatement(sql);
+			stmt.setString(1, obj.getLogin());
+			stmt.setString(2, obj.getMdp());
+			stmt.setString(3, obj.getRole());
+			stmt.setString(4, obj.getPrenom());
+			stmt.setString(5, obj.getNom());
+			
+			ResultSet result = stmt.executeQuery();
+			
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
 		// TODO Auto-generated method stub
 		return null;
 	}

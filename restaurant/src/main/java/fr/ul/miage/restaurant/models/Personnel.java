@@ -18,6 +18,15 @@ public class Personnel {
 		this.prenom = prenom;
 	}
 
+	public Personnel(String role, String login, String mdp, String nom, String prenom) {
+		super();
+		this.role = role;
+		this.login = login;
+		this.mdp = mdp;
+		this.nom = nom;
+		this.prenom = prenom;
+	}
+
 	public Personnel() {
 		super();
 	}
