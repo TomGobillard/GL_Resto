@@ -2,6 +2,8 @@ package fr.ul.miage.restaurant.Impl;
 
 import fr.ul.miage.restaurant.models.Client;
 
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.util.ArrayList;
 
 import fr.ul.miage.restaurant.dao.ClientDAO;
@@ -17,7 +19,30 @@ public class ClientDAOImpl extends ClientDAO{
 	@Override
 	public Client create(Client obj) {
 		// TODO Auto-generated method stub
-		return null;
+		Client client = new Client();
+		try {
+			String sql = "INSERT INTO client (heurearrivee, heuredepart) VALUES (current_timestamp, current_timestamp)";
+			PreparedStatement stmt = connect.prepareStatement(sql);
+			
+			ResultSet result = stmt.executeQuery();
+
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+		
+		try {
+			String sql2 = "SELECT MAX(idclient) FROM client";
+			PreparedStatement stmt2 = connect.prepareStatement(sql2);
+			
+			ResultSet result2 = stmt2.executeQuery();
+			
+			if(result2.next()) {
+				client = new Client(result2.getLong(1), null, null);
+			}
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+		return client;
 	}
 
 	@Override

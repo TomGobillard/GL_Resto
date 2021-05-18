@@ -246,4 +246,40 @@ public class TableDAOImpl extends TableDAO {
 		
 		return tables;
 	}
+
+	@Override
+	public ArrayList<Integer> getServeurTablesLibres(long serveurId) {
+		ArrayList<Integer> tables = new ArrayList<>();
+		try {
+
+			String sql = "SELECT idtable FROM rtable WHERE idServeur = ? AND etat = 'PROPRE'";
+			PreparedStatement stmt = connect.prepareStatement(sql);
+			stmt.setLong(1, serveurId);
+
+			ResultSet result = stmt.executeQuery();
+			while (result.next()) {
+				tables.add(Integer.valueOf(result.getInt("idtable")));
+			}
+
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return tables;
+	}
+
+	@Override
+	public void installerClient(long idClient, long idTable) {
+		// TODO Auto-generated method stub
+		try {
+			String sql = "UPDATE rtable SET idclient = ?, etat = 'OCCUPEE' WHERE idTable = ?";
+			PreparedStatement stmt = connect.prepareStatement(sql);
+			stmt.setLong(1, idClient);
+			stmt.setLong(2, idTable);
+			
+			ResultSet result = stmt.executeQuery();
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+	}
 }

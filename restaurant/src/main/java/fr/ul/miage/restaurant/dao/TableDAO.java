@@ -14,6 +14,8 @@ public abstract class TableDAO extends DAO<Table>{
 	public abstract void showAvancement(long idTable);
 	public abstract HashMap<Integer, String> getTableForInitPrint();
 	public abstract ArrayList<Integer> getServeurTables(long serveurId);
+	public abstract ArrayList<Integer> getServeurTablesLibres(long serveurId);
+	public abstract void installerClient(long idClient, long idTable);
 	
 
 }
