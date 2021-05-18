@@ -84,7 +84,7 @@ public class TableDAOImpl extends TableDAO {
 				if (result.next()) {
 					reqFind = true;
 					Table t = new Table(result.getLong(1), result.getLong(2), result.getLong(3), result.getString(4),
-							result.getLong(5), result.getString(6), result.getLong(7));
+							result.getLong(5), result.getString(6), result.getLong(7),result.getLong(8));
 					System.out.println(t);
 				} else {
 					System.out.println("Il n'y a pas de table enregistrée pour cet identifiant.");
@@ -237,7 +237,7 @@ public class TableDAOImpl extends TableDAO {
 			
 			while(result.next()) {
 				table = new Table(result.getLong(1), result.getLong(2), result.getLong(3), result.getString(4),
-						result.getLong(5), result.getString(6), result.getLong(7));
+						result.getLong(5), result.getString(6), result.getLong(7),result.getLong(8));
 				tables.add(table);
 			}
 		}catch (Exception e) {

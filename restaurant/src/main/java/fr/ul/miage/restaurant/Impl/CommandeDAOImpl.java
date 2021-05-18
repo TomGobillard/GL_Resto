@@ -80,12 +80,28 @@ public class CommandeDAOImpl extends CommandeDAO {
 
 	@Override
 	public void creerCommande(int idTable) {
+		long idClient = -1;
+		
+	
+		try {
+			String sql = "SELECT idclient FROM rtable WHERE idtable=?";
+			PreparedStatement stmt = connect.prepareStatement(sql);
+			stmt.setLong(1, idTable);
+
+			ResultSet result = stmt.executeQuery();
+			if (result.next()) {
+				idClient = result.getLong(1);
+			}
+		} catch (Exception e) {
+
+		}
 
 		try {
-			String sql = "INSERT INTO Commande (heurecmdprete, heurecmdpassee, etat, idtable) VALUES (null, current_timestamp ,'EN PREPARATION', ?)";
+			String sql = "INSERT INTO Commande (heurecmdprete, heurecmdpassee, etat, idtable, idclient) VALUES (null, current_timestamp ,'EN PREPARATION', ?,?)";
 
 			PreparedStatement stmt = connect.prepareStatement(sql);
 			stmt.setInt(1, idTable);
+			stmt.setLong(2, idClient);
 
 			stmt.executeQuery();
 
@@ -114,40 +130,16 @@ public class CommandeDAOImpl extends CommandeDAO {
 	@Override
 	public void creerCompositionCmde(int idCommande, int idPlat) {
 		try {
-			String sql1 = "SELECT quantite FROM composition_cmde WHERE idcommande = ? AND idplat = ?";
+			String sql = "INSERT INTO Composition_cmde (idcommande, idplat, etat) VALUES (?,?, 'EN PREPARATION'')";
 
-			PreparedStatement stmt1 = connect.prepareStatement(sql1);
-			stmt1.setInt(1, idCommande);
-			stmt1.setInt(2, idPlat);
+			PreparedStatement stmt = connect.prepareStatement(sql);
+			stmt.setInt(1, idCommande);
+			stmt.setInt(2, idPlat);
 
-			ResultSet result = stmt1.executeQuery();
-
-			if(result.next()) {
-				int oldQte = result.getInt(1);
-				
-				String sql2 = "UPDATE composition_cmde SET quantite = ? WHERE idcommande = ? AND idplat = ?";
-				
-				PreparedStatement stmt2 = connect.prepareStatement(sql2);
-				stmt2.setInt(1, oldQte+1);
-				stmt2.setInt(2, idCommande);
-				stmt2.setInt(3, idPlat);
-				
-				stmt2.executeQuery();
-				
-			} else {
-
-				String sql = "INSERT INTO Composition_cmde (idcommande, idplat, etat, quantite) VALUES (?,?, 'EN PREPARATION', 1)";
-
-				PreparedStatement stmt = connect.prepareStatement(sql);
-				stmt.setInt(1, idCommande);
-				stmt.setInt(2, idPlat);
-
-				stmt.executeQuery();
-			}
+			stmt.executeQuery();
 
 		} catch (Exception e) {
 			// TODO: handle exception
-			//e.printStackTrace();
 		}
 	}
 

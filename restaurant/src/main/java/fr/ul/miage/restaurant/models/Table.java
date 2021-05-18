@@ -9,13 +9,15 @@ public class Table {
 	private long etage;
 	private String avancement;
 	private long idServeur;
+	private long idClient;
+
 
 	public Table() {
 		super();
 	}
 
 	public Table(long id, long nbCouverts, long occupation, String etat, long etage, String avancement,
-			long idServeur) {
+			long idServeur, long idClient) {
 		super();
 		this.id = id;
 		this.nbCouverts = nbCouverts;
@@ -24,8 +26,11 @@ public class Table {
 		this.etage = etage;
 		this.avancement = avancement;
 		this.idServeur = idServeur;
+		this.idClient = idClient;
 	}
 	
+
+
 	public Table(long id, long nbCouverts, long occupation, String etat, long etage, String avancement) {
 		super();
 		this.id = id;
@@ -35,8 +40,17 @@ public class Table {
 		this.etage = etage;
 		this.avancement = avancement;
 		this.idServeur = -1;
+		this.idClient = -1;
 	}
 
+	public long getIdClient() {
+		return idClient;
+	}
+
+	public void setIdClient(long idClient) {
+		this.idClient = idClient;
+	}
+	
 	public long getId() {
 		return id;
 	}
