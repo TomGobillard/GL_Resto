@@ -139,48 +139,51 @@ public class MenuServeur extends MenuCommun {
 
 		int numTable = choisirTable();
 
-		int c;
-		do {
-			System.out.println("--------------------------------------------------");
-			System.out.println("Que souhaitez-vous faire ?\n");
+		if(numTable != 0) {
 
-			System.out.println("Ajouter un plat à la commande (1)");
-			System.out.println("Valider la commande (2)");
+			int c;
+			do {
+				System.out.println("--------------------------------------------------");
+				System.out.println("Que souhaitez-vous faire ?\n");
 
-			System.out.println("Annuler la commande (10)");
+				System.out.println("Ajouter un plat à la commande (1)");
+				System.out.println("Valider la commande (2)");
 
-			System.out.println("--------------------------------------------------");
-			Scanner s = new Scanner(System.in);
-			c = s.nextInt();
-			switch (c) {
-			case 1:
-				Plat plat = ajoutPlatCommande();
-				if(plat != null) {
-					plats.add(plat);
+				System.out.println("Annuler la commande (10)");
+
+				System.out.println("--------------------------------------------------");
+				Scanner s = new Scanner(System.in);
+				c = s.nextInt();
+				switch (c) {
+				case 1:
+					Plat plat = ajoutPlatCommande();
+					if(plat != null) {
+						plats.add(plat);
+					}
+					break;
+				case 2:
+					System.out.println("Voici la commande :\n");
+					for(Plat p : plats) {
+						System.out.println(p);
+					}
+					if(plats.size()!=0) {
+						validerCommande(plats, numTable);
+					} else {
+						System.out.println("La commande est vide.");
+						c++;
+					}
+					break;
+
+				case 10:
+					break;
+
+				default:
+					System.out.println("Erreur de choix, réessayez.\n");
+					break;
 				}
-				break;
-			case 2:
-				System.out.println("Voici la commande :\n");
-				for(Plat p : plats) {
-					System.out.println(p);
-				}
-				if(plats.size()!=0) {
-					validerCommande(plats, numTable);
-				} else {
-					System.out.println("La commande est vide.");
-					c++;
-				}
-				break;
+			} while (c != 2 && c != 10);
 
-			case 10:
-				break;
-
-			default:
-				System.out.println("Erreur de choix, réessayez.\n");
-				break;
-			}
-		} while (c != 2 && c != 10);
-
+		}
 	}
 
 	private int choisirTable() {

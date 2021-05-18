@@ -208,7 +208,7 @@ public class TableDAOImpl extends TableDAO {
 		ArrayList<Integer> tables = new ArrayList<>();
 		try {
 
-			String sql = "SELECT idtable FROM rtable WHERE idServeur = ?";
+			String sql = "SELECT idtable FROM rtable WHERE idServeur = ? AND etat = 'OCCUPEE'";
 			PreparedStatement stmt = connect.prepareStatement(sql);
 			stmt.setLong(1, serveurId);
 
