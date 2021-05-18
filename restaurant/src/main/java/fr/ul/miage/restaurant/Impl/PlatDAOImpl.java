@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 import fr.ul.miage.restaurant.models.CategoriePlat;
+import fr.ul.miage.restaurant.models.CompositionPlat;
 import fr.ul.miage.restaurant.models.Plat;
 import fr.ul.miage.restaurant.models.Produit;
 import fr.ul.miage.restaurant.dao.CommandeDAO;
@@ -70,20 +71,13 @@ public class PlatDAOImpl extends PlatDAO {
 
 				String sql3;
 				PreparedStatement stmt3;
-
+				CompositionPlatDAO compositionPlatDAO = new CompositionPlatDAOImpl();
+				
+				//On créer les composiot de chaque plat
 				for (Produit ingredient : ingredients) {
-					sql3 = "INSERT INTO composition_plat VALUES (?, ?, ?)";
-					stmt3 = connect.prepareStatement(sql3);
-
-					stmt3.setLong(1, ingredient.getId());
-					stmt3.setLong(2, idPlat);
-					stmt3.setInt(3, ingredient.getQuantite());
-
-					try {
-						stmt3.executeQuery();
-					} catch (Exception e) {
-						// TODO: handle exception
-					}
+					CompositionPlat compoPlat = new CompositionPlat(ingredient.getId(), idPlat, ingredient.getQuantite());
+					
+					compositionPlatDAO.create(compoPlat);
 				}
 			}
 		} catch (Exception e) {
@@ -398,5 +392,31 @@ public class PlatDAOImpl extends PlatDAO {
 			res = false;
 		}
 		return res;
+	}
+
+	@Override
+	public ArrayList<Plat> platsPopulaires() {
+		// TODO Auto-generated method stub
+		ArrayList<Plat> listPlats = new ArrayList<>();
+		
+		try {
+			String sql = "SELECT * FROM plat ORDER BY nbcommande DESC";
+			PreparedStatement stmt = connect.prepareStatement(sql);
+			
+			ResultSet result = stmt.executeQuery();
+			
+			Plat plat;
+			while(result.next()) {
+				plat = new Plat(result.getLong(1), result.getString(2), result.getDouble(3), result.getBoolean(4), 
+						result.getLong(5), result.getLong(6));
+				
+				listPlats.add(plat);
+			}
+			
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+		
+		return listPlats;
 	}
 }

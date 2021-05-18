@@ -22,6 +22,18 @@ public class CompositionPlatDAOImpl extends CompositionPlatDAO {
 
 	@Override
 	public CompositionPlat create(CompositionPlat obj) {
+		try {
+			String sql = "INSERT INTO composition_plat VALUES (?, ?, ?)";
+			PreparedStatement stmt = connect.prepareStatement(sql);
+			stmt.setLong(1, obj.getIdProduit());
+			stmt.setLong(2, obj.getIdPlat());
+			stmt.setInt(3, obj.getQuantite());
+			
+			ResultSet result = stmt.executeQuery();
+			
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
 		// TODO Auto-generated method stub
 		return null;
 	}
