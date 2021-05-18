@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 import fr.ul.miage.restaurant.models.CategoriePlat;
+import fr.ul.miage.restaurant.models.CompositionPlat;
 import fr.ul.miage.restaurant.models.Plat;
 import fr.ul.miage.restaurant.models.Produit;
 import fr.ul.miage.restaurant.dao.CommandeDAO;
@@ -70,20 +71,13 @@ public class PlatDAOImpl extends PlatDAO {
 
 				String sql3;
 				PreparedStatement stmt3;
-
+				CompositionPlatDAO compositionPlatDAO = new CompositionPlatDAOImpl();
+				
+				//On créer les composiot de chaque plat
 				for (Produit ingredient : ingredients) {
-					sql3 = "INSERT INTO composition_plat VALUES (?, ?, ?)";
-					stmt3 = connect.prepareStatement(sql3);
-
-					stmt3.setLong(1, ingredient.getId());
-					stmt3.setLong(2, idPlat);
-					stmt3.setInt(3, ingredient.getQuantite());
-
-					try {
-						stmt3.executeQuery();
-					} catch (Exception e) {
-						// TODO: handle exception
-					}
+					CompositionPlat compoPlat = new CompositionPlat(ingredient.getId(), idPlat, ingredient.getQuantite());
+					
+					compositionPlatDAO.create(compoPlat);
 				}
 			}
 		} catch (Exception e) {
