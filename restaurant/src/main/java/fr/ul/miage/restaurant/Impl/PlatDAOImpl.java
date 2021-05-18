@@ -393,4 +393,30 @@ public class PlatDAOImpl extends PlatDAO {
 		}
 		return res;
 	}
+
+	@Override
+	public ArrayList<Plat> platsPopulaires() {
+		// TODO Auto-generated method stub
+		ArrayList<Plat> listPlats = new ArrayList<>();
+		
+		try {
+			String sql = "SELECT * FROM plat ORDER BY nbcommande DESC";
+			PreparedStatement stmt = connect.prepareStatement(sql);
+			
+			ResultSet result = stmt.executeQuery();
+			
+			Plat plat;
+			while(result.next()) {
+				plat = new Plat(result.getLong(1), result.getString(2), result.getDouble(3), result.getBoolean(4), 
+						result.getLong(5), result.getLong(6));
+				
+				listPlats.add(plat);
+			}
+			
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+		
+		return listPlats;
+	}
 }

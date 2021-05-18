@@ -12,6 +12,7 @@ import fr.ul.miage.restaurant.dao.ProduitDAO;
 import fr.ul.miage.restaurant.models.Personnel;
 import fr.ul.miage.restaurant.models.Plat;
 import fr.ul.miage.restaurant.models.Produit;
+import fr.ul.miage.restaurant.systeme.ScanEntree;
 
 public class MenuDirecteur extends MenuCommun {
 
@@ -260,8 +261,34 @@ public class MenuDirecteur extends MenuCommun {
 		} while (c2 != 1 && c2 != 2 && c2 != 10);
 	}
 
+	//Affiche les 5 plats les plus populaires
 	public void checkPopularitePlat() {
-		ArrayList<Plat> listPlats = platDAO.getAll();
+		ArrayList<Plat> listPlats = platDAO.platsPopulaires();
+		
+		System.out.println("Voici les 5 plats les plus populaires de votre restaurant \n");
+
+		if(listPlats.size()>0) {		
+			for(int i=0; i < listPlats.size(); i++) {
+				if(i==5)
+					break;
+				Plat plat = listPlats.get(i);
+				double CA = plat.getNbCommandes() * plat.getPrix();
+				System.out.println(plat.getLibelle() + " - Popularité : " + plat.getNbCommandes() + " - C.A. : " + CA + "€");
+			}
+		}
+		
+		System.out.println();
+		System.out.println("Voulez-vous voir tous les plats ? (1.Oui 2.Non)");
+		
+		int choix  = ScanEntree.readIntegerWithDelimitations(1, 2);
+		
+		if(choix == 1) {
+			checkPopulariteAllPlats();
+		}
+	}
+	
+	public void checkPopulariteAllPlats() {
+		ArrayList<Plat> listPlats = platDAO.platsPopulaires();
 
 		if(listPlats.size()>0) {			
 			for(Plat plat : listPlats) {
