@@ -21,6 +21,7 @@ import fr.ul.miage.restaurant.models.Client;
 import fr.ul.miage.restaurant.models.CompositionPlat;
 import fr.ul.miage.restaurant.models.Personnel;
 import fr.ul.miage.restaurant.models.Plat;
+import fr.ul.miage.restaurant.systeme.ScanEntree;
 
 public class MenuServeur extends MenuCommun {
 
@@ -46,8 +47,7 @@ public class MenuServeur extends MenuCommun {
 
 				printOptions();
 
-				Scanner s = new Scanner(System.in);
-				c = s.nextInt();
+				c = ScanEntree.readInteger();
 				switch (c) {
 				case 1:
 					consulterStocks();
@@ -117,8 +117,9 @@ public class MenuServeur extends MenuCommun {
 	}
 
 	private void consulterServices() {
-		// TODO Auto-generated method stub
 
+		PlatDAO platDAO = new PlatDAOImpl();
+		platDAO.setEtatPlatServis(this.user.getId());
 	}
 
 	public void printOptions() {

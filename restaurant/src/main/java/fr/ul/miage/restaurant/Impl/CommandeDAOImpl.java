@@ -110,6 +110,7 @@ public class CommandeDAOImpl extends CommandeDAO {
 		}
 	}
 
+
 	@Override
 	public int getLastCommande() {
 		int idLastCommande = -1;
