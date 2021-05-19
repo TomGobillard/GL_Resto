@@ -64,34 +64,39 @@ public class MenuMaitreHotel extends MenuCommun {
 		TableDAO tableDAO = new TableDAOImpl();
 		ArrayList<Table> listTables = tableDAO.getTableRepasFini();
 		int idtable;
-		do {
-
-			System.out.println("Veuillez sélectionner la table pour laquelle vous voulez éditer une facture :");
-
-			listTables.forEach(table -> System.out.println(table));
-
-			idtable = ScanEntree.readInteger();
+		if(listTables.size() > 0) {
+			do {
+	
+				System.out.println("Veuillez sélectionner la table pour laquelle vous voulez éditer une facture :");
+	
+				listTables.forEach(table -> System.out.println(table));
+	
+				idtable = ScanEntree.readInteger();
+				
+	
+			} while (!tableDAO.tableExists(idtable));
 			
-
-		} while (!tableDAO.tableExists(idtable));
-		
-		Table table = tableDAO.find(idtable);
-		System.out.println("Sélectionnez le type de repas pour la facture :");
-		System.out.println("DEJEUNER (1)");
-		System.out.println("DINER (2)");
-
-		int repasNum = ScanEntree.readIntegerWithDelimitations(1, 2);
-		String repas;
-		if (repasNum == 1) {
-			repas = "DEJEUNER";
+			
+			Table table = tableDAO.find(idtable);
+			System.out.println("Sélectionnez le type de repas pour la facture :");
+			System.out.println("DEJEUNER (1)");
+			System.out.println("DINER (2)");
+	
+			int repasNum = ScanEntree.readIntegerWithDelimitations(1, 2);
+			String repas;
+			if (repasNum == 1) {
+				repas = "DEJEUNER";
+			} else {
+				repas = "DINER";
+			}
+	
+			Facture facture = factureDAO.genererFacture(table.getIdClient(), repas);
+	
+			System.out.println("Votre facture a bien été générée :");
+			System.out.println(facture);
 		} else {
-			repas = "DINER";
+			System.out.println("Désolé, il n'y a aucune table prête à être facturée.");
 		}
-
-		Facture facture = factureDAO.genererFacture(table.getIdClient(), repas);
-
-		System.out.println("Votre facture a bien été générée :");
-		System.out.println(facture);
 	}
 
 	private void assignerServeurATable() {

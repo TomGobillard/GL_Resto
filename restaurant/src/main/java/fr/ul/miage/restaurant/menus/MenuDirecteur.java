@@ -1,6 +1,7 @@
 package fr.ul.miage.restaurant.menus;
 
 import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -112,7 +113,7 @@ public class MenuDirecteur extends MenuCommun {
 
 			consulterStocks();
 
-			System.out.println("Quelle stock souhaitez vous mettre à jour : ");
+			System.out.println("Quel stock souhaitez vous mettre à jour : ");
 
 			boolean error = true;
 
@@ -155,7 +156,7 @@ public class MenuDirecteur extends MenuCommun {
 
 			int newQte = listProduits.get(idProduit-1).getQuantite() + qte;
 
-			Produit majProduit = new Produit(idProduit, listProduits.get(idProduit).getLibelle(), newQte);
+			Produit majProduit = new Produit(idProduit, listProduits.get(idProduit-1).getLibelle(), newQte);
 
 			produitDAO.update(majProduit);
 
@@ -283,7 +284,7 @@ public class MenuDirecteur extends MenuCommun {
 					break;
 				Plat plat = listPlats.get(i);
 				double CA = plat.getNbCommandes() * plat.getPrix();
-				System.out.println(plat.getLibelle() + " - Popularité : " + plat.getNbCommandes() + " - C.A. : " + CA + "€");
+				System.out.println(plat.getLibelle() + " - Popularité : " + plat.getNbCommandes() + " - Revenus : " + CA + "€");
 			}
 		}
 		
@@ -534,11 +535,14 @@ public class MenuDirecteur extends MenuCommun {
 
 	public void statCommande() {
 		Timestamp tempsMoyen = commandeDAO.getTempsCommandesFinies();
+		java.util.Date date = new java.util.Date(tempsMoyen.getTime());
+		SimpleDateFormat formatter= new SimpleDateFormat("HH");
+		SimpleDateFormat formatter2= new SimpleDateFormat("mm");
 		
 		System.out.println();
 		System.out.println("--------------------------------------------------");
 		System.out.println("Voici le temps moyen de préparation des commandes\n");
-		System.out.println("Temps moyen de préparation : " + tempsMoyen.getHours() + "h" + tempsMoyen.getMinutes());
+		System.out.println("Temps moyen de préparation : " + formatter.format(date) + "h" + formatter2.format(date));
 		System.out.println();
 	}
 }

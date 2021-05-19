@@ -2,8 +2,8 @@ package fr.ul.miage.restaurant.menus;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Scanner;
 import java.util.Map.Entry;
+import java.util.Scanner;
 
 import fr.ul.miage.restaurant.Impl.ClientDAOImpl;
 import fr.ul.miage.restaurant.Impl.CommandeDAOImpl;
@@ -90,7 +90,7 @@ public class MenuServeur extends MenuCommun {
 					break;
 				}
 
-			} while (c != 20 || c != 21);
+			} while (c != 20);
 		} while (connected);
 	}
 

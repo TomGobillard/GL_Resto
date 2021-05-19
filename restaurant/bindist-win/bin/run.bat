@@ -72,7 +72,7 @@ if "%JAVACMD%"=="" set JAVACMD=java
 
 if "%REPO%"=="" set REPO=%BASEDIR%\repo
 
-set CLASSPATH="%BASEDIR%"\etc;"%REPO%"\postgresql-42.2.5.jar;"%REPO%"\restaurant-0.0.1-SNAPSHOT.jar
+set CLASSPATH="%BASEDIR%"\etc;"%REPO%"\postgresql-42.2.5.jar;"%REPO%"\pgjdbc-ng-0.8.7.jar;"%REPO%"\spy-0.8.7.jar;"%REPO%"\netty-common-4.1.53.Final.jar;"%REPO%"\netty-buffer-4.1.53.Final.jar;"%REPO%"\netty-transport-4.1.53.Final.jar;"%REPO%"\netty-resolver-4.1.53.Final.jar;"%REPO%"\netty-codec-4.1.53.Final.jar;"%REPO%"\netty-handler-4.1.53.Final.jar;"%REPO%"\netty-transport-native-unix-common-4.1.53.Final.jar;"%REPO%"\netty-transport-native-kqueue-4.1.53.Final.jar;"%REPO%"\netty-transport-native-epoll-4.1.53.Final.jar;"%REPO%"\restaurant-0.0.1-SNAPSHOT.jar
 
 set ENDORSED_DIR=
 if NOT "%ENDORSED_DIR%" == "" set CLASSPATH="%BASEDIR%"\%ENDORSED_DIR%\*;%CLASSPATH%

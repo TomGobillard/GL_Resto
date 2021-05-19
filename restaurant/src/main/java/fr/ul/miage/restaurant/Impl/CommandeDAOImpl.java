@@ -1,8 +1,5 @@
 package fr.ul.miage.restaurant.Impl;
 
-import fr.ul.miage.restaurant.models.Commande;
-
-import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -10,6 +7,7 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 
 import fr.ul.miage.restaurant.dao.CommandeDAO;
+import fr.ul.miage.restaurant.models.Commande;
 
 public class CommandeDAOImpl extends CommandeDAO {
 	@Override
@@ -233,7 +231,7 @@ public class CommandeDAOImpl extends CommandeDAO {
 		// TODO Auto-generated method stub
 		Timestamp timestamp = new Timestamp(0);
 		try {
-			String sql = "SELECT AVG(heurecmdpassee - heurecmdprete) AS tempsPrep FROM commande WHERE etat = 'SERVIE' AND heurecmdprete is not NULL";
+			String sql = "SELECT AVG(heurecmdpassee - heurecmdprete) AS tempsPrep FROM commande WHERE heurecmdprete is not NULL";
 			PreparedStatement stmt = connect.prepareStatement(sql);
 			
 			ResultSet result = stmt.executeQuery();

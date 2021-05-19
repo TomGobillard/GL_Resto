@@ -185,14 +185,14 @@ public class TableDAOImpl extends TableDAO {
 			ResultSet result = stmt.executeQuery();
 			if (result.next()) {
 				String res = "Les clients de la table n°" + result.getInt("idtable") + " sont ";
-				if (result.getString("avancement").equals("ENTREE")) {
-					res += "à l'entrée.";
-				} else if (result.getString("avancement").equals("PLAT")) {
-					res += "au plat.";
+				if (result.getString("avancement").equals("VIDE")) {
+					res = "La table est vide.";
+				} else if (result.getString("avancement").equals("EN REPAS")) {
+					res += "en train de manger.";
 				} else if (result.getString("avancement").equals("INSTALLE")) {
 					res += "installés.";
 				} else {
-					res += "au dessert.";
+					res += "partis.";
 				}
 				System.out.println(res);
 			}
@@ -268,7 +268,7 @@ public class TableDAOImpl extends TableDAO {
 	public void installerClient(long idClient, long idTable) {
 		// TODO Auto-generated method stub
 		try {
-			String sql = "UPDATE rtable SET idclient = ?, etat = 'OCCUPEE' WHERE idTable = ?";
+			String sql = "UPDATE rtable SET avancement = 'INSTALLE', idclient = ?, etat = 'OCCUPEE' WHERE idTable = ?";
 			PreparedStatement stmt = connect.prepareStatement(sql);
 			stmt.setLong(1, idClient);
 			stmt.setLong(2, idTable);
@@ -297,7 +297,7 @@ public class TableDAOImpl extends TableDAO {
 		ArrayList<Table> listTables = new ArrayList<Table>();
 		try {
 			
-			String sql = "SELECT * FROM rtable WHERE avancement = 'FINI'";
+			String sql = "SELECT * FROM rtable WHERE avancement = 'FINI' AND etat = 'OCCUPEE'";
 			PreparedStatement stmt = connect.prepareStatement(sql);
 
 			ResultSet result = stmt.executeQuery();

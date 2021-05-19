@@ -1,7 +1,5 @@
 package fr.ul.miage.restaurant.models;
 
-import java.util.ArrayList;
-
 public class Plat {
 
 	private long id=0;
@@ -67,9 +65,15 @@ public class Plat {
 	
 	@Override
 	public String toString() {
+		String platDuJour;
+		if(this.isPlatDuJour) {
+			platDuJour = "Oui";
+		} else {
+			platDuJour = "Non";
+		}
 		return "Nom du plat : " + this.getLibelle() + "\n" +
-				"Prix : " + this.getPrix() + "\n" +
-				"Plat du jour ? " + this.isPlatDuJour() + "\n" +
+				"Prix : " + this.getPrix() + "€" + "\n" +
+				"Plat du jour : " + platDuJour + "\n" +
 				"Nombre de commandes : " + this.getNbCommandes() + "\n";
 	}
 

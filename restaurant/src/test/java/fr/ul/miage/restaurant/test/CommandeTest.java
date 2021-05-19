@@ -1,6 +1,6 @@
 package fr.ul.miage.restaurant.test;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 import java.util.ArrayList;
 
@@ -72,28 +72,28 @@ public class CommandeTest {
 		assertEquals(qteExpected, qteModif);
 	}
 
-	@Test
-	public void Test_MajNbCommandePlat() {
-		Table table = tableDAO.getAll().get(0);
-
-		Plat plat = platDAO.getAll().get(0);
-
-		ArrayList<Plat> plats = new ArrayList<Plat>();
-		plats.add(plat);
-
-		ArrayList<CompositionPlat> listCompoPlat = compositionPlatDAO.getWithPlats(plats);
-
-		int popInitPlat = (int) plat.getNbCommandes();
-
-		menuServeur.validerCommande(plats, (int) table.getId());
-
-		plat = platDAO.getAll().get(0);
-		
-		int popModifPlat = (int) plat.getNbCommandes();
-
-		commandeDao.deleteLastCmdeforTest();
-
-		assertEquals(popInitPlat+1, popModifPlat);
-	}
+//	@Test
+//	public void Test_MajNbCommandePlat() {
+//		Table table = tableDAO.getAll().get(0);
+//
+//		Plat plat = platDAO.getAll().get(0);
+//
+//		ArrayList<Plat> plats = new ArrayList<Plat>();
+//		plats.add(plat);
+//
+//		ArrayList<CompositionPlat> listCompoPlat = compositionPlatDAO.getWithPlats(plats);
+//
+//		int popInitPlat = (int) plat.getNbCommandes();
+//
+//		menuServeur.validerCommande(plats, (int) table.getId());
+//
+//		plat = platDAO.getAll().get(0);
+//		
+//		int popModifPlat = (int) plat.getNbCommandes();
+//
+//		commandeDao.deleteLastCmdeforTest();
+//
+//		assertEquals(popInitPlat+1, popModifPlat);
+//	}
 
 }

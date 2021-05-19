@@ -80,11 +80,18 @@ public class FactureDAOImpl extends FactureDAO {
 						Date date = new Date(timestamp.getTime());
 						facture = new Facture(result3.getLong(1), result3.getDouble(2), result3.getString(3), result3.getLong(4), date);
 					}
-											
 					
+					
+					
+					String sql4 = "UPDATE rtable SET etat = 'SALE', idclient = null WHERE idclient = ?";
+					
+					PreparedStatement stmt4 = connect.prepareStatement(sql4);
+					stmt4.setLong(1, idclient);
+					
+					stmt4.executeUpdate();
 
 				} catch (Exception e) {
-					// TODO: handle exception
+					e.printStackTrace();
 				}
 				
 
