@@ -282,4 +282,18 @@ public class TableDAOImpl extends TableDAO {
 			// TODO: handle exception
 		}
 	}
+
+	@Override
+	public void initTableTest(long idTable) {
+		// TODO Auto-generated method stub
+		try {
+			String sql = "UPDATE rtable SET etat = 'PROPRE', idclient = null WHERE idtable = ?";
+			PreparedStatement stmt = connect.prepareStatement(sql);
+			stmt.setLong(1, idTable);
+			
+			stmt.execute();
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+	}
 }
