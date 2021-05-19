@@ -1,5 +1,7 @@
 package fr.ul.miage.restaurant.dao;
 
+import java.sql.Timestamp;
+
 import fr.ul.miage.restaurant.models.Commande;
 
 public abstract class CommandeDAO extends DAO<Commande>{
@@ -12,4 +14,6 @@ public abstract class CommandeDAO extends DAO<Commande>{
 
 	public abstract boolean cmdeEntranteExists(long idCmde);
 	public abstract void showPlatCommande(long idCmde);
+	
+	public abstract Timestamp getTempsCommandesFinies();
 }

@@ -1,9 +1,12 @@
 package fr.ul.miage.restaurant.Impl;
 
 import fr.ul.miage.restaurant.models.Commande;
+
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 
 import fr.ul.miage.restaurant.dao.CommandeDAO;
@@ -223,5 +226,28 @@ public class CommandeDAOImpl extends CommandeDAO {
 		} catch (Exception e) {
 			// TODO: handle exception
 		}
+	}
+
+	@Override
+	public Timestamp getTempsCommandesFinies() {
+		// TODO Auto-generated method stub
+		Timestamp timestamp = new Timestamp(0);
+		try {
+			String sql = "SELECT AVG(heurecmdpassee - heurecmdprete) AS tempsPrep FROM commande WHERE etat = 'SERVIE' AND heurecmdprete is not NULL";
+			PreparedStatement stmt = connect.prepareStatement(sql);
+			
+			ResultSet result = stmt.executeQuery();
+			
+			int i = 0;
+			
+			while(result.next()) {
+				i++;
+				timestamp = result.getTimestamp(1);
+			}
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}
+		return timestamp;
 	}
 }

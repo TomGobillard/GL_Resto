@@ -1,11 +1,14 @@
 package fr.ul.miage.restaurant.menus;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+import fr.ul.miage.restaurant.Impl.CommandeDAOImpl;
 import fr.ul.miage.restaurant.Impl.PersonnelDAOImpl;
 import fr.ul.miage.restaurant.Impl.PlatDAOImpl;
 import fr.ul.miage.restaurant.Impl.ProduitDAOImpl;
+import fr.ul.miage.restaurant.dao.CommandeDAO;
 import fr.ul.miage.restaurant.dao.PersonnelDAO;
 import fr.ul.miage.restaurant.dao.PlatDAO;
 import fr.ul.miage.restaurant.dao.ProduitDAO;
@@ -18,12 +21,14 @@ public class MenuDirecteur extends MenuCommun {
 
 	PlatDAO platDAO;
 	PersonnelDAO personnelDAO;
+	CommandeDAO commandeDAO;
 
 	public MenuDirecteur(boolean connected, Personnel user) {
 		super(connected, user);
 		// TODO Auto-generated constructor stub
 		platDAO = new PlatDAOImpl();
 		personnelDAO = new PersonnelDAOImpl();
+		commandeDAO = new CommandeDAOImpl();
 	}
 
 	public void printMenuDirecteur() {
@@ -60,6 +65,10 @@ public class MenuDirecteur extends MenuCommun {
 					gererEmployes();
 					break;
 
+				case 6:
+					statCommande();
+					break;
+					
 				case 20:
 					deconnexion();
 					break;
@@ -85,6 +94,7 @@ public class MenuDirecteur extends MenuCommun {
 		System.out.println("Gérer la carte du jour (3)");
 		System.out.println("Consulter la popularité des plats (4)");
 		System.out.println("Gérer les employés (5)");
+		System.out.println("Voir le temps moyen de préparation des commandes (6)");
 
 		System.out.println("Se déconnecter (20)");
 		System.out.println("Quitter (21)");
@@ -520,5 +530,15 @@ public class MenuDirecteur extends MenuCommun {
 		personnel.setLogin(newLogin);
 		
 		personnelDAO.update(personnel);
+	}
+
+	public void statCommande() {
+		Timestamp tempsMoyen = commandeDAO.getTempsCommandesFinies();
+		
+		System.out.println();
+		System.out.println("--------------------------------------------------");
+		System.out.println("Voici le temps moyen de préparation des commandes\n");
+		System.out.println("Temps moyen de préparation : " + tempsMoyen.getHours() + "h" + tempsMoyen.getMinutes());
+		System.out.println();
 	}
 }
