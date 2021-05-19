@@ -6,9 +6,11 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 import fr.ul.miage.restaurant.models.CategoriePlat;
+import fr.ul.miage.restaurant.models.CompositionCmde;
 import fr.ul.miage.restaurant.models.CompositionPlat;
 import fr.ul.miage.restaurant.models.Plat;
 import fr.ul.miage.restaurant.models.Produit;
+import fr.ul.miage.restaurant.systeme.ScanEntree;
 import fr.ul.miage.restaurant.dao.CommandeDAO;
 import fr.ul.miage.restaurant.dao.CompositionPlatDAO;
 import fr.ul.miage.restaurant.dao.PlatDAO;
@@ -352,6 +354,51 @@ public class PlatDAOImpl extends PlatDAO {
 			}
 		}
 	}
+
+	public void setEtatPlatServis(long idServeur) {
+		
+		ArrayList<CompositionCmde> compoCmdes  = new ArrayList<>();
+		
+		try {
+			String sql = "SELECT T.idtable, CC.idcommande, libelle, P.idplat FROM plat P, composition_cmde CC, commande C, rtable T "
+					+ "WHERE CC.idplat = P.idplat AND CC.idcommande = C.idcommande AND C.idtable = T.idtable AND CC.etat = 'PRETE' AND idserveur = ?";
+			PreparedStatement stmt = connect.prepareStatement(sql);
+			stmt.setLong(1, idServeur);
+			ResultSet result = stmt.executeQuery();
+			int i = 0;
+			while(result.next()) {
+				System.out.println("Table "+result.getLong(1)+" : "+result.getString(3)+" ("+i+")");
+				i++;
+				CompositionCmde compoCmde = new CompositionCmde(result.getLong(2),result.getLong(4));
+				compoCmdes.add(compoCmde);
+			}
+			
+			
+			System.out.println("Sélectionnez maintenant l'id du plat : ");
+			int idcmde = ScanEntree.readIntegerWithDelimitations(0, compoCmdes.size());
+			
+			long idPlat = compoCmdes.get(idcmde).getIdPlat();
+			long idCommande = compoCmdes.get(idcmde).getIdCommande();
+
+			
+			try {
+				String sql1 = "UPDATE COMPOSITION_CMDE SET etat = 'SERVIE' WHERE idplat = ? AND idcommande = ?";
+				PreparedStatement stmt1 = connect.prepareStatement(sql1);
+				stmt1.setLong(1, idPlat);
+				stmt1.setLong(2, idCommande);
+
+				ResultSet result1 = stmt1.executeQuery();
+
+			} catch (Exception e) {
+				
+			}			
+			
+		} catch (Exception e) {
+			
+		}
+
+	}
+
 
 	public boolean platExists(long idPlat) {
 		String sql = "SELECT * FROM PLAT WHERE idplat = ?";

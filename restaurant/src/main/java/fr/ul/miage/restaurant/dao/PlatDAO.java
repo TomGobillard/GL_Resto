@@ -25,5 +25,7 @@ public abstract class PlatDAO extends DAO<Plat>{
 	
 	public abstract void setEtatPlatPret();
 	
+	public abstract void setEtatPlatServis(long id);
+	
 	public abstract ArrayList<Plat> platsPopulaires();
 }
