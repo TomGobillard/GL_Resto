@@ -63,7 +63,24 @@ public class ServeurDAOImpl extends ServeurDAO {
 	@Override
 	public ArrayList<Serveur> getAll() {
 		// TODO Auto-generated method stub
-		return null;
+		ArrayList<Serveur> listServeur = new ArrayList<Serveur>();
+		
+		try {
+			String sql = "SELECT * FROM serveur";
+			PreparedStatement stmt = connect.prepareStatement(sql);
+			
+			ResultSet result = stmt.executeQuery();
+			
+			Serveur serveur;
+			while(result.next()) {
+				serveur = new Serveur(result.getLong(5), result.getInt(6));
+				listServeur.add(serveur);
+			}
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+		
+		return listServeur;
 	}
 
 }

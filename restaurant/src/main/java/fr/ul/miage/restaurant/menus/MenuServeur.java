@@ -347,10 +347,15 @@ public class MenuServeur extends MenuCommun {
 				}
 			} while(error);
 			
-			Client client = clientDAO.create(null);
-			
-			tableDAO.installerClient(client.getId(), numTable);
+			installerClientAction(numTable);
 		}
+	}
+	
+	public void installerClientAction(int numTable) {
+		TableDAO tableDAO = new TableDAOImpl(user);
+		ClientDAO clientDAO = new ClientDAOImpl();
 
+		Client client = clientDAO.create(null);	
+		tableDAO.installerClient(client.getId(), numTable);
 	}
 }
