@@ -4,7 +4,6 @@ public class Table {
 
 	private long id = 0;
 	private long nbCouverts;
-	private long occupation;
 	private String etat;
 	private long etage;
 	private String avancement;
@@ -16,12 +15,10 @@ public class Table {
 		super();
 	}
 
-	public Table(long id, long nbCouverts, long occupation, String etat, long etage, String avancement,
-			long idServeur, long idClient) {
+	public Table(long id, long nbCouverts, String etat, long etage, String avancement, long idServeur, long idClient) {
 		super();
 		this.id = id;
 		this.nbCouverts = nbCouverts;
-		this.occupation = occupation;
 		this.etat = etat;
 		this.etage = etage;
 		this.avancement = avancement;
@@ -31,11 +28,10 @@ public class Table {
 	
 
 
-	public Table(long id, long nbCouverts, long occupation, String etat, long etage, String avancement) {
+	public Table(long id, long nbCouverts, String etat, long etage, String avancement) {
 		super();
 		this.id = id;
 		this.nbCouverts = nbCouverts;
-		this.occupation = occupation;
 		this.etat = etat;
 		this.etage = etage;
 		this.avancement = avancement;
@@ -67,14 +63,6 @@ public class Table {
 		this.nbCouverts = nbCouverts;
 	}
 
-	public long getOccupation() {
-		return occupation;
-	}
-
-	public void setOccupation(long occupation) {
-		this.occupation = occupation;
-	}
-
 	public String getEtat() {
 		return etat;
 	}
@@ -101,8 +89,7 @@ public class Table {
 
 	@Override
 	public String toString() {
-		String res = "Table n°" + this.id + "\n" + "Nombre de couverts : " + this.nbCouverts + "\n" + "Occupation : "
-				+ this.occupation + "%" + "\n" + "Etat : " + this.etat + "\n" + "Etage : " + this.etage + "\n";
+		String res = "Table n°" + this.id + "\n" + "Nombre de couverts : " + this.nbCouverts + "\n" + "Etat : " + this.etat + "\n" + "Etage : " + this.etage + "\n";
 		
 		if (this.etat.toUpperCase().equals("OCCUPEE")) {
 			res += "Avancement du repas : " + this.avancement + "\n";

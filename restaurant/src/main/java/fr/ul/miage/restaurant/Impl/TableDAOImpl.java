@@ -5,13 +5,13 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Scanner;
 import java.util.Map.Entry;
+import java.util.Scanner;
 
+import fr.ul.miage.restaurant.dao.TableDAO;
 import fr.ul.miage.restaurant.models.Personnel;
 import fr.ul.miage.restaurant.models.Serveur;
 import fr.ul.miage.restaurant.models.Table;
-import fr.ul.miage.restaurant.dao.TableDAO;
 
 public class TableDAOImpl extends TableDAO {
 	private Serveur serveur;
@@ -30,19 +30,18 @@ public class TableDAOImpl extends TableDAO {
 		Table table = new Table();
 
 		try {
-			String sql = "SELECT * FROM rtable WHERE idTable = ?";
+			String sql = "SELECT * FROM rtable WHERE idtable = ?";
 			PreparedStatement stmt = connect.prepareStatement(sql);
 			stmt.setLong(1, id);
 
 			ResultSet result = stmt.executeQuery();
 
 			if(result.next()) {
-				table = new Table(id, result.getLong(2), result.getLong(3), result.getString(4), result.getLong(5), result.getString(6));
-				table.setIdServeur(result.getLong(7));
+				table = new Table(id, result.getInt(2),result.getString(3), result.getInt(4), result.getString(5), result.getInt(6), result.getInt(7));
 			}
 
 		} catch (Exception e) {
-			// TODO: handle exception
+			e.printStackTrace();
 		}
 
 		return table;
@@ -83,8 +82,7 @@ public class TableDAOImpl extends TableDAO {
 
 				if (result.next()) {
 					reqFind = true;
-					Table t = new Table(result.getLong(1), result.getLong(2), result.getLong(3), result.getString(4),
-							result.getLong(5), result.getString(6), result.getLong(7),result.getLong(8));
+					Table t = new Table(result.getLong(1), result.getLong(2),result.getString(3), result.getLong(4), result.getString(5), result.getLong(6),result.getLong(7));
 					System.out.println(t);
 				} else {
 					System.out.println("Il n'y a pas de table enregistrée pour cet identifiant.");
@@ -94,7 +92,6 @@ public class TableDAOImpl extends TableDAO {
 			}
 		}
 	}
-
 
 
 	private HashMap<Integer, String> getOccupationAllTables() {
@@ -236,8 +233,7 @@ public class TableDAOImpl extends TableDAO {
 			ResultSet result = stmt.executeQuery();
 			
 			while(result.next()) {
-				table = new Table(result.getLong(1), result.getLong(2), result.getLong(3), result.getString(4),
-						result.getLong(5), result.getString(6), result.getLong(7),result.getLong(8));
+				table = new Table(result.getLong(1), result.getLong(2),result.getString(3), result.getLong(4), result.getString(5), result.getLong(6),result.getLong(7));
 				tables.add(table);
 			}
 		}catch (Exception e) {
@@ -295,5 +291,25 @@ public class TableDAOImpl extends TableDAO {
 		} catch (Exception e) {
 			// TODO: handle exception
 		}
+	}
+	
+	public ArrayList<Table> getTableRepasFini() {
+		ArrayList<Table> listTables = new ArrayList<Table>();
+		try {
+			
+			String sql = "SELECT * FROM rtable WHERE avancement = 'FINI'";
+			PreparedStatement stmt = connect.prepareStatement(sql);
+
+			ResultSet result = stmt.executeQuery();
+
+			while(result.next()) {
+				listTables.add(new Table(result.getLong(1), result.getLong(2), result.getString(3), result.getInt(4), result.getString(5), result.getLong(6), result.getLong(7)));
+			}
+
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+		
+		return listTables;
 	}
 }

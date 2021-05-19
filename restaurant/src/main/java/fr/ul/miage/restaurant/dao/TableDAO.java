@@ -17,6 +17,7 @@ public abstract class TableDAO extends DAO<Table>{
 	public abstract ArrayList<Integer> getServeurTablesLibres(long serveurId);
 	public abstract void installerClient(long idClient, long idTable);
 	public abstract void initTableTest(long idTable);
+	public abstract ArrayList<Table> getTableRepasFini();
 	
 
 }
