@@ -313,7 +313,7 @@ public class PlatDAOImpl extends PlatDAO {
 		return plats;
 	}
 
-	public void setEtatPlat() {
+	public void setEtatPlatPret() {
 		CommandeDAO cmdeDAO = new CommandeDAOImpl();
 		Scanner s = new Scanner(System.in);
 		boolean error = true;
@@ -330,32 +330,7 @@ public class PlatDAOImpl extends PlatDAO {
 					if (platExists(idPlat)) {
 						platError = false;
 						error = false;
-						System.out.println("Renseignez le nouvel état du plat : ");
-						System.out.println("EN PREPARATION (1)");
-						System.out.println("PRETE (2)");
-						System.out.println("SERVIE (3)");
-						boolean etatOK = false;
-						String newEtat = "";
-						while (!etatOK) {
-
-							switch (s.nextInt()) {
-							case 1:
-								newEtat = "EN PREPARATION";
-								etatOK = true;
-								break;
-							case 2:
-								newEtat = "PRETE";
-								etatOK = true;
-								break;
-							case 3:
-								newEtat = "SERVIE";
-								etatOK = true;
-								break;
-							default:
-								System.out.println("Erreur : L'option sélectionnée n'existe pas.");
-								break;
-							}
-						}
+						String newEtat = "PRETE";
 
 						try {
 							String sql = "UPDATE COMPOSITION_CMDE SET etat = ? WHERE idplat = ? AND idcommande = ?";
@@ -363,7 +338,7 @@ public class PlatDAOImpl extends PlatDAO {
 							stmt.setString(1, newEtat);
 							stmt.setLong(2, idPlat);
 							stmt.setLong(3, idCmde);
-							System.out.println("L'état du plat à bien été mis à jour !");
+							System.out.println("Le plat est maintenant prêt !");
 							stmt.executeQuery();
 						} catch (Exception e) {
 
