@@ -6,10 +6,12 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 import fr.ul.miage.restaurant.Impl.CommandeDAOImpl;
+import fr.ul.miage.restaurant.Impl.FactureDAOImpl;
 import fr.ul.miage.restaurant.Impl.PersonnelDAOImpl;
 import fr.ul.miage.restaurant.Impl.PlatDAOImpl;
 import fr.ul.miage.restaurant.Impl.ProduitDAOImpl;
 import fr.ul.miage.restaurant.dao.CommandeDAO;
+import fr.ul.miage.restaurant.dao.FactureDAO;
 import fr.ul.miage.restaurant.dao.PersonnelDAO;
 import fr.ul.miage.restaurant.dao.PlatDAO;
 import fr.ul.miage.restaurant.dao.ProduitDAO;
@@ -23,6 +25,7 @@ public class MenuDirecteur extends MenuCommun {
 	PlatDAO platDAO;
 	PersonnelDAO personnelDAO;
 	CommandeDAO commandeDAO;
+	FactureDAO factureDAO;
 
 	public MenuDirecteur(boolean connected, Personnel user) {
 		super(connected, user);
@@ -30,6 +33,7 @@ public class MenuDirecteur extends MenuCommun {
 		platDAO = new PlatDAOImpl();
 		personnelDAO = new PersonnelDAOImpl();
 		commandeDAO = new CommandeDAOImpl();
+		factureDAO = new FactureDAOImpl();
 	}
 
 	public void printMenuDirecteur() {
@@ -70,6 +74,14 @@ public class MenuDirecteur extends MenuCommun {
 					statCommande();
 					break;
 					
+				case 7 :
+					profitDejeunerDiner();
+					break;
+					
+				case 8 :
+					recetteJourSemaineMois();
+					break;
+					
 				case 20:
 					deconnexion();
 					break;
@@ -96,6 +108,8 @@ public class MenuDirecteur extends MenuCommun {
 		System.out.println("Consulter la popularité des plats (4)");
 		System.out.println("Gérer les employés (5)");
 		System.out.println("Voir le temps moyen de préparation des commandes (6)");
+		System.out.println("Voir le profit du déjeuner et du diner (7)");
+		System.out.println("Voir la recette quotidienne, hebdomadaire et mensuelle (8)");
 
 		System.out.println("Se déconnecter (20)");
 		System.out.println("Quitter (21)");
@@ -543,6 +557,32 @@ public class MenuDirecteur extends MenuCommun {
 		System.out.println("--------------------------------------------------");
 		System.out.println("Voici le temps moyen de préparation des commandes\n");
 		System.out.println("Temps moyen de préparation : " + formatter.format(date) + "h" + formatter2.format(date));
+		System.out.println();
+	}
+	
+	public void profitDejeunerDiner() {
+		int profitDejeuner = factureDAO.profitDejeuner();
+		int profitDiner = factureDAO.profitDiner();
+		
+		System.out.println();
+		System.out.println("--------------------------------------------------");
+		System.out.println("Voici les profits du jour : ");
+		System.out.println("Déjeuner : " + profitDejeuner + "€");
+		System.out.println("Diner : " + profitDiner + "€");
+		System.out.println();
+	}
+	
+	public void recetteJourSemaineMois() {
+		int recetteJour = factureDAO.getRecetteQuotidienne();
+		int recetteSemaine = factureDAO.getRecetteHebdo();
+		int recetteMois = factureDAO.getRecetteMensuelle();
+		
+		System.out.println();
+		System.out.println("--------------------------------------------------");
+		System.out.println("Voici les recettes : ");
+		System.out.println("Recette quotidienne : " + recetteJour + "€");
+		System.out.println("Recette hebdomadaire : " + recetteMois + "€");
+		System.out.println("Recette mensuelle : " + recetteMois + "€");
 		System.out.println();
 	}
 }
