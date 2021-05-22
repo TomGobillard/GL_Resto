@@ -48,7 +48,7 @@ public class MenuCuisinier extends MenuCommun {
 					getCommandesEntrantes();
 					break;
 				case 4:
-					setEtatPlat();
+					setEtatPlatPret();
 					break;
 				case 20:
 					deconnexion();
@@ -66,7 +66,7 @@ public class MenuCuisinier extends MenuCommun {
 		} while(connected);
 	}
 
-	private void setEtatPlat() {
+	private void setEtatPlatPret() {
 		getCommandesEntrantes();
 		PlatDAO platDAO = new PlatDAOImpl();
 		platDAO.setEtatPlatPret();
