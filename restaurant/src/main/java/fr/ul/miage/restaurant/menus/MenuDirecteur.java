@@ -5,11 +5,13 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+import fr.ul.miage.restaurant.Impl.ClientDAOImpl;
 import fr.ul.miage.restaurant.Impl.CommandeDAOImpl;
 import fr.ul.miage.restaurant.Impl.FactureDAOImpl;
 import fr.ul.miage.restaurant.Impl.PersonnelDAOImpl;
 import fr.ul.miage.restaurant.Impl.PlatDAOImpl;
 import fr.ul.miage.restaurant.Impl.ProduitDAOImpl;
+import fr.ul.miage.restaurant.dao.ClientDAO;
 import fr.ul.miage.restaurant.dao.CommandeDAO;
 import fr.ul.miage.restaurant.dao.FactureDAO;
 import fr.ul.miage.restaurant.dao.PersonnelDAO;
@@ -81,7 +83,9 @@ public class MenuDirecteur extends MenuCommun {
 				case 8 :
 					recetteJourSemaineMois();
 					break;
-					
+				case 9:
+					calculateRoationTimeAvg();
+					break;
 				case 20:
 					deconnexion();
 					break;
@@ -98,7 +102,22 @@ public class MenuDirecteur extends MenuCommun {
 		} while(connected);
 	}
 
+	private void calculateRoationTimeAvg() {
+		ClientDAO clientDAO = new ClientDAOImpl();
+		java.util.Date date = new java.util.Date(clientDAO.getRotationTimeAvg().getTime());
+		SimpleDateFormat formatter = new SimpleDateFormat("HH");
+		SimpleDateFormat formatter2 = new SimpleDateFormat("mm");
+		SimpleDateFormat formatter3 = new SimpleDateFormat("ss");
+		String msg = "Le temps moyen de rotation des clients est de ";
+		if(!formatter.format(date).equals("00")) {
+			msg += formatter.format(date) + "h ";
+		}
+		msg += formatter2.format(date) + "mn " + formatter3.format(date) + "s";
+		System.out.println(msg);
+	}
+
 	public void printOptions() {
+		System.out.println();
 		System.out.println("--------------------------------------------------");
 		System.out.println("Que souhaitez-vous faire ?\n");
 
@@ -110,6 +129,7 @@ public class MenuDirecteur extends MenuCommun {
 		System.out.println("Voir le temps moyen de préparation des commandes (6)");
 		System.out.println("Voir le profit du déjeuner et du diner (7)");
 		System.out.println("Voir la recette quotidienne, hebdomadaire et mensuelle (8)");
+		System.out.println("Consulter le temps moyen de rotation des clients (9)");
 
 		System.out.println("Se déconnecter (20)");
 		System.out.println("Quitter (21)");
