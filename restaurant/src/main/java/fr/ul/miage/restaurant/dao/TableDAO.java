@@ -18,6 +18,8 @@ public abstract class TableDAO extends DAO<Table>{
 	public abstract void installerClient(long idClient, long idTable);
 	public abstract void initTableTest(long idTable);
 	public abstract ArrayList<Table> getTableRepasFini();
+	public abstract ArrayList<Table> getTablesADresserOuRanger();
+	public abstract void dresserTable(long idTable);
 	
 
 }

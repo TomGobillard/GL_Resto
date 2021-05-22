@@ -312,4 +312,40 @@ public class TableDAOImpl extends TableDAO {
 		
 		return listTables;
 	}
+
+	@Override
+	public ArrayList<Table> getTablesADresserOuRanger() {
+		ArrayList<Table> listTables = new ArrayList<Table>();
+		try {
+			
+			String sql = "SELECT * FROM rtable WHERE etat = 'SALE'";
+			PreparedStatement stmt = connect.prepareStatement(sql);
+
+			ResultSet result = stmt.executeQuery();
+
+			while(result.next()) {
+				listTables.add(new Table(result.getLong(1), result.getLong(2), result.getString(3), result.getInt(4), result.getString(5), result.getLong(6), result.getLong(7)));
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return listTables;
+	}
+	
+	@Override
+	public void dresserTable(long idTable) {
+		try {
+			
+			String sql = "UPDATE rtable SET etat = 'PROPRE' WHERE idtable = ?";
+			PreparedStatement stmt = connect.prepareStatement(sql);
+			stmt.setLong(1, idTable);
+
+			stmt.executeUpdate();		
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
 }
