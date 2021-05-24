@@ -50,7 +50,7 @@ public class ProduitDAOImpl extends ProduitDAO<Produit> {
 			stmt.setInt(1, obj.getQuantite());
 			stmt.setLong(2, obj.getId());
 			
-			ResultSet result = stmt.executeQuery();
+			stmt.executeUpdate();
 		} catch (Exception e) {
 			// TODO: handle exception
 		}
@@ -157,7 +157,8 @@ public class ProduitDAOImpl extends ProduitDAO<Produit> {
 			PreparedStatement stmt = connect.prepareStatement(sql);
 			stmt.setInt(1, compoPlat.getQuantite());
 			stmt.setLong(2, compoPlat.getIdProduit());
-			stmt.executeQuery();
+
+			stmt.executeUpdate();
 		} catch (Exception e) {
 			// TODO: handle exception
 		}

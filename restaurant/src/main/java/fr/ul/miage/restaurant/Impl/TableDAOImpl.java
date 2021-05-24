@@ -154,7 +154,8 @@ public class TableDAOImpl extends TableDAO {
 			PreparedStatement stmt = connect.prepareStatement(sql);
 			stmt.setLong(1, idServeur);
 			stmt.setLong(2, idTable);
-			stmt.executeQuery();
+
+			stmt.executeUpdate();
 
 		} catch (Exception e) {
 		}
@@ -273,7 +274,7 @@ public class TableDAOImpl extends TableDAO {
 			stmt.setLong(1, idClient);
 			stmt.setLong(2, idTable);
 			
-			ResultSet result = stmt.executeQuery();
+			stmt.executeUpdate();
 		} catch (Exception e) {
 			// TODO: handle exception
 		}
@@ -287,7 +288,7 @@ public class TableDAOImpl extends TableDAO {
 			PreparedStatement stmt = connect.prepareStatement(sql);
 			stmt.setLong(1, idTable);
 			
-			stmt.execute();
+			stmt.executeUpdate();
 		} catch (Exception e) {
 			// TODO: handle exception
 		}

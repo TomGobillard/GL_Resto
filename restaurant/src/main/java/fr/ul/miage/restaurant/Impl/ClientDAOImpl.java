@@ -25,7 +25,7 @@ public class ClientDAOImpl extends ClientDAO {
 			String sql = "INSERT INTO client (heurearrivee, heuredepart) VALUES (current_timestamp, current_timestamp)";
 			PreparedStatement stmt = connect.prepareStatement(sql);
 
-			ResultSet result = stmt.executeQuery();
+			stmt.executeUpdate();
 
 		} catch (Exception e) {
 			// TODO: handle exception

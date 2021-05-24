@@ -54,7 +54,7 @@ public class PlatDAOImpl extends PlatDAO {
 			stmt.setDouble(2, prix);
 			stmt.setInt(3, idCateg);
 
-			stmt.executeQuery();
+			stmt.executeUpdate();
 
 		} catch (Exception e) {
 			// TODO: handle exception
@@ -157,7 +157,8 @@ public class PlatDAOImpl extends PlatDAO {
 		try {
 			String sql = "UPDATE plat SET isplatdujour = false WHERE isplatdujour = true";
 			PreparedStatement stmt = connect.prepareStatement(sql);
-			ResultSet result = stmt.executeQuery();
+
+			stmt.executeUpdate();
 		} catch (Exception e) {
 			// TODO: handle exception
 		}
@@ -217,7 +218,8 @@ public class PlatDAOImpl extends PlatDAO {
 			String sql = "UPDATE Plat SET isplatdujour=true WHERE idPlat = ?";
 			PreparedStatement stmt = connect.prepareStatement(sql);
 			stmt.setLong(1, idPlat);
-			ResultSet result = stmt.executeQuery();
+
+			stmt.executeUpdate();
 		} catch (Exception e) {
 			// TODO: handle exception
 		}
@@ -230,7 +232,8 @@ public class PlatDAOImpl extends PlatDAO {
 				String sql = "UPDATE plat SET nbcommande = nbcommande + 1 WHERE idplat = ?";
 				PreparedStatement stmt = connect.prepareStatement(sql);
 				stmt.setLong(1, p.getId());
-				stmt.executeQuery();
+
+				stmt.executeUpdate();
 			} catch (Exception e) {
 				// TODO: handle exception
 			}
@@ -341,7 +344,8 @@ public class PlatDAOImpl extends PlatDAO {
 							stmt.setLong(2, idPlat);
 							stmt.setLong(3, idCmde);
 							System.out.println("Le plat est maintenant prêt !");
-							stmt.executeQuery();
+							
+							stmt.executeUpdate();
 						} catch (Exception e) {
 
 						}
@@ -387,7 +391,7 @@ public class PlatDAOImpl extends PlatDAO {
 				stmt1.setLong(1, idPlat);
 				stmt1.setLong(2, idCommande);
 
-				ResultSet result1 = stmt1.executeQuery();
+				stmt1.executeUpdate();
 
 			} catch (Exception e) {
 				

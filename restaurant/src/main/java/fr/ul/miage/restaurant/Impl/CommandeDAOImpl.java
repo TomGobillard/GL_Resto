@@ -104,7 +104,7 @@ public class CommandeDAOImpl extends CommandeDAO {
 			stmt.setInt(1, idTable);
 			stmt.setLong(2, idClient);
 
-			stmt.executeQuery();
+			stmt.executeUpdate();
 
 		} catch (Exception e) {
 			// TODO: handle exception
@@ -138,7 +138,7 @@ public class CommandeDAOImpl extends CommandeDAO {
 			stmt.setInt(1, idCommande);
 			stmt.setInt(2, idPlat);
 
-			stmt.executeQuery();
+			stmt.executeUpdate();
 
 		} catch (Exception e) {
 			// TODO: handle exception
@@ -164,13 +164,13 @@ public class CommandeDAOImpl extends CommandeDAO {
 			PreparedStatement stmtDeleteCompoCmde = connect.prepareStatement(sqlDeleteCompoCmde);
 			stmtDeleteCompoCmde.setLong(1, idcmde);
 
-			ResultSet resultDeleteCompocmde = stmtDeleteCompoCmde.executeQuery();
+			stmtDeleteCompoCmde.executeUpdate();
 
 			String sqlDeleteCmde = "DELETE FROM commande WHERE idcommande = ?";
 			PreparedStatement stmtDeleteCmde = connect.prepareStatement(sqlDeleteCmde);
 			stmtDeleteCmde.setLong(1, idcmde);
 
-			ResultSet resultDeleteCmde = stmtDeleteCmde.executeQuery();
+			stmtDeleteCmde.executeUpdate();
 
 		} catch (Exception e) {
 			// TODO: handle exception

@@ -48,7 +48,7 @@ public class PersonnelDAOImpl extends PersonnelDAO<Personnel> {
 			stmt.setString(4, obj.getPrenom());
 			stmt.setString(5, obj.getNom());
 
-			ResultSet result = stmt.executeQuery();
+			stmt.executeUpdate();
 
 		} catch (Exception e) {
 			// TODO: handle exception
@@ -70,7 +70,7 @@ public class PersonnelDAOImpl extends PersonnelDAO<Personnel> {
 			stmt.setString(5, obj.getNom());
 			stmt.setLong(6, obj.getId());
 
-			ResultSet result = stmt.executeQuery();
+			stmt.executeUpdate();
 
 		} catch (Exception e) {
 			// TODO: handle exception
@@ -83,7 +83,7 @@ public class PersonnelDAOImpl extends PersonnelDAO<Personnel> {
 			stmt.setLong(1, obj.getId());
 			stmt.setString(2, obj.getRole());
 			
-			ResultSet result = stmt.executeQuery();
+			stmt.executeUpdate();
 			
 		} catch (Exception e) {
 			// TODO: handle exception

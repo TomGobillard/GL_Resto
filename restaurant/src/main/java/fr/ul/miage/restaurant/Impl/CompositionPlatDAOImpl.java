@@ -29,7 +29,7 @@ public class CompositionPlatDAOImpl extends CompositionPlatDAO {
 			stmt.setLong(2, obj.getIdPlat());
 			stmt.setInt(3, obj.getQuantite());
 			
-			ResultSet result = stmt.executeQuery();
+			stmt.executeUpdate();
 			
 		} catch (Exception e) {
 			// TODO: handle exception
