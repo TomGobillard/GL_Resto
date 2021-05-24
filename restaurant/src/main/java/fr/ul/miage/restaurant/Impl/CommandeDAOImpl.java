@@ -38,7 +38,14 @@ public class CommandeDAOImpl extends CommandeDAO {
 	public String getCommandeEntrantes() {
 		String ligneResultat = "";
 		try {
-			String sql = "SELECT * FROM COMMANDE WHERE etat = 'EN PREPARATION'";
+			String sql = "SELECT * " +
+					      "FROM commande " +
+					      "ORDER BY CASE WHEN idcommande IN (SELECT idcommande " +
+					    		  							"FROM composition_cmde " +
+					    		  							"WHERE idplat IN (SELECT idplat " +
+					    		  											 "FROM plat " +
+					    		  											 "WHERE idcategorie = 6) " +
+					    		  							"AND etat = 'EN PREPARATION') THEN 1 ELSE 2 END";
 
 			PreparedStatement stmt = connect.prepareStatement(sql, ResultSet.TYPE_SCROLL_INSENSITIVE,
 					ResultSet.CONCUR_READ_ONLY);
@@ -183,6 +190,7 @@ public class CommandeDAOImpl extends CommandeDAO {
 		// TODO Auto-generated method stub
 		return null;
 	}
+	
 	public boolean cmdeEntranteExists(long idCmde) {
 		String sql = "SELECT * FROM COMMANDE WHERE idcommande = ? AND etat = 'EN PREPARATION'";
 		boolean res = false;
