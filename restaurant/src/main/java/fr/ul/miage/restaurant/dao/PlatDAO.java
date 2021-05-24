@@ -7,7 +7,7 @@ import fr.ul.miage.restaurant.models.Produit;
 
 public abstract class PlatDAO extends DAO<Plat>{
 
-	public abstract void creerPlat(String nom, int prix, ArrayList<Produit> ingredients, int idCateg);
+	public abstract void creerPlat(String nom, double prix, ArrayList<Produit> ingredients, int idCateg);
 
 	public abstract void listerPlatSelonCategorie();
 	

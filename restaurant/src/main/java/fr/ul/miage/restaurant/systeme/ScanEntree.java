@@ -51,6 +51,30 @@ public class ScanEntree {
 		return intSelect;
 	}
 
+	public static double readDoubleWithDelimitations(int min, int max) {
+		boolean error = true;
+
+		double doubleSelect = 0;
+
+		while (error) {
+			try {
+				Scanner sc = new Scanner(System.in, "UTF-8");
+				doubleSelect = sc.nextDouble();
+				if (doubleSelect >= min && doubleSelect <= max) {
+					error = false;
+				} else {
+					System.out.println("Choix hors limites");
+				}
+			} catch (Exception e) {
+				// TODO: handle exception
+				System.out.println("Il faut une valeur numérique (séparé par un ','");
+			}
+		}
+
+		return doubleSelect;
+	}
+
+
 	public static long readIdTable(ArrayList<Table> tables, String msg) {
 		boolean error = true;
 		TableDAO tableDAO = new TableDAOImpl();

@@ -169,5 +169,35 @@ public class ProduitDAOImpl extends ProduitDAO<Produit> {
 		return null;
 	}
 
+	@Override
+	public ArrayList<Produit> getProduitsDispos() {
+		// TODO Auto-generated method stub
+		ArrayList<Produit> produits = new ArrayList<Produit>();
+
+		try {
+			String sql = "SELECT * FROM produit WHERE quantite > 0 ORDER BY idproduit";
+
+			PreparedStatement stmt = connect.prepareStatement(sql);
+			ResultSet result = stmt.executeQuery();
+			//Object c =  result.getArray(0);
+			Produit produit;
+
+			while(result.next()) {
+				produit = new Produit();
+				produit.setId(result.getInt(1));
+				produit.setLibelle(result.getString(2));
+				produit.setQuantite(result.getInt(3));
+
+				produits.add(produit);
+			}
+
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}
+
+		return produits;
+	}
+
 
 }

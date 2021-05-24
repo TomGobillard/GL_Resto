@@ -13,6 +13,7 @@ import fr.ul.miage.restaurant.dao.ProduitDAO;
 import fr.ul.miage.restaurant.models.CategoriePlat;
 import fr.ul.miage.restaurant.models.Personnel;
 import fr.ul.miage.restaurant.models.Produit;
+import fr.ul.miage.restaurant.systeme.ScanEntree;
 
 public class MenuCuisinier extends MenuCommun {
 	
@@ -99,7 +100,7 @@ public class MenuCuisinier extends MenuCommun {
 		PlatDAO platDAO = new PlatDAOImpl();
 		CategoriePlatDAO categPlatDAO = new CategoriePlatDAOImpl();
 
-		ArrayList<Produit> produits =  produitDAO.listProduit();
+		ArrayList<Produit> produits =  produitDAO.getProduitsDispos();
 
 		ArrayList<CategoriePlat> listCateg = new ArrayList<>();
 		listCateg = categPlatDAO.getAllCateg();
@@ -112,22 +113,7 @@ public class MenuCuisinier extends MenuCommun {
 
 		boolean error = true;
 
-		int idCateg = 0;
-
-		while(error == true) {
-			try {
-				Scanner scCateg = new Scanner(System.in);
-				idCateg = scCateg.nextInt();
-				if(idCateg > 0 && idCateg <= listCateg.size()) {
-					error = false;
-				} else {
-					System.out.println("Catégorie inexistante");
-				}
-			} catch (Exception e) {
-				// TODO: handle exception
-				System.out.println("Il faut une valeur num�rique");
-			}
-		}
+		int idCateg = ScanEntree.readIntegerWithDelimitations(0, listCateg.size());
 
 		idCateg -= 1;
 
@@ -140,55 +126,25 @@ public class MenuCuisinier extends MenuCommun {
 		Scanner scNom = new Scanner(System.in);
 		String nomPlat = scNom.nextLine();
 
-		int prix = 0;
-
 		System.out.println("Prix : ");
-
-		while(error == true) {
-			try {
-				Scanner scPrix = new Scanner(System.in);
-				prix = scPrix.nextInt();
-				if(prix > 0) {
-					error = false;
-				} else {
-					System.out.println("Le prix doit �tre positif");
-				}
-			} catch (Exception e) {
-				// TODO: handle exception
-				System.out.println("Il faut une valeur num�rique");
-			}
-		}
+		
+		//int prix = ScanEntree.readIntegerWithDelimitations(0, 50);
+		double prix = ScanEntree.readDoubleWithDelimitations(0, 50);
 
 		ArrayList<Produit> compoPlat = new ArrayList<Produit>();
 		int ajouter = 0;
 
 		do {
-			consulterStocks();
+			consulterProduitsDispos();
 
-			System.out.println("Choisir un ingr�dient � ajouter � la recette (par son Id)");
+			System.out.println("Choisir un ingrédient à ajouter à la recette (par son Id)");
 
 			error = true;
-			int idIngredient = 0;
+			int idIngredient = ScanEntree.readIntegerWithDelimitations(0, produits.size()-1);
 
-			while(error == true) {
-				try {
-					Scanner sc = new Scanner(System.in);
-					idIngredient = sc.nextInt();
+			Produit ingredient = produits.get(idIngredient);
 
-					if(idIngredient > 0 && idIngredient <= produits.size()) {
-						error = false;
-					} else {
-						System.out.println("L'id est invalide");
-					}
-				} catch (Exception e) {
-					// TODO: handle exception
-					System.out.println("Il faut une valeur num�rique");
-				}
-			}
-
-			Produit ingredient = produits.get(idIngredient-1);
-
-			System.out.println("Quantit� : ");
+			System.out.println("Quantité : ");
 
 			error = true;
 			int qte = 0;
@@ -200,13 +156,13 @@ public class MenuCuisinier extends MenuCommun {
 
 					if(! produitDAO.isDispo(ingredient.getId(), qte)) {
 						System.out.println("Le stock est isuffisant pour " + ingredient.getLibelle());
-						System.out.println("Quantit� : ");
+						System.out.println("Quantité : ");
 					} else {
 						error = false;
 					}
 				} catch (Exception e) {
 					// TODO: handle exception
-					System.out.println("Il faut une valeur num�rique");
+					System.out.println("Il faut une valeur numérique");
 				}
 			}
 
@@ -219,7 +175,7 @@ public class MenuCuisinier extends MenuCommun {
 				System.out.println(produitCompo.getLibelle() + " : " + produitCompo.getQuantite());
 			}
 
-			System.out.println("Voulez-vous ajouter un autre ingr�dient ? (1 : oui, 2 : non)");
+			System.out.println("Voulez-vous ajouter un autre ingrédient ? (1 : oui, 2 : non)");
 
 			error = true;
 
@@ -231,7 +187,7 @@ public class MenuCuisinier extends MenuCommun {
 					error = false;
 				} catch (Exception e) {
 					// TODO: handle exception
-					System.out.println("Il faut une valeur num�rique");
+					System.out.println("Il faut une valeur numérique");
 				}
 			}
 

@@ -12,5 +12,6 @@ public abstract class ProduitDAO<T> extends DAO<Produit>{
 	public abstract HashMap<Long, T> listProduits();
 	public abstract boolean isDispo(long idProduit, int qte);
 	public abstract void updateQuantite(CompositionPlat compoPlat);
+	public abstract ArrayList<T> getProduitsDispos();
 
 }

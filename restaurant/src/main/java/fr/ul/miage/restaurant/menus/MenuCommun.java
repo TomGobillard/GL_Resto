@@ -37,5 +37,20 @@ public abstract class MenuCommun {
 
 		System.out.println();
 	}
+	
+	protected void consulterProduitsDispos() {
+		ProduitDAO<Produit> produitDAO = new ProduitDAOImpl();
+
+		ArrayList<Produit> produits = new ArrayList<Produit>();
+		produits = produitDAO.getProduitsDispos();
+
+		System.out.println("Liste des stocks :\n");
+
+		for(int i = 0; i < produits.size(); i++) {
+			System.out.println(i + ". " + produits.get(i).getLibelle() + " : " + produits.get(i).getQuantite());
+		}
+
+		System.out.println();
+	}
 
 }
