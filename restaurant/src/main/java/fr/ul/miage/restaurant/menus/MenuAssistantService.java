@@ -11,9 +11,10 @@ import fr.ul.miage.restaurant.systeme.ScanEntree;
 
 public class MenuAssistantService extends MenuCommun{
 	
+	TableDAO tableDAO = new TableDAOImpl();
+	
 	public MenuAssistantService(boolean connected, Personnel user) {
 		super(connected, user);
-		// TODO Auto-generated constructor stub
 	}
 
 	static Personnel user;
@@ -23,7 +24,6 @@ public class MenuAssistantService extends MenuCommun{
 		System.out.println("BIENVENUE DANS L'APPLICATION DE VOTRE RESTAURANT !");
 		System.out.println("--------------------------------------------------\n");
 		System.out.println("Vous êtes connecté en tant qu'assistant de service");
-
 		
 		do {
 
@@ -32,8 +32,7 @@ public class MenuAssistantService extends MenuCommun{
 
 				printOptions();
 
-				Scanner s = new Scanner(System.in);
-				c2 = s.nextInt();
+				c2 = ScanEntree.readInteger();
 				switch (c2) {
 				case 1:
 					getInfoTable();
@@ -69,8 +68,6 @@ public class MenuAssistantService extends MenuCommun{
 	}
 
 	private void dresserTable() {
-		TableDAO tableDAO = new TableDAOImpl();
-	
 		ArrayList<Table> tables = tableDAO.getTablesADresserOuRanger();
 		tables.forEach(table -> System.out.println(table));
 		long idTable = ScanEntree.readIdTable(tables, "que vous souhaitez débarasser et dresser : ");
@@ -80,12 +77,10 @@ public class MenuAssistantService extends MenuCommun{
 	
 
 	private void dresserTableAction(long idTable) {
-		TableDAO tableDAO = new TableDAOImpl();
 		tableDAO.dresserTable(idTable);
 	}
 
 	public void getInfoTable() {
-		TableDAO tableDAO = new TableDAOImpl();
 		ArrayList<Table> tables = tableDAO.getAll();
 		tables.forEach(table -> System.out.println(table));
 		long idTable = ScanEntree.readIdTable(tables, "dont vous souhaîtez connaitre les informations :");
