@@ -6,7 +6,6 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map.Entry;
-import java.util.Scanner;
 
 import fr.ul.miage.restaurant.dao.TableDAO;
 import fr.ul.miage.restaurant.models.Personnel;
@@ -66,23 +65,17 @@ public class TableDAOImpl extends TableDAO {
 	}
 
 	@Override
-	public void obtenirInfoTable() {
-		boolean reqFind = false;
-		while (!reqFind) {
-			System.out.println("Veuillez renseignez le numéro de la table dont vous souhaitez obtenir les informations : ");
-			Scanner s = new Scanner(System.in);
-			int choix = s.nextInt();
+	public Table obtenirInfoTable(long idTable) {
 			String sql = "SELECT * FROM rtable WHERE idtable = ?";
-
+			Table t = new Table();
 			try {
 				PreparedStatement stmt = connect.prepareStatement(sql);
-				stmt.setLong(1, choix);
+				stmt.setLong(1, idTable);
 
 				ResultSet result = stmt.executeQuery();
 
 				if (result.next()) {
-					reqFind = true;
-					Table t = new Table(result.getLong(1), result.getLong(2),result.getString(3), result.getLong(4), result.getString(5), result.getLong(6),result.getLong(7));
+					t = new Table(result.getLong(1), result.getLong(2),result.getString(3), result.getLong(4), result.getString(5), result.getLong(6),result.getLong(7));
 					System.out.println(t);
 				} else {
 					System.out.println("Il n'y a pas de table enregistrée pour cet identifiant.");
@@ -90,7 +83,8 @@ public class TableDAOImpl extends TableDAO {
 			} catch (Exception e) {
 
 			}
-		}
+			return t;
+
 	}
 
 
