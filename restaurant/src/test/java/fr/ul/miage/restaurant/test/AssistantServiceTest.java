@@ -11,7 +11,7 @@ import fr.ul.miage.restaurant.menus.MenuAssistantService;
 import fr.ul.miage.restaurant.models.Table;
 
 public class AssistantServiceTest {
-	
+
 	private MenuAssistantService menuAssistant;
 	private TableDAO tableDAO;
 
@@ -20,17 +20,26 @@ public class AssistantServiceTest {
 		menuAssistant = new MenuAssistantService(true, null);
 		tableDAO = new TableDAOImpl();
 	}
-	
+
 	@Test
-	public void testDresserTable() {
+	public void testDresserTable_Propre() {
 		long idTable = tableDAO.getAll().get(0).getId();
-		
+
 		menuAssistant.dresserTableAction(idTable);
-		
+
 		Table table = tableDAO.find(idTable);
-		
+
 		assertEquals("PROPRE", table.getEtat());
-		
+	}
+
+	@Test
+	public void testDresserTable_Vide() {
+		long idTable = tableDAO.getAll().get(0).getId();
+
+		menuAssistant.dresserTableAction(idTable);
+
+		Table table = tableDAO.find(idTable);
+
 		assertEquals("VIDE", table.getAvancement());
 	}
 
