@@ -3,10 +3,6 @@ package fr.ul.miage.restaurant.systeme;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-import fr.ul.miage.restaurant.Impl.PlatDAOImpl;
-import fr.ul.miage.restaurant.Impl.TableDAOImpl;
-import fr.ul.miage.restaurant.dao.PlatDAO;
-import fr.ul.miage.restaurant.dao.TableDAO;
 import fr.ul.miage.restaurant.models.Plat;
 import fr.ul.miage.restaurant.models.Table;
 
@@ -23,6 +19,7 @@ public class ScanEntree {
 				Scanner sc = new Scanner(System.in, "UTF-8");
 				intSelect = sc.nextInt();
 				error = false;
+				sc.close();
 			} catch (Exception e) {
 				// TODO: handle exception
 				System.out.println("Il faut une valeur numérique");
@@ -42,6 +39,7 @@ public class ScanEntree {
 				Scanner sc = new Scanner(System.in, "UTF-8");
 				entry = sc.nextLine();
 				error = false;
+				sc.close();
 			} catch (Exception e) {
 				// TODO: handle exception
 				System.out.println("Il faut une valeur alphabétique");
@@ -64,6 +62,7 @@ public class ScanEntree {
 				} else {
 					System.out.println("Choix hors limites");
 				}
+				sc.close();
 			} catch (Exception e) {
 				// TODO: handle exception
 				System.out.println("Il faut une valeur numérique");
@@ -87,12 +86,13 @@ public class ScanEntree {
 				} else {
 					System.out.println("Choix hors limites");
 				}
+				sc.close();
 			} catch (Exception e) {
 				// TODO: handle exception
 				System.out.println("Il faut une valeur numérique (séparé par un ','");
 			}
 		}
-
+		
 		return doubleSelect;
 	}
 
@@ -104,8 +104,8 @@ public class ScanEntree {
 		while (error) {
 			try {
 				System.out.println("Veuillez renseignez le numéro de la table " + msg);
-				Scanner s = new Scanner(System.in, "UTF-8");
-				idTable = s.nextLong();
+				Scanner sc = new Scanner(System.in, "UTF-8");
+				idTable = sc.nextLong();
 				for (Table table : tables) {
 					if (idTable == table.getId()) {
 						error = false;
@@ -114,6 +114,7 @@ public class ScanEntree {
 				if (error) {
 					System.out.println("L'id de la table renseignée n'existe pas.");
 				}
+				sc.close();
 			} catch (Exception e) {
 				System.out.println("Choix incorrect.");
 			}
@@ -129,8 +130,8 @@ public class ScanEntree {
 		while (error) {
 			try {
 				System.out.println("Veuillez renseignez le numéro du plat " + msg);
-				Scanner s = new Scanner(System.in, "UTF-8");
-				idPlat = s.nextLong();
+				Scanner sc = new Scanner(System.in, "UTF-8");
+				idPlat = sc.nextLong();
 				for (Plat plat: plats) {
 					if (idPlat == plat.getId()) {
 						error = false;
@@ -139,6 +140,7 @@ public class ScanEntree {
 				if (error) {
 					System.out.println("L'id du plat renseignée n'existe pas.");
 				}
+				sc.close();
 			} catch (Exception e) {
 				System.out.println("Choix incorrect.");
 			}
@@ -147,18 +149,15 @@ public class ScanEntree {
 		return idPlat;
 	}
 	
-	
-	
 	public static long readId(ArrayList<Integer> tables, String msg) {
 		boolean error = true;
-		TableDAO tableDAO = new TableDAOImpl();
 		long idTable = -1;
 
 		while (error) {
 			try {
 				System.out.println("Veuillez renseignez le numéro de la table " + msg);
-				Scanner s = new Scanner(System.in, "UTF-8");
-				idTable = s.nextLong();
+				Scanner sc = new Scanner(System.in, "UTF-8");
+				idTable = sc.nextLong();
 				for (Integer i : tables) {
 					if (idTable == i) {
 						error = false;
@@ -167,6 +166,7 @@ public class ScanEntree {
 				if (error) {
 					System.out.println("L'id de la table renseignée n'existe pas.");
 				}
+				sc.close();
 			} catch (Exception e) {
 				System.out.println("Choix incorrect.");
 			}

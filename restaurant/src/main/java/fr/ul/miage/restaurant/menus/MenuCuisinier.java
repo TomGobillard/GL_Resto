@@ -132,7 +132,7 @@ public class MenuCuisinier extends MenuCommun {
 			boolean error = true;
 			int qte = 0;
 
-			while(error == true) {
+			while(error) {
 				try {
 					Scanner sc = new Scanner(System.in);
 					qte = sc.nextInt();

@@ -20,7 +20,7 @@ public abstract class MenuCommun {
 	public MenuCommun() {}
 
 	protected void deconnexion() {
-		connected=false;		
+		connected = false;		
 	}
 	
 	protected void consulterStocks() {

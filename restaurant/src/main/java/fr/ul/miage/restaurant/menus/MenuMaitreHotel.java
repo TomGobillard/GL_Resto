@@ -18,7 +18,6 @@ public class MenuMaitreHotel extends MenuCommun {
 
 	public MenuMaitreHotel(boolean connected, Personnel user) {
 		super(connected, user);
-		// TODO Auto-generated constructor stub
 	}
 
 	public void printMenuMaitrehotel() {
@@ -34,8 +33,7 @@ public class MenuMaitreHotel extends MenuCommun {
 
 				printOptions();
 
-				Scanner s = new Scanner(System.in);
-				c2 = s.nextInt();
+				c2 = ScanEntree.readInteger();
 				switch (c2) {
 				case 1:
 					assignerServeurATable();
@@ -102,16 +100,17 @@ public class MenuMaitreHotel extends MenuCommun {
 	private void assignerServeurATable() {
 		TableDAO tableDAO = new TableDAOImpl();
 		ServeurDAO serveurDAO = new ServeurDAOImpl();
-
+		Scanner sc = new Scanner(System.in, "UTF-8");
+		
 		boolean error = true;
 
-		while (error == true) {
-			System.out.println("Veuillez renseignez l'id de la table à laquelle vous voulez affecter un serveur : ");
-			Scanner s = new Scanner(System.in);
-			long idTable = s.nextLong();
-			if (tableDAO.tableExists(idTable)) {
+		while (error) {
+				ArrayList<Table> tables = tableDAO.getAll();
+				long idTable = ScanEntree.readIdTable(tables, "à laquelle vous souhaitez affecter un serveur :");
 				System.out.println("Veuillez renseignez l'id du serveur à affecter : ");
-				long idServeur = s.nextLong();
+						
+				long idServeur = sc.nextLong();
+				
 				if (serveurDAO.serveurExists(idServeur)) {
 					tableDAO.assignServeur(idServeur, idTable);
 					error = false;
@@ -119,10 +118,9 @@ public class MenuMaitreHotel extends MenuCommun {
 				} else {
 					System.out.println("L'id du serveur renseigné n'existe pas.");
 				}
-			} else {
-				System.out.println("L'id de la table renseignée n'existe pas.");
-			}
+				
 		}
+		sc.close();
 	}
 
 	public void printOptions() {
