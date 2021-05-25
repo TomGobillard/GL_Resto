@@ -87,7 +87,7 @@ public class TableDAOImpl extends TableDAO {
 	}
 
 
-	private HashMap<Integer, String> getOccupationAllTables() {
+	public HashMap<Integer, String> getOccupationAllTables() {
 		HashMap<Integer, String> occupations = new HashMap<Integer, String>();
 		try {
 			String sql = "SELECT idtable, etat FROM rtable WHERE idServeur = ?";
@@ -130,15 +130,6 @@ public class TableDAOImpl extends TableDAO {
 			e.printStackTrace();
 		}
 		return occupations;
-	}
-
-	public void printOccupationAllTables() {
-		System.out.println("Etat de toutes les tables : \n");
-		HashMap<Integer, String> occupations = getOccupationAllTables();
-		for (Entry<Integer, String> entry : occupations.entrySet()) {
-			System.out.println("Table n°" + entry.getKey() + " : " + entry.getValue());
-		}
-		System.out.println();
 	}
 
 	public void assignServeur(long idServeur, long idTable) {
