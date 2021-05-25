@@ -339,7 +339,7 @@ public class TableDAOImpl extends TableDAO {
 	public void dresserTable(long idTable) {
 		try {
 			
-			String sql = "UPDATE rtable SET etat = 'PROPRE' WHERE idtable = ?";
+			String sql = "UPDATE rtable SET etat = 'PROPRE', occupation = 'VIDE' WHERE idtable = ?";
 			PreparedStatement stmt = connect.prepareStatement(sql);
 			stmt.setLong(1, idTable);
 
