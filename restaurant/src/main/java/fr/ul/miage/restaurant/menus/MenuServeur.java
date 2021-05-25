@@ -21,6 +21,7 @@ import fr.ul.miage.restaurant.models.Client;
 import fr.ul.miage.restaurant.models.CompositionPlat;
 import fr.ul.miage.restaurant.models.Personnel;
 import fr.ul.miage.restaurant.models.Plat;
+import fr.ul.miage.restaurant.models.Table;
 import fr.ul.miage.restaurant.systeme.ScanEntree;
 
 public class MenuServeur extends MenuCommun {
@@ -96,7 +97,9 @@ public class MenuServeur extends MenuCommun {
 
 	private void showInfoTable() {
 		TableDAO tableDAO = new TableDAOImpl(user);
-		tableDAO.obtenirInfoTable();
+		ArrayList<Integer> tables = tableDAO.getServeurTablesId(user.getId());
+		long idTable = ScanEntree.readId(tables, "dont vous souhaitez connaitre les informations.");
+		tableDAO.obtenirInfoTable(idTable);
 	}
 
 	private void consulterAvancementTable() {
@@ -198,41 +201,10 @@ public class MenuServeur extends MenuCommun {
 
 	private int choisirTable() {
 		TableDAO tableDAO = new TableDAOImpl(user);
-		ArrayList<Integer> tables = new ArrayList<>();
-		tables = tableDAO.getServeurTables(user.getId());
+		ArrayList<Integer> tables = tableDAO.getServeurTablesId(user.getId());
+		long idTable = ScanEntree.readId(tables, "dont vous souhaitez connaitre les informations.");
 
-		int numTable=0;
-
-		System.out.println("Sélectionner la table correspondante :");
-		if (tables.size() > 0) {
-
-			for (int i = 0; i < tables.size(); i++) {
-				System.out.println("Table n°" + tables.get(i));
-			}
-
-			System.out.println();
-			System.out.println("Sélectionnez le numéro de la table pour valider la commande");
-
-			boolean error = true;
-
-
-			do {
-				try {
-					Scanner scTable = new Scanner(System.in);
-					numTable = scTable.nextInt();
-					if (tables.contains(numTable)) {
-						error = false;
-					} else {
-						System.out.println("La table sélectionnée n'existe pas");
-					}
-				} catch (Exception e) {
-					// TODO: handle exception
-					System.out.println("Il faut une valeur numérique");
-				}
-			} while(error);
-		}
-
-		return numTable;
+		return (int) idTable;
 	}
 
 	public void validerCommande(ArrayList<Plat> plats, int numTable) {
@@ -269,40 +241,14 @@ public class MenuServeur extends MenuCommun {
 		ArrayList<Plat> plats = new ArrayList<>();
 		PlatDAO platDAO = new PlatDAOImpl();
 		plats = platDAO.platsDispoCateg();
-		Plat plat = new Plat();
+		Plat res = new Plat();
 
-		if (plats.size() > 0) {
+		platDAO.getAll().forEach(plat -> System.out.println(plat));
+		
+		long idPlat = ScanEntree.readIdPlat(plats, " à ajouter à la commande");
 
-			for (int i = 0; i < plats.size(); i++) {
-				System.out.println(i + ": " + plats.get(i).getLibelle());
-			}
-
-			System.out.println();
-			System.out.println("Sélectionnez un plat à ajouter (id du plat)");
-
-			boolean error = true;
-			int indexPlat = 0;
-
-			while (error == true) {
-				try {
-					Scanner scPlat = new Scanner(System.in);
-					indexPlat = scPlat.nextInt();
-					if (indexPlat >= 0 && indexPlat < plats.size()) {
-						error = false;
-					} else {
-						System.out.println("Le plat sélectionné n'existe pas");
-					}
-				} catch (Exception e) {
-					// TODO: handle exception
-					System.out.println("Il faut une valeur numérique");
-				}
-			}
-			plat = plats.get(indexPlat);
-
-		} else {
-			return null;
-		}
-		return plat;
+		res = plats.get((int) idPlat);
+		return res;
 	}
 
 	private void printOccupationTablesWithAvancement() {

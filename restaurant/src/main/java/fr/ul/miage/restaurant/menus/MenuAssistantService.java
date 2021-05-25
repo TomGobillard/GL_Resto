@@ -86,6 +86,9 @@ public class MenuAssistantService extends MenuCommun{
 
 	public void getInfoTable() {
 		TableDAO tableDAO = new TableDAOImpl();
-		tableDAO.obtenirInfoTable();
+		ArrayList<Table> tables = tableDAO.getAll();
+		tables.forEach(table -> System.out.println(table));
+		long idTable = ScanEntree.readIdTable(tables, "dont vous souhaîtez connaitre les informations :");
+		tableDAO.obtenirInfoTable(idTable);
 	}
 }
