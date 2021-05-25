@@ -22,7 +22,7 @@ public class ClientDAOImpl extends ClientDAO {
 		// TODO Auto-generated method stub
 		Client client = new Client();
 		try {
-			String sql = "INSERT INTO client (heurearrivee, heuredepart) VALUES (current_timestamp, current_timestamp)";
+			String sql = "INSERT INTO client (heurearrivee) VALUES (current_timestamp)";
 			PreparedStatement stmt = connect.prepareStatement(sql);
 
 			stmt.executeUpdate();
