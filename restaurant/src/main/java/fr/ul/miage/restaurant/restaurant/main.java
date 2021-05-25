@@ -32,8 +32,7 @@ public class main {
 				System.out.println("Vous pouvez quitter l'application à tout instant avec le raccourci Ctrl+C.");
 
 				c = ScanEntree.readIntegerWithDelimitations(1, 2);
-				//Scanner s = new Scanner(System.in);
-				//c = s.nextInt();
+				
 				switch (c) {
 				case 1:
 					connexion();
@@ -56,13 +55,12 @@ public class main {
 	private static void connexion() {
 		while(!connected) {
 			System.out.println("Veuillez renseigner votre nom d'utilisateur.");
-			String username;
+			
 			Scanner s = new Scanner(System.in);
-			username=s.nextLine();
+			String username = s.nextLine();
 
 			System.out.println("Veuillez renseigner votre mot de passe.");
-			String password;
-			password=s.nextLine();
+			String password = s.nextLine();
 
 			PersonnelDAO<Personnel> personnelDAO = new PersonnelDAOImpl();	
 			Personnel personnel = personnelDAO.connection(username, password);
