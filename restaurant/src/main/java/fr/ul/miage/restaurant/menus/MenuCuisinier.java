@@ -19,7 +19,6 @@ public class MenuCuisinier extends MenuCommun {
 	
 	public MenuCuisinier(boolean connected, Personnel user) {
 		super(connected, user);
-		// TODO Auto-generated constructor stub
 	}
 
 	public void printMenuCuisinier() {
@@ -27,7 +26,6 @@ public class MenuCuisinier extends MenuCommun {
 		System.out.println("BIENVENUE DANS L'APPLICATION DE VOTRE RESTAURANT !");
 		System.out.println("--------------------------------------------------\n");
 		System.out.println("Vous êtes connecté en tant que cuisinier");
-
 		
 		do {
 
@@ -35,9 +33,8 @@ public class MenuCuisinier extends MenuCommun {
 			do {
 
 				printOptions();
-
-				Scanner s = new Scanner(System.in);
-				c2 = s.nextInt();
+				c2 = ScanEntree.readInteger();
+				
 				switch (c2) {
 				case 1:
 					consulterStocks();
@@ -110,25 +107,13 @@ public class MenuCuisinier extends MenuCommun {
 		}
 
 		System.out.println("Dans quelle catégorie est votre plat ?");
-
-		boolean error = true;
-
-		int idCateg = ScanEntree.readIntegerWithDelimitations(0, listCateg.size());
-
-		idCateg -= 1;
-
-		System.out.println(listCateg.get(idCateg).getLibelle());
-		System.out.println();
-
-		error = true;
+		int idCateg = ScanEntree.readIntegerWithDelimitations(0, listCateg.size()) -1;
+		System.out.println(listCateg.get(idCateg).getLibelle() + "\n");
 
 		System.out.println("Nom du plat : ");
-		Scanner scNom = new Scanner(System.in);
-		String nomPlat = scNom.nextLine();
+		String nomPlat = ScanEntree.readString(); 
 
 		System.out.println("Prix : ");
-		
-		//int prix = ScanEntree.readIntegerWithDelimitations(0, 50);
 		double prix = ScanEntree.readDoubleWithDelimitations(0, 50);
 
 		ArrayList<Produit> compoPlat = new ArrayList<Produit>();
@@ -139,14 +124,12 @@ public class MenuCuisinier extends MenuCommun {
 
 			System.out.println("Choisir un ingrédient à ajouter à la recette (par son Id)");
 
-			error = true;
 			int idIngredient = ScanEntree.readIntegerWithDelimitations(0, produits.size()-1);
-
 			Produit ingredient = produits.get(idIngredient);
 
 			System.out.println("Quantité : ");
 
-			error = true;
+			boolean error = true;
 			int qte = 0;
 
 			while(error == true) {
@@ -177,25 +160,15 @@ public class MenuCuisinier extends MenuCommun {
 
 			System.out.println("Voulez-vous ajouter un autre ingrédient ? (1 : oui, 2 : non)");
 
-			error = true;
-
-			while(error == true) {
-				try {
-					Scanner sc = new Scanner(System.in);
-					ajouter = sc.nextInt();
-
-					error = false;
-				} catch (Exception e) {
-					// TODO: handle exception
-					System.out.println("Il faut une valeur numérique");
-				}
-			}
-
+			ajouter = ScanEntree.readIntegerWithDelimitations(1, 2);
 
 		} while(ajouter == 1);
 
-		platDAO.creerPlat(nomPlat, prix, compoPlat, idCateg+1);
-
+		creerPlatAction(nomPlat, prix, compoPlat, idCateg+1, platDAO);
+	}
+	
+	private void creerPlatAction(String nomPlat, double prix, ArrayList<Produit> compoPlat, int idCateg, PlatDAO platDAO) {
+		platDAO.creerPlat(nomPlat, prix, compoPlat, idCateg);	
 	}
 
 

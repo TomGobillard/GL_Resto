@@ -30,6 +30,25 @@ public class ScanEntree {
 		}
 		return intSelect;
 	}
+	
+	public static String readString() {
+
+		boolean error = true;
+
+		String entry = "";
+
+		while (error) {
+			try {
+				Scanner sc = new Scanner(System.in, "UTF-8");
+				entry = sc.nextLine();
+				error = false;
+			} catch (Exception e) {
+				// TODO: handle exception
+				System.out.println("Il faut une valeur alphabétique");
+			}
+		}
+		return entry;
+	}
 
 	public static int readIntegerWithDelimitations(int min, int max) {
 		boolean error = true;
