@@ -87,6 +87,14 @@ public class Table {
 		this.idServeur = idServeur;
 	}
 
+	public String getAvancement() {
+		return avancement;
+	}
+
+	public void setAvancement(String avancement) {
+		this.avancement = avancement;
+	}
+
 	@Override
 	public String toString() {
 		String res = "Table n°" + this.id + "\n" + "Nombre de couverts : " + this.nbCouverts + "\n" + "Etat : " + this.etat + "\n" + "Etage : " + this.etage + "\n";

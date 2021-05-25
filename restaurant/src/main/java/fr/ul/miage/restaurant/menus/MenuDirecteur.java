@@ -263,9 +263,13 @@ public class MenuDirecteur extends MenuCommun {
 
 			Plat plat = plats.get(indexPlat);
 
-			platDAO.ajoutPlatCarteduJour(plat.getId());
+			ajoutPlatCarteduJour_Action(plat.getId());
 		}
 
+	}
+	
+	public void ajoutPlatCarteduJour_Action(long idPlat) {
+		platDAO.ajoutPlatCarteduJour(idPlat);
 	}
 
 	public void majCarteduJour() {

@@ -18,8 +18,24 @@ import fr.ul.miage.restaurant.dao.PlatDAO;
 public class PlatDAOImpl extends PlatDAO {
 	@Override
 	public Plat find(long id) {
-		// TODO Auto-generated method stub
-		return null;
+		Plat plat = new Plat();
+
+		try {
+			String sql = "SELECT * FROM plat WHERE idplat = ?";
+			PreparedStatement stmt = connect.prepareStatement(sql);
+			stmt.setLong(1, id);
+
+			ResultSet result = stmt.executeQuery();
+
+			while(result.next()) {
+				plat = new Plat(result.getLong(1), result.getString(2), result.getDouble(3), result.getBoolean(4), 
+						result.getLong(5), result.getLong(6));
+			}
+		}catch (Exception e) {
+			// TODO: handle exception
+		}
+
+		return plat;
 	}
 
 	@Override
