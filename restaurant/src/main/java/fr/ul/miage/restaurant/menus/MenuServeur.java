@@ -76,7 +76,7 @@ public class MenuServeur extends MenuCommun {
 					printOccupation();
 					break;
 				case 3:
-					listerPlatSelonCategorie();
+					listerPlatsSelonCateg();
 					break;
 				case 4:
 					saisirCommande();
@@ -110,11 +110,6 @@ public class MenuServeur extends MenuCommun {
 
 			} while (c != 20);
 		} while (connected);
-	}
-	
-	private void listerPlatSelonCategorie() {
-		PlatDAO platDAO = new PlatDAOImpl();
-		platDAO.listerPlatSelonCategorie();
 	}
 
 	private void printOccupation() {
@@ -231,9 +226,8 @@ public class MenuServeur extends MenuCommun {
 	public Plat ajoutPlatCommande() {
 		ArrayList<Plat> plats = new ArrayList<>();
 		PlatDAO platDAO = new PlatDAOImpl();
-		plats = platDAO.platsDispoCateg();
-
-		platDAO.getAll().forEach(plat -> System.out.println(plat));
+		
+		listerPlatsSelonCateg();
 		
 		long idPlat = ScanEntree.readIdPlat(plats, " à ajouter à la commande");
 

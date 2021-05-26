@@ -19,7 +19,7 @@ public class ScanEntree {
 				Scanner sc = new Scanner(System.in, "UTF-8");
 				intSelect = sc.nextInt();
 				error = false;
-				sc.close();
+				//sc.close();
 			} catch (Exception e) {
 				// TODO: handle exception
 				System.out.println("Il faut une valeur numérique");
@@ -62,7 +62,7 @@ public class ScanEntree {
 				} else {
 					System.out.println("Choix hors limites");
 				}
-				sc.close();
+				//sc.close();
 			} catch (Exception e) {
 				// TODO: handle exception
 				System.out.println("Il faut une valeur numérique");
@@ -140,7 +140,7 @@ public class ScanEntree {
 				if (error) {
 					System.out.println("L'id du plat renseignée n'existe pas.");
 				}
-				sc.close();
+				//sc.close();
 			} catch (Exception e) {
 				System.out.println("Choix incorrect.");
 			}

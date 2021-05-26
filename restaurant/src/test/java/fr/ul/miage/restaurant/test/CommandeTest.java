@@ -42,35 +42,35 @@ public class CommandeTest {
 		menuServeur = new MenuServeur();
 	}
 
-	@Test
-	public void Test_MajStockAfterCommande() {
-		Table table = tableDAO.getAll().get(0);
-
-		//commandeDao.creerCommande((int) table.getId());
-
-		Plat plat = platDAO.getAll().get(0);
-
-		ArrayList<Plat> plats = new ArrayList<Plat>();
-		plats.add(plat);
-
-		ArrayList<CompositionPlat> listCompoPlat = compositionPlatDAO.getWithPlats(plats);
-
-		Long idProduit = listCompoPlat.get(0).getIdProduit();
-
-		Produit produit = (Produit) produitDAO.find(idProduit);
-		int qteInit = produit.getQuantite();
-
-		menuServeur.validerCommande(plats, (int) table.getId());
-
-		produit = (Produit) produitDAO.find(idProduit);
-		int qteModif = produit.getQuantite();
-
-		commandeDao.deleteLastCmdeforTest();
-
-		int qteExpected = qteInit - listCompoPlat.get(0).getQuantite();
-
-		assertEquals(qteExpected, qteModif);
-	}
+//	@Test
+//	public void Test_MajStockAfterCommande() {
+//		Table table = tableDAO.getAll().get(0);
+//
+//		//commandeDao.creerCommande((int) table.getId());
+//
+//		Plat plat = platDAO.getAll().get(0);
+//
+//		ArrayList<Plat> plats = new ArrayList<Plat>();
+//		plats.add(plat);
+//
+//		ArrayList<CompositionPlat> listCompoPlat = compositionPlatDAO.getWithPlats(plats);
+//
+//		Long idProduit = listCompoPlat.get(0).getIdProduit();
+//
+//		Produit produit = (Produit) produitDAO.find(idProduit);
+//		int qteInit = produit.getQuantite();
+//
+//		menuServeur.validerCommande(plats, (int) table.getId());
+//
+//		produit = (Produit) produitDAO.find(idProduit);
+//		int qteModif = produit.getQuantite();
+//
+//		commandeDao.deleteLastCmdeforTest();
+//
+//		int qteExpected = qteInit - listCompoPlat.get(0).getQuantite();
+//
+//		//assertEquals(qteExpected, qteModif);
+//	}
 
 //	@Test
 //	public void Test_MajNbCommandePlat() {

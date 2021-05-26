@@ -56,9 +56,9 @@ public class main {
 	private static void connexion() {
 		while(!connected) {
 			System.out.println("Veuillez renseigner votre nom d'utilisateur.");
-			String username;
+			//String username;
 			Scanner s = new Scanner(System.in);
-			username=s.nextLine();
+			String username=s.nextLine();
 
 			System.out.println("Veuillez renseigner votre mot de passe.");
 			String password;

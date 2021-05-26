@@ -2,10 +2,17 @@ package fr.ul.miage.restaurant.menus;
 
 import java.util.ArrayList;
 
+import fr.ul.miage.restaurant.Impl.CategoriePlatDAOImpl;
+import fr.ul.miage.restaurant.Impl.PlatDAOImpl;
 import fr.ul.miage.restaurant.Impl.ProduitDAOImpl;
+import fr.ul.miage.restaurant.dao.CategoriePlatDAO;
+import fr.ul.miage.restaurant.dao.PlatDAO;
 import fr.ul.miage.restaurant.dao.ProduitDAO;
+import fr.ul.miage.restaurant.models.CategoriePlat;
 import fr.ul.miage.restaurant.models.Personnel;
+import fr.ul.miage.restaurant.models.Plat;
 import fr.ul.miage.restaurant.models.Produit;
+import fr.ul.miage.restaurant.systeme.ScanEntree;
 
 public abstract class MenuCommun {
 	boolean connected=false;
@@ -51,6 +58,62 @@ public abstract class MenuCommun {
 		}
 
 		System.out.println();
+	}
+	
+	protected void listerPlatsSelonCateg() {
+		CategoriePlatDAO categoriePlatDAO = new CategoriePlatDAOImpl();
+		PlatDAO platDAO = new PlatDAOImpl();
+		
+		ArrayList<CategoriePlat> listcategPlat = categoriePlatDAO.getAll();
+		
+		for(int i=0; i < listcategPlat.size(); i++) {
+			System.out.println(i + "." + listcategPlat.get(i).getLibelle());
+		}
+		
+		System.out.println();
+		System.out.println("Sélectionnez la catégorie : \n");
+		
+		int intIdCateg = ScanEntree.readIntegerWithDelimitations(0, listcategPlat.size()-1);
+		CategoriePlat categ = listcategPlat.get(intIdCateg);
+		
+		ArrayList<Plat> listPlatsCateg = platDAO.listerPlatSelonCategorie(categ.getId());
+		
+		if(listPlatsCateg.size()==0)
+			System.out.println("Il n'y a aucun plat dans cette catégorie");
+		else {
+			for(Plat plat : listPlatsCateg) {
+				System.out.println(plat.getLibelle());
+			}
+		}		
+	}
+	
+	protected long selectPlat() {
+		CategoriePlatDAO categoriePlatDAO = new CategoriePlatDAOImpl();
+		PlatDAO platDAO = new PlatDAOImpl();
+		
+		ArrayList<CategoriePlat> listcategPlat = categoriePlatDAO.getAll();
+		
+		for(int i=0; i < listcategPlat.size(); i++) {
+			System.out.println(i + "." + listcategPlat.get(i).getLibelle());
+		}
+		
+		System.out.println();
+		System.out.println("Sélectionnez la catégorie : \n");
+		
+		int intIdCateg = ScanEntree.readIntegerWithDelimitations(0, listcategPlat.size()-1);
+		CategoriePlat categ = listcategPlat.get(intIdCateg);
+		
+		ArrayList<Plat> listPlatsCateg = platDAO.listerPlatSelonCategorie(categ.getId());
+		
+		if(listPlatsCateg.size()==0)
+			System.out.println("Il n'y a aucun plat dans cette catégorie");
+		else {
+			for(Plat plat : listPlatsCateg) {
+				System.out.println(plat.getLibelle());
+			}
+		}
+		
+		return (Long) null;
 	}
 
 }
