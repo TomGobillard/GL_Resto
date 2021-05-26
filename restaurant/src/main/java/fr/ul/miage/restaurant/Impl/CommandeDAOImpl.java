@@ -12,27 +12,21 @@ import fr.ul.miage.restaurant.models.Commande;
 public class CommandeDAOImpl extends CommandeDAO {
 	@Override
 	public Commande find(long id) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public Commande create(Commande obj) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public Commande update(Commande obj) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public void delete(Commande obj) {
-		// TODO Auto-generated method stub
-
-	}
+	public void delete(Commande obj) {}
 
 	@Override
 	public String getCommandeEntrantes() {
@@ -115,7 +109,7 @@ public class CommandeDAOImpl extends CommandeDAO {
 			stmt.executeUpdate();
 
 		} catch (Exception e) {
-			// TODO: handle exception
+			e.printStackTrace();
 		}
 	}
 
@@ -170,14 +164,12 @@ public class CommandeDAOImpl extends CommandeDAO {
 			}
 
 		} catch (Exception e) {
-			// TODO: handle exception
-			//e.printStackTrace();
+			e.printStackTrace();
 		}
 	}
 
 	@Override
 	public void deleteLastCmdeforTest() {
-		// TODO Auto-generated method stub
 		try {
 			Long idcmde = (long) 1;
 
@@ -203,7 +195,7 @@ public class CommandeDAOImpl extends CommandeDAO {
 			stmtDeleteCmde.executeUpdate();
 
 		} catch (Exception e) {
-			// TODO: handle exception
+			e.printStackTrace();
 		}
 
 	}
@@ -253,28 +245,23 @@ public class CommandeDAOImpl extends CommandeDAO {
 			}
 			System.out.println(resultat);
 		} catch (Exception e) {
-			// TODO: handle exception
+			e.printStackTrace();
 		}
 	}
 
 	@Override
 	public Timestamp getTempsCommandesFinies() {
-		// TODO Auto-generated method stub
 		Timestamp timestamp = new Timestamp(0);
 		try {
-			String sql = "SELECT AVG(heurecmdpassee - heurecmdprete) AS tempsPrep FROM commande WHERE heurecmdprete is not NULL";
+			String sql = "SELECT AVG(heurecmdprete - heurecmdpassee) AS tempsPrep FROM commande WHERE heurecmdprete is not NULL";
 			PreparedStatement stmt = connect.prepareStatement(sql);
 
 			ResultSet result = stmt.executeQuery();
 
-			int i = 0;
-
-			while(result.next()) {
-				i++;
+			if(result.next()) {
 				timestamp = result.getTimestamp(1);
 			}
 		} catch (Exception e) {
-			// TODO: handle exception
 			e.printStackTrace();
 		}
 		return timestamp;

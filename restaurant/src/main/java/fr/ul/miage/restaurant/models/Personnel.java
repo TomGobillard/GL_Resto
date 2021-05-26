@@ -102,6 +102,6 @@ public class Personnel {
 
 	@Override
 	public String toString() {
-		return "Personnel [identifiant=" + identifiant + ", role=" + role + ", nom=" + nom + ", prenom=" + prenom + "]";
+		return "Nom : " + this.nom + " " + this.prenom + "\n" + "Identifiant : " + this.identifiant + "\nRôle : " + this.role + "\n";
 	}
 }

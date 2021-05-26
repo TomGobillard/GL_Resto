@@ -5,7 +5,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Map.Entry;
 
 import fr.ul.miage.restaurant.dao.TableDAO;
 import fr.ul.miage.restaurant.models.Personnel;
@@ -182,7 +181,7 @@ public class TableDAOImpl extends TableDAO {
 				System.out.println(res);
 			}
 		} catch (Exception e) {
-
+			e.printStackTrace();
 		}
 	}
 
@@ -251,7 +250,6 @@ public class TableDAOImpl extends TableDAO {
 
 	@Override
 	public void installerClient(long idClient, long idTable) {
-		// TODO Auto-generated method stub
 		try {
 			String sql = "UPDATE rtable SET avancement = 'INSTALLE', idclient = ?, etat = 'OCCUPEE' WHERE idTable = ?";
 			PreparedStatement stmt = connect.prepareStatement(sql);
@@ -260,7 +258,7 @@ public class TableDAOImpl extends TableDAO {
 			
 			stmt.executeUpdate();
 		} catch (Exception e) {
-			// TODO: handle exception
+			e.printStackTrace();
 		}
 	}
 

@@ -1,7 +1,6 @@
 package fr.ul.miage.restaurant.menus;
 
 import java.util.ArrayList;
-import java.util.Scanner;
 
 import fr.ul.miage.restaurant.Impl.FactureDAOImpl;
 import fr.ul.miage.restaurant.Impl.ServeurDAOImpl;
@@ -101,39 +100,20 @@ public class MenuMaitreHotel extends MenuCommun {
 	private void assignerServeurATable() {
 		TableDAO tableDAO = new TableDAOImpl();
 		ServeurDAO serveurDAO = new ServeurDAOImpl();
-		Scanner sc = new Scanner(System.in, "UTF-8");
+		ArrayList<Table> tables = tableDAO.getAll();
+				
+		tables.forEach(table -> System.out.println("Table " + table.getId()));
 		
-		boolean error = true;
+		long idTable = ScanEntree.readIdTable(tables, "à laquelle vous souhaitez affecter un serveur :");
+		System.out.println("Veuillez renseignez l'id du serveur à affecter : ");
+				
+		ArrayList<Serveur> listServeur = serveurDAO.getAll();
+		listServeur.forEach(serv -> System.out.println("Serveur n°" + serv.getId() + " : " + serv.getNom() + " " + serv.getPrenom()));
+				
+		int idServeur = (int) ScanEntree.readIdServeur(listServeur, "à affecter");
 
-		while (error) {
-				ArrayList<Table> tables = tableDAO.getAll();
-				
-				for (Table table : tables) {
-					System.out.println("Table " + table.getId());
-				}
-				
-				long idTable = ScanEntree.readIdTable(tables, "à laquelle vous souhaitez affecter un serveur :");
-				System.out.println("Veuillez renseignez l'id du serveur à affecter : ");
-				
-				ArrayList<Serveur> listServeur = serveurDAO.getAll();
-				
-				for (int i=0; i < listServeur.size(); i++) {
-					System.out.println(i + ". " + listServeur.get(i).getNom() + " " + listServeur.get(i).getPrenom() + " idBdD : "
-							+ listServeur.get(i).getId());
-				}
-				
-				int intIdServeur = ScanEntree.readIntegerWithDelimitations(0, listServeur.size()-1);
-				long idServeur = listServeur.get(intIdServeur).getId();
-				
-				if (serveurDAO.serveurExists(idServeur)) {
-					tableDAO.assignServeur(idServeur, idTable);
-					error = false;
-					System.out.println("Le serveur n°" + idServeur + " a bien été assigné à la table n°" + idTable);
-				} else {
-					System.out.println("L'id du serveur renseigné n'existe pas.");
-				}
-				
-		}
+		tableDAO.assignServeur(idServeur, idTable);
+		System.out.println("Le serveur n°" + idServeur + " a bien été assigné à la table n°" + idTable);
 	}
 
 	public void printOptions() {

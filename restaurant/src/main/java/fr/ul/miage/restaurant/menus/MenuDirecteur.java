@@ -300,7 +300,7 @@ public class MenuDirecteur extends MenuCommun {
 	public void checkPopularitePlat() {
 		ArrayList<Plat> listPlats = platDAO.platsPopulaires();
 
-		System.out.println("Voici les 5 plats les plus populaires de votre restaurant \n");
+		System.out.println("Voici les 5 plats les plus populaires de votre restaurant : \n");
 
 		if(listPlats.size()>0) {		
 			for(int i=0; i < listPlats.size(); i++) {
@@ -308,12 +308,12 @@ public class MenuDirecteur extends MenuCommun {
 					break;
 				Plat plat = listPlats.get(i);
 				double CA = plat.getNbCommandes() * plat.getPrix();
-				System.out.println(plat.getLibelle() + " - Popularité : " + plat.getNbCommandes() + " - Revenus : " + CA + "€");
+				System.out.println("Plat : " + plat.getLibelle() + "\nPopularité : " + plat.getNbCommandes() + " commandes \nRevenus : " + CA + "€\n");
 			}
 		}
 
 		System.out.println();
-		System.out.println("Voulez-vous voir tous les plats ? (1.Oui 2.Non)");
+		System.out.println("Voulez-vous voir tous les plats ? Oui (1) Non (2)");
 
 		int choix  = ScanEntree.readIntegerWithDelimitations(1, 2);
 
@@ -327,7 +327,7 @@ public class MenuDirecteur extends MenuCommun {
 
 		if(listPlats.size()>0) {			
 			for(Plat plat : listPlats) {
-				System.out.println(plat.getLibelle() + " - Popularité : " + plat.getNbCommandes());
+				System.out.println("Plat : " + plat.getLibelle() + "\nPopularité : " + plat.getNbCommandes() + " commandes\n");
 			}
 		}
 	}
@@ -338,6 +338,7 @@ public class MenuDirecteur extends MenuCommun {
 	}
 
 	public void gererEmployes() {
+		System.out.println();
 		System.out.println("--------------------------------------------------");
 		System.out.println("Que souhaitez-vous faire ?\n");
 
@@ -396,7 +397,7 @@ public class MenuDirecteur extends MenuCommun {
 		String mdp = sc.next();
 
 		personnelDAO.create(new Personnel(selectRole(), login, mdp, nom, prenom));
-		sc.close();
+		System.out.println("L'employé à bien été ajouté au personnel.");
 	}
 
 	public String selectRole() {
@@ -450,24 +451,7 @@ public class MenuDirecteur extends MenuCommun {
 
 		System.out.println("\nId : ");
 
-		boolean error = true;
-
-		int intSelect = 0;
-
-		while(error) {
-			try {
-				Scanner sc = new Scanner(System.in);
-				intSelect = sc.nextInt();
-				if(intSelect >= 0 && intSelect < listPersonnel.size()) {
-					error = false;
-				} else {
-					System.out.println("Choix hors limites");
-				}
-			} catch (Exception e) {
-				// TODO: handle exception
-				System.out.println("Il faut une valeur numérique");
-			}
-		}
+		int intSelect = ScanEntree.readIntegerWithDelimitations(0, listPersonnel.size());
 
 		int idPersonnel = (int) listPersonnel.get(intSelect).getId();
 		modifEmploye(idPersonnel);
@@ -501,20 +485,22 @@ public class MenuDirecteur extends MenuCommun {
 		personnel.setLogin(newLogin);
 
 		personnelDAO.update(personnel);
-		sc.close();
 	}
 
 	public void statCommande() {
 		Timestamp tempsMoyen = commandeDAO.getTempsCommandesFinies();
-		java.util.Date date = new java.util.Date(tempsMoyen.getTime());
-		SimpleDateFormat formatter= new SimpleDateFormat("HH");
-		SimpleDateFormat formatter2= new SimpleDateFormat("mm");
-
-		System.out.println();
-		System.out.println("--------------------------------------------------");
-		System.out.println("Voici le temps moyen de préparation des commandes\n");
-		System.out.println("Temps moyen de préparation : " + formatter.format(date) + "h" + formatter2.format(date));
-		System.out.println();
+		try {
+			java.util.Date date = new java.util.Date(tempsMoyen.getTime());
+			SimpleDateFormat formatter= new SimpleDateFormat("HH");
+			SimpleDateFormat formatter2= new SimpleDateFormat("mm");
+	
+			System.out.println();
+			System.out.println("--------------------------------------------------");
+			System.out.println("Voici le temps moyen de préparation des commandes\n");
+			System.out.println("Temps moyen de préparation : " + formatter.format(date) + "h" + formatter2.format(date) + "mn");
+		} catch (NullPointerException e) {
+			System.out.println("Il n'y a aucune commande qui ait été terminée pour l'instant.");
+		}
 	}
 
 	public void profitDejeunerDiner() {

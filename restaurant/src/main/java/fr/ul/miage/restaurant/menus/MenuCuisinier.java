@@ -43,10 +43,10 @@ public class MenuCuisinier extends MenuCommun {
 					creerPlat();
 					break;
 				case 3:
-					getCommandesEntrantes();
+					getCommandesEntrantes(false);
 					break;
 				case 4:
-					setEtatPlatPret();
+					getCommandesEntrantes(true);
 					break;
 				case 20:
 					deconnexion();
@@ -62,12 +62,6 @@ public class MenuCuisinier extends MenuCommun {
 
 			} while (c2 != 20);
 		} while(connected);
-	}
-
-	private void setEtatPlatPret() {
-		getCommandesEntrantes();
-		PlatDAO platDAO = new PlatDAOImpl();
-		platDAO.setEtatPlatPret();
 	}
 
 	public void printOptions() {
@@ -86,9 +80,19 @@ public class MenuCuisinier extends MenuCommun {
 		
 	}
 	
-	private void getCommandesEntrantes() {
+	private void getCommandesEntrantes(boolean toSetPlat) {
 		CommandeDAOImpl cmdeDAO = new CommandeDAOImpl();
-		System.out.println(cmdeDAO.getCommandeEntrantes());
+		String cmdesEntrantes = cmdeDAO.getCommandeEntrantes();
+		if(cmdesEntrantes.equals("")) {
+			System.out.println("Il n'y a pas de commandes entrantes pour le moment.");
+		} else {
+			System.out.println(cmdesEntrantes);
+			if(toSetPlat) {
+				PlatDAO platDAO = new PlatDAOImpl();
+				platDAO.setEtatPlatPret();
+			}
+		}
+		
 	}
 
 		

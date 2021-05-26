@@ -133,22 +133,16 @@ public class MenuServeur extends MenuCommun {
 	private void showInfoTable() {
 		TableDAO tableDAO = new TableDAOImpl();
 		ArrayList<Integer> tables = tableDAO.getServeurTablesId(user.getId());
-		
-		for (Integer integer : tables) {
-			System.out.println("table " + integer);
-		}
+		tables.forEach(table -> System.out.println("Table n°" + table));
 		
 		long idTable = initServeurTableIDForQuery("dont vous souhaitez connaitre les informations.");
-		tableDAO.obtenirInfoTable(idTable);
+		System.out.println(tableDAO.obtenirInfoTable(idTable));
 	}
 
 	private void consulterAvancementTable() {
 		TableDAO tableDAO = new TableDAOImpl();
 		ArrayList<Integer> tables = tableDAO.getServeurTablesId(user.getId());
-		
-		for (Integer integer : tables) {
-			System.out.println("table " + integer);
-		}
+		tables.forEach(table -> System.out.println("Table n°" + table));
 		
 		long idTable = initServeurTableIDForQuery("dont vous souhaitez connaitre l'avancement.");
 		tableDAO.showAvancement(idTable);
@@ -212,10 +206,9 @@ public class MenuServeur extends MenuCommun {
 	private long choisirTablePourCmde() {
 		TableDAO tableDAO = new TableDAOImpl();
 		ArrayList<Integer> tables = tableDAO.getServeurTablesId(user.getId());
-		
-		for (Integer integer : tables) {
-			System.out.println("table " + integer);
-		}
+		tables.forEach(table -> System.out.println("Table n°" + table));
+
+		System.out.println();
 		
 		return initServeurTableIDForQuery("pour laquelle vous souhaitez saisir une commande.");
 	}
@@ -295,13 +288,16 @@ public class MenuServeur extends MenuCommun {
 
 	private void installerClient() {
 		ArrayList<Integer> listTables = tableDAO.getServeurTablesLibres(user.getId());
+		listTables.forEach(table -> System.out.println("Table n°" + table));
 		long idTable = ScanEntree.readId(listTables, "ou vous souhaitez installer le client");
 		installerClientAction(idTable);
+		System.out.println("Le client a bien été installé.");
 	}
 	
 	public void installerClientAction(long numTable) {
 		ClientDAO clientDAO = new ClientDAOImpl();
 		Client client = clientDAO.create(null);	
 		tableDAO.installerClient(client.getId(), numTable);
+		
 	}
 }

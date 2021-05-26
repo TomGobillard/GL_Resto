@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 import fr.ul.miage.restaurant.models.Plat;
+import fr.ul.miage.restaurant.models.Serveur;
 import fr.ul.miage.restaurant.models.Table;
 
 public class ScanEntree {
@@ -116,6 +117,31 @@ public class ScanEntree {
 
 		}
 		return idTable;
+	}
+	
+	public static long readIdServeur(ArrayList<Serveur> serveurs, String msg) {
+		boolean error = true;
+		long idServeur = -1;
+
+		while (error) {
+			try {
+				System.out.println("Veuillez renseignez le numéro du serveur " + msg);
+				Scanner sc = new Scanner(System.in, "UTF-8");
+				idServeur = sc.nextLong();
+				for (Serveur serveur : serveurs) {
+					if (idServeur == serveur.getId()) {
+						error = false;
+					}
+				}
+				if (error) {
+					System.out.println("L'id du serveur renseigné n'existe pas.");
+				}
+			} catch (Exception e) {
+				System.out.println("Choix incorrect.");
+			}
+
+		}
+		return idServeur;
 	}
 	
 	public static long readIdPlat(ArrayList<Plat> plats, String msg) {
