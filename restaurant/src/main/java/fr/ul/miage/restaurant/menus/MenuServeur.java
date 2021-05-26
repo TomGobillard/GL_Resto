@@ -1,8 +1,6 @@
 package fr.ul.miage.restaurant.menus;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map.Entry;
 
 import fr.ul.miage.restaurant.Impl.CategoriePlatDAOImpl;
 import fr.ul.miage.restaurant.Impl.ClientDAOImpl;
@@ -23,6 +21,7 @@ import fr.ul.miage.restaurant.models.Client;
 import fr.ul.miage.restaurant.models.CompositionPlat;
 import fr.ul.miage.restaurant.models.Personnel;
 import fr.ul.miage.restaurant.models.Plat;
+import fr.ul.miage.restaurant.models.Table;
 import fr.ul.miage.restaurant.systeme.ScanEntree;
 
 public class MenuServeur extends MenuCommun {
@@ -94,11 +93,9 @@ public class MenuServeur extends MenuCommun {
 				case 7:
 					showInfoTable();
 					break;
-					
 				case 8:
 					installerClient();
 					break;
-					
 				case 20:
 					deconnexion();
 					tableInfoInitPrinted = false;
@@ -118,10 +115,8 @@ public class MenuServeur extends MenuCommun {
 
 	private void printOccupation() {
 		System.out.println("Etat de toutes les tables : \n");
-		HashMap<Integer, String> occupations = tableDAO.getOccupationAllTables();
-		for (Entry<Integer, String> entry : occupations.entrySet()) {
-			System.out.println("Table n°" + entry.getKey() + " : " + entry.getValue());
-		}
+		ArrayList<Table> tables = tableDAO.getAll();
+		tables.forEach(table -> System.out.println("Table n°" + table.getId() + " : " + table.getEtat()));
 		System.out.println();
 	}
 
@@ -174,16 +169,14 @@ public class MenuServeur extends MenuCommun {
 				switch (c) {
 				case 1:
 					Plat plat = ajoutPlatCommande();
-					if(plat != null) {
-						plats.add(plat);
-					}
+					plats.add(plat);
 					break;
 				case 2:
 					System.out.println("Voici la commande :\n");
 					for(Plat p : plats) {
 						System.out.println(p);
 					}
-					if(plats.size()!=0) {
+					if(!plats.isEmpty()) {
 						validerCommande(plats,(int) numTable);
 					} else {
 						System.out.println("La commande est vide.");
@@ -192,6 +185,7 @@ public class MenuServeur extends MenuCommun {
 					break;
 
 				case 10:
+						System.out.println("Commande annulée.");
 					break;
 
 				default:
@@ -242,16 +236,11 @@ public class MenuServeur extends MenuCommun {
 	}
 
 	public Plat ajoutPlatCommande() {
-		ArrayList<Plat> plats = new ArrayList<>();
 		PlatDAO platDAO = new PlatDAOImpl();
-		
 		CategoriePlatDAO categoriePlatDAO = new CategoriePlatDAOImpl();
-
 		ArrayList<CategoriePlat> listcategPlat = categoriePlatDAO.getAll();
 
-		for(int i=0; i < listcategPlat.size(); i++) {
-			System.out.println(i + "." + listcategPlat.get(i).getLibelle());
-		}
+		listcategPlat.forEach(ctg -> System.out.println(ctg.getId() + ". " + ctg.getLibelle()));
 
 		System.out.println();
 		System.out.println("Sélectionnez la catégorie : \n");
@@ -261,7 +250,7 @@ public class MenuServeur extends MenuCommun {
 
 		ArrayList<Plat> listPlatsCateg = platDAO.listerPlatSelonCategorie(categ.getId());
 
-		if(listPlatsCateg.size()==0)
+		if(listPlatsCateg.isEmpty())
 			System.out.println("Il n'y a aucun plat dans cette catégorie");
 		else {
 			for(Plat plat : listPlatsCateg) {
@@ -272,16 +261,13 @@ public class MenuServeur extends MenuCommun {
 			
 			return platDAO.find(idPlat);
 		}
-
 		return null;
 	}
 
 	private void printOccupationTablesWithAvancement() {
 		System.out.println("Etat de vos tables : \n");
-		HashMap<Integer, String> occupations = tableDAO.getTableForInitPrint();
-		for (Entry<Integer, String> entry : occupations.entrySet()) {
-			System.out.println("Table n°" + entry.getKey() + " : " + entry.getValue());
-		}
+		ArrayList<Table> tables = tableDAO.getServeurTables(user.getId());
+		tables.forEach(table -> System.out.println("Table n°" + table.getId() + " : " + table.getAvancement()));
 		System.out.println();
 		tableInfoInitPrinted = true;
 	}

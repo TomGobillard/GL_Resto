@@ -140,81 +140,29 @@ public class MenuDirecteur extends MenuCommun {
 
 		do {
 			listProduits =  produitDAO.listProduit();
-
 			consulterStocks();
 
 			System.out.println("Quel stock souhaitez vous mettre à jour : ");
-
-			boolean error = true;
-
-			int idProduit = 0;
-
-			while(error) {
-				try {
-					Scanner sc = new Scanner(System.in);
-					idProduit = sc.nextInt();
-					if(idProduit > 0 && idProduit <= listProduits.size()) {
-						error = false;
-					} else {
-						System.out.println("Produit inexistant");
-					}
-				} catch (Exception e) {
-					// TODO: handle exception
-					System.out.println("Il faut une valeur numérique");
-				}
-			}
+			int idProduit = (int) ScanEntree.readIdProduit(listProduits, "dont vous souhaitez mettre à jour le stock");
 
 			System.out.println("Quantité à ajouter (max: 100)");
-
-			int qte = 0;
-
-			error = true;
-			while(error) {
-				try {
-					Scanner sc = new Scanner(System.in);
-					qte = sc.nextInt();
-					if(qte > 0 && idProduit <= 100) {
-						error = false;
-					} else {
-						System.out.println("Quantité invalide");
-					}
-				} catch (Exception e) {
-					// TODO: handle exception
-					System.out.println("Il faut une valeur numérique");
-				}
-			}
-
+			int qte = ScanEntree.readIntegerWithDelimitations(0, 1000);
 			int newQte = listProduits.get(idProduit-1).getQuantite() + qte;
 
 			Produit majProduit = new Produit(idProduit, listProduits.get(idProduit-1).getLibelle(), newQte);
-
 			produitDAO.update(majProduit);
 
 			System.out.println("Voulez-vous continuer à mettre à jour les stocks ? (1 : oui, 2 : non)");
-
-			error = true;
-
-			while(error) {
-				try {
-					Scanner sc = new Scanner(System.in);
-					continuer = sc.nextInt();
-
-					error = false;
-				} catch (Exception e) {
-					// TODO: handle exception
-					System.out.println("Il faut une valeur numérique");
-				}
-			}
+			continuer = ScanEntree.readIntegerWithDelimitations(1, 2);
 
 		} while (continuer == 1);
 
 	}
 
 	public void printCarteduJour() {
-		//PlatDAO platDAO = new PlatDAOImpl();
 		ArrayList<Plat> carteduJour = platDAO.getCarteduJour();
 
-		if(carteduJour.size() == 0) {
+		if(carteduJour.isEmpty()) {
 			System.out.println("Il n'y a auncun plat sur la carte du jour");
 		} else {
 			System.out.println("Voici la carte du jour \n");
@@ -226,35 +174,24 @@ public class MenuDirecteur extends MenuCommun {
 	}
 
 	public void ajoutPlatCarteduJour() {
-		//ArrayList<Plat> plats = new ArrayList<>();
 		CategoriePlatDAO categoriePlatDAO = new CategoriePlatDAOImpl();
 		PlatDAO platDAO = new PlatDAOImpl();
 
 		ArrayList<CategoriePlat> listcategPlat = categoriePlatDAO.getAll();
+		listcategPlat.forEach(ctg -> System.out.println(ctg.getId() + ". " + ctg.getLibelle()));
 
-		for(int i=0; i < listcategPlat.size(); i++) {
-			System.out.println(i + "." + listcategPlat.get(i).getLibelle());
-		}
+		System.out.println("\nSélectionnez la catégorie : \n");
 
-		System.out.println();
-		System.out.println("Sélectionnez la catégorie : \n");
-
-		int intIdCateg = ScanEntree.readIntegerWithDelimitations(0, listcategPlat.size()-1);
+		int intIdCateg = ScanEntree.readIntegerWithDelimitations(1, listcategPlat.size());
 		CategoriePlat categ = listcategPlat.get(intIdCateg);
 
 		ArrayList<Plat> listPlatsCateg = platDAO.listerPlatSelonCategorie(categ.getId());
 
-		if(listPlatsCateg.size()==0)
+		if(listPlatsCateg.isEmpty())
 			System.out.println("Il n'y a aucun plat dans cette catégorie");
 		else {
-			for(Plat plat : listPlatsCateg) {
-				System.out.println(plat.getId() + ". " + plat.getLibelle());
-			}
-
-
+			listPlatsCateg.forEach(rec -> System.out.println(rec.getId() + ". " + rec.getLibelle()));
 			long idPlat = ScanEntree.readIdPlat(listPlatsCateg, "à ajouter.");
-			//Plat plat = listPlatsCateg.get((int) idPlat);
-
 			platDAO.ajoutPlatCarteduJour(idPlat);
 		}
 	}
@@ -302,10 +239,8 @@ public class MenuDirecteur extends MenuCommun {
 
 		System.out.println("Voici les 5 plats les plus populaires de votre restaurant : \n");
 
-		if(listPlats.size()>0) {		
-			for(int i=0; i < listPlats.size(); i++) {
-				if(i==5)
-					break;
+		if(!listPlats.isEmpty()) {		
+			for(int i=0; i < 5; i++) {
 				Plat plat = listPlats.get(i);
 				double CA = plat.getNbCommandes() * plat.getPrix();
 				System.out.println("Plat : " + plat.getLibelle() + "\nPopularité : " + plat.getNbCommandes() + " commandes \nRevenus : " + CA + "€\n");
@@ -325,7 +260,7 @@ public class MenuDirecteur extends MenuCommun {
 	public void checkPopulariteAllPlats() {
 		ArrayList<Plat> listPlats = platDAO.platsPopulaires();
 
-		if(listPlats.size()>0) {			
+		if(!listPlats.isEmpty()) {			
 			for(Plat plat : listPlats) {
 				System.out.println("Plat : " + plat.getLibelle() + "\nPopularité : " + plat.getNbCommandes() + " commandes\n");
 			}
@@ -440,20 +375,10 @@ public class MenuDirecteur extends MenuCommun {
 	}
 
 	public void modifierEmployes() {
-		System.out.println("Séléctionnez un employé à modifier : ");
-
 		ArrayList<Personnel> listPersonnel = personnelDAO.getAll();
-
-		for (int i = 0; i < listPersonnel.size(); i++) {
-			Personnel personnel = listPersonnel.get(i);
-			System.out.println(i + ": " + personnel.getNom() + " " + personnel.getPrenom());
-		}
-
-		System.out.println("\nId : ");
-
-		int intSelect = ScanEntree.readIntegerWithDelimitations(0, listPersonnel.size());
-
-		int idPersonnel = (int) listPersonnel.get(intSelect).getId();
+		listPersonnel.forEach(personnel -> System.out.println("Personnel n°" + personnel.getId() + " : " + personnel.getNom() + " " + personnel.getPrenom()));
+		int idPersonnel = (int) ScanEntree.readIdPersonnel(listPersonnel, "à modifier :");
+		
 		modifEmploye(idPersonnel);
 	}
 
@@ -462,7 +387,7 @@ public class MenuDirecteur extends MenuCommun {
 
 		System.out.println("1 : Login");
 
-		int idAttribut = 0;
+		int idAttribut = -1;
 
 		idAttribut = ScanEntree.readIntegerWithDelimitations(1, 1);
 		switch (idAttribut) {

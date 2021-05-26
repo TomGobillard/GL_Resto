@@ -13,13 +13,14 @@ public abstract class TableDAO extends DAO<Table>{
 	public abstract void showAvancement(long idTable);
 	public abstract HashMap<Integer, String> getTableForInitPrint();
 	public abstract ArrayList<Integer> getServeurTablesId(long serveurId);
+	public abstract ArrayList<Table> getServeurTables(long serveurId);
 	public abstract ArrayList<Integer> getServeurTablesLibres(long serveurId);
 	public abstract void installerClient(long idClient, long idTable);
 	public abstract void initTableTest(long idTable);
 	public abstract ArrayList<Table> getTableRepasFini();
 	public abstract ArrayList<Table> getTablesADresserOuRanger();
 	public abstract void dresserTable(long idTable);
-	public abstract HashMap<Integer, String> getOccupationAllTables();
+	public abstract ArrayList<Table> getOccupationAllTables();
 	
 
 }

@@ -6,6 +6,14 @@ public class Table {
 	private long nbCouverts;
 	private String etat;
 	private long etage;
+	public String getAvancement() {
+		return avancement;
+	}
+
+	public void setAvancement(String avancement) {
+		this.avancement = avancement;
+	}
+
 	private String avancement;
 	private long idServeur;
 	private long idClient;

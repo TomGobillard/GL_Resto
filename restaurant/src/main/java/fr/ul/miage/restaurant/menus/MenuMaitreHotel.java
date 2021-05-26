@@ -61,19 +61,10 @@ public class MenuMaitreHotel extends MenuCommun {
 		FactureDAO factureDAO = new FactureDAOImpl();
 		TableDAO tableDAO = new TableDAOImpl();
 		ArrayList<Table> listTables = tableDAO.getTableRepasFini();
-		int idtable;
-		if(listTables.size() > 0) {
-			do {
-	
-				System.out.println("Veuillez sélectionner la table pour laquelle vous voulez éditer une facture :");
-	
-				listTables.forEach(table -> System.out.println(table));
-	
-				idtable = ScanEntree.readInteger();
-				
-	
-			} while (!tableDAO.tableExists(idtable));
-			
+		
+		if(!listTables.isEmpty()) {
+			listTables.forEach(table -> System.out.println(table));
+			int idtable = (int) ScanEntree.readIdTable(listTables, "pour laquelle vous voulez éditer une facture :");
 			
 			Table table = tableDAO.find(idtable);
 			System.out.println("Sélectionnez le type de repas pour la facture :");
