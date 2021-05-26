@@ -1,8 +1,6 @@
 package fr.ul.miage.restaurant.menus;
 
 import java.util.ArrayList;
-import java.util.Scanner;
-
 import fr.ul.miage.restaurant.Impl.TableDAOImpl;
 import fr.ul.miage.restaurant.dao.TableDAO;
 import fr.ul.miage.restaurant.models.Personnel;
@@ -70,9 +68,13 @@ public class MenuAssistantService extends MenuCommun{
 	private void dresserTable() {
 		ArrayList<Table> tables = tableDAO.getTablesADresserOuRanger();
 		tables.forEach(table -> System.out.println(table));
-		long idTable = ScanEntree.readIdTable(tables, "que vous souhaitez débarasser et dresser : ");
-		dresserTableAction(idTable);
-		System.out.println("La table n°" + idTable + " à bien été installée.");
+		if(tables.size() != 0 ) {
+			long idTable = ScanEntree.readIdTable(tables, "que vous souhaitez débarasser et dresser : ");
+			dresserTableAction(idTable);
+			System.out.println("La table n°" + idTable + " à bien été installée.");
+		} else {
+			System.out.println("Il n'y a pas de table à installer.");
+		}
 	}
 	
 
@@ -82,8 +84,8 @@ public class MenuAssistantService extends MenuCommun{
 
 	public void getInfoTable() {
 		ArrayList<Table> tables = tableDAO.getAll();
-		tables.forEach(table -> System.out.println(table));
+		tables.forEach(table -> System.out.println("Table n°" + table.getId()));
 		long idTable = ScanEntree.readIdTable(tables, "dont vous souhaîtez connaitre les informations :");
-		tableDAO.obtenirInfoTable(idTable);
+		System.out.println(tableDAO.obtenirInfoTable(idTable));
 	}
 }

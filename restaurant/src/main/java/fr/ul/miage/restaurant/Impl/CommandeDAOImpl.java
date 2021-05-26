@@ -40,6 +40,7 @@ public class CommandeDAOImpl extends CommandeDAO {
 		try {
 			String sql = "SELECT * " +
 					      "FROM commande " +
+					      "WHERE etat = 'EN PREPARATION'" +
 					      "ORDER BY CASE WHEN idcommande IN (SELECT idcommande " +
 					    		  							"FROM composition_cmde " +
 					    		  							"WHERE idplat IN (SELECT idplat " +
