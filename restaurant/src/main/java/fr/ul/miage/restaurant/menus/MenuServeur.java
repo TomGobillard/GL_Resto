@@ -3,18 +3,22 @@ package fr.ul.miage.restaurant.menus;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map.Entry;
+
+import fr.ul.miage.restaurant.Impl.CategoriePlatDAOImpl;
 import fr.ul.miage.restaurant.Impl.ClientDAOImpl;
 import fr.ul.miage.restaurant.Impl.CommandeDAOImpl;
 import fr.ul.miage.restaurant.Impl.CompositionPlatDAOImpl;
 import fr.ul.miage.restaurant.Impl.PlatDAOImpl;
 import fr.ul.miage.restaurant.Impl.ProduitDAOImpl;
 import fr.ul.miage.restaurant.Impl.TableDAOImpl;
+import fr.ul.miage.restaurant.dao.CategoriePlatDAO;
 import fr.ul.miage.restaurant.dao.ClientDAO;
 import fr.ul.miage.restaurant.dao.CommandeDAO;
 import fr.ul.miage.restaurant.dao.CompositionPlatDAO;
 import fr.ul.miage.restaurant.dao.PlatDAO;
 import fr.ul.miage.restaurant.dao.ProduitDAO;
 import fr.ul.miage.restaurant.dao.TableDAO;
+import fr.ul.miage.restaurant.models.CategoriePlat;
 import fr.ul.miage.restaurant.models.Client;
 import fr.ul.miage.restaurant.models.CompositionPlat;
 import fr.ul.miage.restaurant.models.Personnel;
@@ -127,11 +131,25 @@ public class MenuServeur extends MenuCommun {
 	}
 
 	private void showInfoTable() {
+		TableDAO tableDAO = new TableDAOImpl();
+		ArrayList<Integer> tables = tableDAO.getServeurTablesId(user.getId());
+		
+		for (Integer integer : tables) {
+			System.out.println("table " + integer);
+		}
+		
 		long idTable = initServeurTableIDForQuery("dont vous souhaitez connaitre les informations.");
 		tableDAO.obtenirInfoTable(idTable);
 	}
 
 	private void consulterAvancementTable() {
+		TableDAO tableDAO = new TableDAOImpl();
+		ArrayList<Integer> tables = tableDAO.getServeurTablesId(user.getId());
+		
+		for (Integer integer : tables) {
+			System.out.println("table " + integer);
+		}
+		
 		long idTable = initServeurTableIDForQuery("dont vous souhaitez connaitre l'avancement.");
 		tableDAO.showAvancement(idTable);
 	}
@@ -192,6 +210,13 @@ public class MenuServeur extends MenuCommun {
 	} 
 
 	private long choisirTablePourCmde() {
+		TableDAO tableDAO = new TableDAOImpl();
+		ArrayList<Integer> tables = tableDAO.getServeurTablesId(user.getId());
+		
+		for (Integer integer : tables) {
+			System.out.println("table " + integer);
+		}
+		
 		return initServeurTableIDForQuery("pour laquelle vous souhaitez saisir une commande.");
 	}
 
@@ -226,12 +251,37 @@ public class MenuServeur extends MenuCommun {
 	public Plat ajoutPlatCommande() {
 		ArrayList<Plat> plats = new ArrayList<>();
 		PlatDAO platDAO = new PlatDAOImpl();
+		Long idPlat = null;
 		
-		listerPlatsSelonCateg();
-		
-		long idPlat = ScanEntree.readIdPlat(plats, " à ajouter à la commande");
+		CategoriePlatDAO categoriePlatDAO = new CategoriePlatDAOImpl();
 
-		return plats.get((int) idPlat);
+		ArrayList<CategoriePlat> listcategPlat = categoriePlatDAO.getAll();
+
+		for(int i=0; i < listcategPlat.size(); i++) {
+			System.out.println(i + "." + listcategPlat.get(i).getLibelle());
+		}
+
+		System.out.println();
+		System.out.println("Sélectionnez la catégorie : \n");
+
+		int intIdCateg = ScanEntree.readIntegerWithDelimitations(0, listcategPlat.size()-1);
+		CategoriePlat categ = listcategPlat.get(intIdCateg);
+
+		ArrayList<Plat> listPlatsCateg = platDAO.listerPlatSelonCategorie(categ.getId());
+
+		if(listPlatsCateg.size()==0)
+			System.out.println("Il n'y a aucun plat dans cette catégorie");
+		else {
+			for(Plat plat : listPlatsCateg) {
+				System.out.println(plat.getId() + ". " + plat.getLibelle());
+			}
+
+			idPlat = ScanEntree.readIdPlat(listPlatsCateg, " à ajouter à la commande");
+
+		}
+		
+
+		return platDAO.find(idPlat);
 	}
 
 	private void printOccupationTablesWithAvancement() {
