@@ -27,6 +27,13 @@ public class Personnel {
 		this.prenom = prenom;
 	}
 
+	public Personnel(long identifiant, String nom, String prenom) {
+		super();
+		this.identifiant = identifiant;
+		this.nom = nom;
+		this.prenom = prenom;
+	}
+
 	public Personnel() {
 		super();
 	}

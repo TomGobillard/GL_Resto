@@ -11,6 +11,7 @@ import fr.ul.miage.restaurant.dao.ServeurDAO;
 import fr.ul.miage.restaurant.dao.TableDAO;
 import fr.ul.miage.restaurant.models.Facture;
 import fr.ul.miage.restaurant.models.Personnel;
+import fr.ul.miage.restaurant.models.Serveur;
 import fr.ul.miage.restaurant.models.Table;
 import fr.ul.miage.restaurant.systeme.ScanEntree;
 
@@ -106,10 +107,23 @@ public class MenuMaitreHotel extends MenuCommun {
 
 		while (error) {
 				ArrayList<Table> tables = tableDAO.getAll();
+				
+				for (Table table : tables) {
+					System.out.println("Table " + table.getId());
+				}
+				
 				long idTable = ScanEntree.readIdTable(tables, "à laquelle vous souhaitez affecter un serveur :");
 				System.out.println("Veuillez renseignez l'id du serveur à affecter : ");
-						
-				long idServeur = sc.nextLong();
+				
+				ArrayList<Serveur> listServeur = serveurDAO.getAll();
+				
+				for (int i=0; i < listServeur.size(); i++) {
+					System.out.println(i + ". " + listServeur.get(i).getNom() + " " + listServeur.get(i).getPrenom() + " idBdD : "
+							+ listServeur.get(i).getId());
+				}
+				
+				int intIdServeur = ScanEntree.readIntegerWithDelimitations(0, listServeur.size()-1);
+				long idServeur = listServeur.get(intIdServeur).getId();
 				
 				if (serveurDAO.serveurExists(idServeur)) {
 					tableDAO.assignServeur(idServeur, idTable);
@@ -120,7 +134,6 @@ public class MenuMaitreHotel extends MenuCommun {
 				}
 				
 		}
-		sc.close();
 	}
 
 	public void printOptions() {

@@ -251,7 +251,6 @@ public class MenuServeur extends MenuCommun {
 	public Plat ajoutPlatCommande() {
 		ArrayList<Plat> plats = new ArrayList<>();
 		PlatDAO platDAO = new PlatDAOImpl();
-		Long idPlat = null;
 		
 		CategoriePlatDAO categoriePlatDAO = new CategoriePlatDAOImpl();
 
@@ -276,12 +275,12 @@ public class MenuServeur extends MenuCommun {
 				System.out.println(plat.getId() + ". " + plat.getLibelle());
 			}
 
-			idPlat = ScanEntree.readIdPlat(listPlatsCateg, " à ajouter à la commande");
-
+			Long idPlat = ScanEntree.readIdPlat(listPlatsCateg, " à ajouter à la commande");
+			
+			return platDAO.find(idPlat);
 		}
-		
 
-		return platDAO.find(idPlat);
+		return null;
 	}
 
 	private void printOccupationTablesWithAvancement() {

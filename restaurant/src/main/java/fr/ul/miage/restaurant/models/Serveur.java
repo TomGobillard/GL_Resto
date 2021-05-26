@@ -9,6 +9,12 @@ public class Serveur extends Personnel {
 		super();
 	}
 
+	public Serveur(long identifiant, String nom, String prenom, long id, int etage) {
+		super(identifiant, nom, prenom);
+		this.id = id;
+		this.etage = etage;
+	}
+
 	public Serveur(long id, int etageParam) {
 		super(id, "SERVEUR");
 		this.id = id;

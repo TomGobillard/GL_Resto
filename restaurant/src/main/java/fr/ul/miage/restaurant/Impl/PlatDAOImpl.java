@@ -197,7 +197,7 @@ public class PlatDAOImpl extends PlatDAO {
 			PreparedStatement stmt2 = connect.prepareStatement(sql2);
 			stmt2.setLong(1, idCateg);
 			ResultSet result2 = stmt2.executeQuery();
-			
+
 			while (result2.next()) {
 				Plat plat = new Plat(result2.getLong(1), result2.getString(2), result2.getDouble(3),
 						result2.getBoolean(4), result2.getLong(5), result2.getLong(6));
@@ -298,25 +298,26 @@ public class PlatDAOImpl extends PlatDAO {
 			}
 
 
-			System.out.println("Sélectionnez maintenant l'id du plat : ");
-			int idcmde = ScanEntree.readIntegerWithDelimitations(0, compoCmdes.size());
+			if(compoCmdes.size()>0) {
+				System.out.println("Sélectionnez maintenant l'id du plat : ");
+				int idcmde = ScanEntree.readIntegerWithDelimitations(0, compoCmdes.size());
 
-			long idPlat = compoCmdes.get(idcmde).getIdPlat();
-			long idCommande = compoCmdes.get(idcmde).getIdCommande();
+				long idPlat = compoCmdes.get(idcmde).getIdPlat();
+				long idCommande = compoCmdes.get(idcmde).getIdCommande();
 
 
-			try {
-				String sql1 = "UPDATE COMPOSITION_CMDE SET etat = 'SERVIE' WHERE idplat = ? AND idcommande = ?";
-				PreparedStatement stmt1 = connect.prepareStatement(sql1);
-				stmt1.setLong(1, idPlat);
-				stmt1.setLong(2, idCommande);
+				try {
+					String sql1 = "UPDATE COMPOSITION_CMDE SET etat = 'SERVIE' WHERE idplat = ? AND idcommande = ?";
+					PreparedStatement stmt1 = connect.prepareStatement(sql1);
+					stmt1.setLong(1, idPlat);
+					stmt1.setLong(2, idCommande);
 
-				stmt1.executeUpdate();
+					stmt1.executeUpdate();
 
-			} catch (Exception e) {
+				} catch (Exception e) {
 
-			}			
-
+				}			
+			}
 		} catch (Exception e) {
 
 		}
