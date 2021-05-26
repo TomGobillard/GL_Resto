@@ -20,6 +20,7 @@ public abstract class TableDAO extends DAO<Table>{
 	public abstract ArrayList<Table> getTableRepasFini();
 	public abstract ArrayList<Table> getTablesADresserOuRanger();
 	public abstract void dresserTable(long idTable);
+	protected abstract void reserverTable(long id, long numTable);
 	
 
 }

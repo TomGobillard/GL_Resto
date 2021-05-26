@@ -349,4 +349,18 @@ public class TableDAOImpl extends TableDAO {
 			e.printStackTrace();
 		}
 	}
+
+	@Override
+	public void reserverTable(long idClient, long numTable) {
+		try {
+			String sql = "UPDATE rtable SET idclient = ?, etat = 'RESERVEE' WHERE idTable = ?";
+			PreparedStatement stmt = connect.prepareStatement(sql);
+			stmt.setLong(1, idClient);
+			stmt.setLong(2, numTable);
+			
+			stmt.executeUpdate();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}		
+	}
 }

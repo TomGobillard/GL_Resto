@@ -76,6 +76,9 @@ public class MenuServeur extends MenuCommun {
 				case 8:
 					installerClient();
 					break;
+				case 9:
+					reserverTable();
+					break;
 					
 				case 20:
 					deconnexion();
@@ -138,6 +141,7 @@ public class MenuServeur extends MenuCommun {
 		System.out.println("Consulter l'avancement du repas d'une table (6)");
 		System.out.println("Consulter les informations d'une table (7)");
 		System.out.println("Installer un client (8)");
+		System.out.println("Réserver une table (9)");
 
 		System.out.println("Se déconnecter (20)");
 		System.out.println("Quitter (21)");
@@ -357,5 +361,51 @@ public class MenuServeur extends MenuCommun {
 
 		Client client = clientDAO.create(null);	
 		tableDAO.installerClient(client.getId(), numTable);
+	}
+	
+
+	private void reserverTable() {
+		TableDAO tableDAO = new TableDAOImpl(user);
+		ClientDAO clientDAO = new ClientDAOImpl();
+		ArrayList<Integer> listTables = tableDAO.getServeurTablesLibres(user.getId());
+		
+		int numTable=0;
+
+		System.out.println("Sélectionner la table correspondante :");
+		if (listTables.size() > 0) {
+
+			for (int i = 0; i < listTables.size(); i++) {
+				System.out.println("Table n°" + listTables.get(i));
+			}
+
+			boolean error = true;
+
+			do {
+				try {
+					Scanner scTable = new Scanner(System.in);
+					numTable = scTable.nextInt();
+					if (listTables.contains(numTable)) {
+						error = false;
+					} else {
+						System.out.println("La table sélectionnée n'existe pas");
+					}
+				} catch (Exception e) {
+					// TODO: handle exception
+					System.out.println("Il faut une valeur numérique");
+				}
+			} while(error);
+			
+			reserverTableAction(numTable);
+		}		
+	}
+	
+	public void reserverTableAction(int numTable) {
+		TableDAOImpl tableDAO = new TableDAOImpl(user);
+		
+		ClientDAO clientDAO = new ClientDAOImpl();
+
+		Client client = clientDAO.create(null);	
+		
+		tableDAO.reserverTable(client.getId(), numTable);
 	}
 }
