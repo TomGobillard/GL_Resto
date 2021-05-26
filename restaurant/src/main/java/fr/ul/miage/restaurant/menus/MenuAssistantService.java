@@ -1,6 +1,7 @@
 package fr.ul.miage.restaurant.menus;
 
 import java.util.ArrayList;
+
 import fr.ul.miage.restaurant.Impl.TableDAOImpl;
 import fr.ul.miage.restaurant.dao.TableDAO;
 import fr.ul.miage.restaurant.models.Personnel;
@@ -55,6 +56,7 @@ public class MenuAssistantService extends MenuCommun{
 	}
 	
 	public void printOptions() {
+		System.out.println();
 		System.out.println("--------------------------------------------------");
 		System.out.println("Que souhaitez-vous faire ?\n");
 		

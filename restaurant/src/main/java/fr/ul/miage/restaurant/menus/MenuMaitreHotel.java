@@ -137,6 +137,7 @@ public class MenuMaitreHotel extends MenuCommun {
 	}
 
 	public void printOptions() {
+		System.out.println();
 		System.out.println("--------------------------------------------------");
 		System.out.println("Que souhaitez-vous faire ?\n");
 

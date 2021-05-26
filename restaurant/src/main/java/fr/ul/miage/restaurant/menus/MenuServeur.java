@@ -40,7 +40,7 @@ public class MenuServeur extends MenuCommun {
 		if(!tableInfoInitPrinted) {
 			printOccupationTablesWithAvancement();
 		}
-
+		System.out.println();
 		System.out.println("--------------------------------------------------");
 		System.out.println("Que souhaitez-vous faire ?\n");
 
