@@ -252,7 +252,7 @@ public class PlatDAOImpl extends PlatDAO {
 				while (platError) {
 					System.out.println("Sélectionnez maintenant l'id du plat : ");
 					long idPlat = s.nextLong();
-					if (platExists(idPlat)) {
+					if (isPlatEnPreparation(idPlat, idCmde)) {
 						platError = false;
 						error = false;
 						String newEtat = "PRETE";
@@ -365,5 +365,25 @@ public class PlatDAOImpl extends PlatDAO {
 		}
 
 		return listPlats;
+	}
+
+	@Override
+	public boolean isPlatEnPreparation(long idPlat, long idCmde) {
+		// TODO Auto-generated method stub
+		try {
+			String sql = "SELECT * FROM composition_cmde WHERE idplat = ? AND idcommande = ? AND etat = 'EN PREPARATION'";
+			PreparedStatement stmt = connect.prepareStatement(sql);
+			stmt.setLong(1, idPlat);
+			stmt.setLong(2, idCmde);
+			
+			ResultSet result = stmt.executeQuery();
+			
+			if(result.next()) {
+				return true;
+			}
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+		return false;
 	}
 }
