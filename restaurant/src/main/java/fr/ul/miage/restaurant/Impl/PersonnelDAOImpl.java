@@ -31,7 +31,7 @@ public class PersonnelDAOImpl extends PersonnelDAO<Personnel> {
 			}
 
 		} catch (Exception e) {
-			// TODO: handle exception
+			e.printStackTrace();
 		}
 
 		return personnel;
@@ -51,7 +51,7 @@ public class PersonnelDAOImpl extends PersonnelDAO<Personnel> {
 			stmt.executeUpdate();
 
 		} catch (Exception e) {
-			// TODO: handle exception
+			e.printStackTrace();
 		}
 		// TODO Auto-generated method stub
 		return null;
@@ -73,7 +73,7 @@ public class PersonnelDAOImpl extends PersonnelDAO<Personnel> {
 			stmt.executeUpdate();
 
 		} catch (Exception e) {
-			// TODO: handle exception
+			e.printStackTrace();
 		}
 		// TODO Auto-generated method stub
 		
@@ -86,7 +86,7 @@ public class PersonnelDAOImpl extends PersonnelDAO<Personnel> {
 			stmt.executeUpdate();
 			
 		} catch (Exception e) {
-			// TODO: handle exception
+			e.printStackTrace();
 		}
 		
 		return obj;
@@ -145,7 +145,7 @@ public class PersonnelDAOImpl extends PersonnelDAO<Personnel> {
 			}
 
 		} catch (Exception e) {
-			// TODO: handle exception
+			e.printStackTrace();
 		}
 		// TODO Auto-generated method stub
 		return listPersonnel;

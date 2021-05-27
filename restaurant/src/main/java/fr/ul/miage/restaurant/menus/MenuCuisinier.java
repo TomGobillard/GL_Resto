@@ -1,9 +1,6 @@
 package fr.ul.miage.restaurant.menus;
 
-import java.sql.PreparedStatement;
 import java.util.ArrayList;
-import java.util.Scanner;
-
 import fr.ul.miage.restaurant.Impl.CategoriePlatDAOImpl;
 import fr.ul.miage.restaurant.Impl.CommandeDAOImpl;
 import fr.ul.miage.restaurant.Impl.PlatDAOImpl;
@@ -83,7 +80,7 @@ public class MenuCuisinier extends MenuCommun {
 	}
 	
 	private void getCommandesEntrantes(boolean toSetPlat) {
-		CommandeDAOImpl cmdeDAO = new CommandeDAOImpl();
+		CommandeDAO cmdeDAO = new CommandeDAOImpl();
 		String cmdesEntrantes = cmdeDAO.getCommandeEntrantes();
 		if(cmdesEntrantes.equals("")) {
 			System.out.println("Il n'y a pas de commande entrante pour le moment.");
@@ -91,24 +88,23 @@ public class MenuCuisinier extends MenuCommun {
 			System.out.println(cmdesEntrantes);
 			if(toSetPlat) {			
 				PlatDAO platDAO = new PlatDAOImpl();
-				
-				Scanner s = new Scanner(System.in);
 				boolean error = true;
 				while (error) {
 					System.out.println("Saisissez le numéro de la commande concernée par la mise à jour du plat : ");
-					long idCmde = s.nextLong();
+					long idCmde = ScanEntree.readLong();
 					if (cmdeDAO.cmdeEntranteExists(idCmde)) {
 						System.out.println("Commande n°" + idCmde + " sélectionnée.");
 						cmdeDAO.showPlatCommande(idCmde);
 						boolean platError = true;
 						while (platError) {
 							System.out.println("Sélectionnez maintenant l'id du plat : ");
-							long idPlat = s.nextLong();
+							long idPlat = ScanEntree.readLong();
 							if (platDAO.isPlatEnPreparation(idPlat, idCmde)) {
 								platError = false;
 								error = false;
 								
 								platDAO.setEtatPlatPret(idPlat, idCmde);
+								System.out.println("Le plat est maintenant prêt !");
 
 							} else {
 								System.out.println("L'id du plat renseigné n'existe pas.");
@@ -124,7 +120,7 @@ public class MenuCuisinier extends MenuCommun {
 	}
 
 	public void creerPlat() {
-		ProduitDAO<Produit> produitDAO = new ProduitDAOImpl();
+		ProduitDAO produitDAO = new ProduitDAOImpl();
 		PlatDAO platDAO = new PlatDAOImpl();
 		CategoriePlatDAO categPlatDAO = new CategoriePlatDAOImpl();
 		ArrayList<Produit> produits =  produitDAO.getProduitsDispos();
@@ -161,8 +157,6 @@ public class MenuCuisinier extends MenuCommun {
 
 			while(error) {
 				try {
-//					Scanner sc = new Scanner(System.in);
-//					qte = sc.nextInt();
 					qte = ScanEntree.readInteger();
 
 					if((!produitDAO.isDispo(ingredient.getId(), qte)) || (qte > 5 || qte < 0)) {

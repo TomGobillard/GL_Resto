@@ -39,6 +39,7 @@ public class CompositionCmdeDAOImpl extends CompositionCmdeDAO{
 			}
 		
 		} catch (Exception e) {
+			e.printStackTrace();
 
 		}
 		return compoCmdes;
@@ -55,6 +56,7 @@ public class CompositionCmdeDAOImpl extends CompositionCmdeDAO{
 			stmt1.executeUpdate();
 
 		} catch (Exception e) {
+			e.printStackTrace();
 
 		}			
 	}

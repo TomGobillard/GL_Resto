@@ -31,7 +31,7 @@ public abstract class MenuCommun {
 	}
 	
 	protected void consulterStocks() {
-		ProduitDAO<Produit> produitDAO = new ProduitDAOImpl();
+		ProduitDAO produitDAO = new ProduitDAOImpl();
 
 		ArrayList<Produit> produits = new ArrayList<Produit>();
 		produits = produitDAO.listProduit();
@@ -41,7 +41,7 @@ public abstract class MenuCommun {
 	}
 	
 	protected void consulterProduitsDispos() {
-		ProduitDAO<Produit> produitDAO = new ProduitDAOImpl();
+		ProduitDAO produitDAO = new ProduitDAOImpl();
 
 		ArrayList<Produit> produits = new ArrayList<Produit>();
 		produits = produitDAO.getProduitsDispos();

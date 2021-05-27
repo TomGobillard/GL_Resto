@@ -28,7 +28,7 @@ public class ClientDAOImpl extends ClientDAO {
 			stmt.executeUpdate();
 
 		} catch (Exception e) {
-			// TODO: handle exception
+			e.printStackTrace();
 		}
 
 		try {
@@ -41,7 +41,7 @@ public class ClientDAOImpl extends ClientDAO {
 				client = new Client(result2.getLong(1), null, null);
 			}
 		} catch (Exception e) {
-			// TODO: handle exception
+			e.printStackTrace();
 		}
 		return client;
 	}

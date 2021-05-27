@@ -13,7 +13,7 @@ import fr.ul.miage.restaurant.models.Produit;
 
 public class PlatTest {
 
-private ProduitDAO<Produit> produitDAO;
+private ProduitDAO produitDAO;
 	
 	@Before
 	public void setUp() throws Exception {

@@ -143,7 +143,8 @@ public class MenuServeur extends MenuCommun {
 		tables.forEach(table -> System.out.println("Table n°" + table));
 		
 		long idTable = initServeurTableIDForQuery("dont vous souhaitez connaitre l'avancement.");
-		tableDAO.showAvancement(idTable);
+		String avancement = tableDAO.showAvancement(idTable);
+		System.out.println(avancement);
 	}
 	
 	private void consulterServices() {
