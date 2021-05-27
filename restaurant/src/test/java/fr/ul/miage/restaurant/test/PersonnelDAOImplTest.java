@@ -20,8 +20,32 @@ public class PersonnelDAOImplTest {
 	
 	@Test
 	public void testConnectDirecteur() {
-		Personnel personnel = personnelDAO.connection("dirlo", "mdp");
+		Personnel personnel = personnelDAO.getByRole("directeur");
 		assertEquals("DIRECTEUR", personnel.getRole());
+	}
+	
+	@Test
+	public void testConnectAssistantService() {
+		Personnel personnel = personnelDAO.getByRole("assistant service");
+		assertEquals("ASSISTANT SERVICE", personnel.getRole());
+	}
+	
+	@Test
+	public void testConnectCuisinier() {
+		Personnel personnel = personnelDAO.getByRole("cuisinier");
+		assertEquals("CUISINIER", personnel.getRole());
+	}
+	
+	@Test
+	public void testConnectServeur() {
+		Personnel personnel = personnelDAO.getByRole("serveur");
+		assertEquals("SERVEUR", personnel.getRole());
+	}
+	
+	@Test
+	public void testConnectMaitreHotel() {
+		Personnel personnel = personnelDAO.getByRole("maitre hotel");
+		assertEquals("MAITRE HOTEL", personnel.getRole());
 	}
 
 }

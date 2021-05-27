@@ -140,7 +140,7 @@ public class PersonnelDAOImpl extends PersonnelDAO<Personnel> {
 			ResultSet result = stmt.executeQuery();
 
 			while(result.next()) {
-				Personnel personel = new Personnel(result.getLong(1), result.getString(4), result.getString(2), result.getString(4), result.getString(5), result.getString(6));
+				Personnel personel = new Personnel(result.getLong(1), result.getString(4), result.getString(2), result.getString(3), result.getString(5), result.getString(6));
 				listPersonnel.add(personel);
 			}
 
@@ -149,6 +149,30 @@ public class PersonnelDAOImpl extends PersonnelDAO<Personnel> {
 		}
 		// TODO Auto-generated method stub
 		return listPersonnel;
+	}
+
+	@Override
+	public Personnel getByRole(String role) {
+		// TODO Auto-generated method stub
+		Personnel personnel = new Personnel();
+
+		try {
+			String sql = "SELECT * FROM personnel WHERE role = ?";
+			PreparedStatement stmt = connect.prepareStatement(sql);
+			stmt.setString(1, role.toUpperCase());
+
+			ResultSet result = stmt.executeQuery();
+
+			if(result.next()) {
+				personnel = new Personnel(result.getLong(1), result.getString(4), result.getString(2), 
+						result.getString(3), result.getString(5), result.getString(6));
+			}
+
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+
+		return personnel;
 	}
 
 }
