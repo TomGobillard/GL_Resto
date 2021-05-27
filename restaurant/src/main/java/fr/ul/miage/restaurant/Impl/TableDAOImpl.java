@@ -79,6 +79,7 @@ public class TableDAOImpl extends TableDAO {
 					System.out.println("Il n'y a pas de table enregistrée pour cet identifiant.");
 				}
 			} catch (Exception e) {
+				e.printStackTrace();
 
 			}
 			return t;
@@ -140,6 +141,7 @@ public class TableDAOImpl extends TableDAO {
 			stmt.executeUpdate();
 
 		} catch (Exception e) {
+			e.printStackTrace();
 		}
 	}
 
@@ -154,20 +156,21 @@ public class TableDAOImpl extends TableDAO {
 			res = result.next();
 
 		} catch (Exception e) {
-			res = false;
+			e.printStackTrace();
 		}
 		return res;
 	}
 
-	public void showAvancement(long idTable) {
+	public String showAvancement(long idTable) {
 		String sql = "SELECT * FROM rtable WHERE idtable = ?";
+		String res = "";
 		try {
 			PreparedStatement stmt = connect.prepareStatement(sql);
 			stmt.setLong(1, idTable);
 
 			ResultSet result = stmt.executeQuery();
 			if (result.next()) {
-				String res = "Les clients de la table n°" + result.getInt("idtable") + " sont ";
+				res = "Les clients de la table n°" + result.getInt("idtable") + " sont ";
 				if (result.getString("avancement").equals("VIDE")) {
 					res = "La table est vide.";
 				} else if (result.getString("avancement").equals("EN REPAS")) {
@@ -177,11 +180,11 @@ public class TableDAOImpl extends TableDAO {
 				} else {
 					res += "partis.";
 				}
-				System.out.println(res);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		return res;
 	}
 
 	public ArrayList<Integer> getServeurTablesId(long serveurId) {
@@ -291,7 +294,7 @@ public class TableDAOImpl extends TableDAO {
 			
 			stmt.executeUpdate();
 		} catch (Exception e) {
-			// TODO: handle exception
+			e.printStackTrace();
 		}
 	}
 	
@@ -309,7 +312,7 @@ public class TableDAOImpl extends TableDAO {
 			}
 
 		} catch (Exception e) {
-			// TODO: handle exception
+			e.printStackTrace();
 		}
 		
 		return listTables;

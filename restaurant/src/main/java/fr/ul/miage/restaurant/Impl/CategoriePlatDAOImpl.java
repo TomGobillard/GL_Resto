@@ -67,7 +67,7 @@ public class CategoriePlatDAOImpl extends CategoriePlatDAO{
 				listCateg.add(categ);
 			}
 		} catch (Exception e) {
-			// TODO: handle exception
+			e.printStackTrace();
 		}
 		
 		return listCateg;
@@ -90,7 +90,7 @@ ArrayList<CategoriePlat> listCateg = new ArrayList<>();
 				listCateg.add(categ);
 			}
 		} catch (Exception e) {
-			// TODO: handle exception
+			e.printStackTrace();
 		}
 		
 		return listCateg;

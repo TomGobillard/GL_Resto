@@ -13,7 +13,7 @@ import fr.ul.miage.restaurant.dao.ProduitDAO;
 
 public class ProduitDAOImplTest {
 	
-	private ProduitDAO<Produit> produitDAO;
+	private ProduitDAO produitDAO;
 	
 	@Before
 	public void setUp() throws Exception {

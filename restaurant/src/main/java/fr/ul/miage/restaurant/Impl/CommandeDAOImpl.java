@@ -96,6 +96,7 @@ public class CommandeDAOImpl extends CommandeDAO {
 				idClient = result.getLong(1);
 			}
 		} catch (Exception e) {
+			e.printStackTrace();
 
 		}
 		
@@ -106,7 +107,7 @@ public class CommandeDAOImpl extends CommandeDAO {
 			
 			stmt.executeUpdate();
 		} catch (Exception e) {
-			// TODO: handle exception
+			e.printStackTrace();
 		}
 
 		try {
@@ -136,7 +137,7 @@ public class CommandeDAOImpl extends CommandeDAO {
 				idLastCommande = result.getInt(1);
 			}
 		} catch (Exception e) {
-
+			e.printStackTrace();
 		}
 		return idLastCommande;
 	}
@@ -227,7 +228,7 @@ public class CommandeDAOImpl extends CommandeDAO {
 			res = result.next();
 
 		} catch (Exception e) {
-			res = false;
+			e.printStackTrace();
 		}
 		return res;
 	}

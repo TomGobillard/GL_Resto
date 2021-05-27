@@ -27,7 +27,7 @@ public class PlatDAOImpl extends PlatDAO {
 				plat = new Plat(result.getLong(1), result.getString(2), result.getDouble(3), result.getBoolean(4), result.getLong(5), result.getLong(6));
 			}
 		} catch (Exception e) {
-			// TODO: handle exception
+			e.printStackTrace();
 		}
 		return plat;
 	}
@@ -67,6 +67,7 @@ public class PlatDAOImpl extends PlatDAO {
 			stmt.executeUpdate();
 
 		} catch (Exception e) {
+			e.printStackTrace();
 			// TODO: handle exception
 		}
 
@@ -93,6 +94,7 @@ public class PlatDAOImpl extends PlatDAO {
 				}
 			}
 		} catch (Exception e) {
+			e.printStackTrace();
 
 		}
 	}
@@ -110,6 +112,7 @@ public class PlatDAOImpl extends PlatDAO {
 				listPlats.add(plat);
 			}
 		} catch (Exception e) {
+			e.printStackTrace();
 
 		}
 
@@ -132,6 +135,7 @@ public class PlatDAOImpl extends PlatDAO {
 			}
 
 		} catch (Exception e) {
+			e.printStackTrace();
 			// TODO: handle exception
 		}
 
@@ -147,6 +151,7 @@ public class PlatDAOImpl extends PlatDAO {
 
 			stmt.executeUpdate();
 		} catch (Exception e) {
+			e.printStackTrace();
 			// TODO: handle exception
 		}
 	}
@@ -161,6 +166,7 @@ public class PlatDAOImpl extends PlatDAO {
 
 			stmt.executeUpdate();
 		} catch (Exception e) {
+			e.printStackTrace();
 			// TODO: handle exception
 		}
 	}
@@ -175,7 +181,7 @@ public class PlatDAOImpl extends PlatDAO {
 
 				stmt.executeUpdate();
 			} catch (Exception e) {
-				// TODO: handle exception
+				e.printStackTrace();
 			}
 		}
 
@@ -203,6 +209,7 @@ public class PlatDAOImpl extends PlatDAO {
 			}
 
 		} catch (Exception e) {
+			e.printStackTrace();
 
 		}
 
@@ -227,6 +234,7 @@ public class PlatDAOImpl extends PlatDAO {
 				plats.add(plat);
 			}
 		}catch (Exception e) {
+			e.printStackTrace();
 			// TODO: handle exception
 		}
 
@@ -242,11 +250,10 @@ public class PlatDAOImpl extends PlatDAO {
 			stmt.setString(1, newEtat);
 			stmt.setLong(2, idPlat);
 			stmt.setLong(3, idCmde);
-			System.out.println("Le plat est maintenant prêt !");
 
 			stmt.executeUpdate();
 		} catch (Exception e) {
-
+			e.printStackTrace();
 		}
 	}
 
@@ -261,7 +268,7 @@ public class PlatDAOImpl extends PlatDAO {
 			res = result.next();
 
 		} catch (Exception e) {
-			res = false;
+			e.printStackTrace();
 		}
 		return res;
 	}
@@ -286,7 +293,7 @@ public class PlatDAOImpl extends PlatDAO {
 			}
 
 		} catch (Exception e) {
-			// TODO: handle exception
+			e.printStackTrace();
 		}
 
 		return listPlats;
@@ -307,6 +314,7 @@ public class PlatDAOImpl extends PlatDAO {
 				return true;
 			}
 		} catch (Exception e) {
+			e.printStackTrace();
 			// TODO: handle exception
 		}
 		return false;

@@ -10,7 +10,7 @@ import fr.ul.miage.restaurant.models.CompositionPlat;
 import fr.ul.miage.restaurant.models.Produit;
 import fr.ul.miage.restaurant.dao.ProduitDAO;
 
-public class ProduitDAOImpl extends ProduitDAO<Produit> {
+public class ProduitDAOImpl extends ProduitDAO {
 	@Override
 	public Produit find(long id) {
 		Produit produit = new Produit();
@@ -52,6 +52,7 @@ public class ProduitDAOImpl extends ProduitDAO<Produit> {
 			
 			stmt.executeUpdate();
 		} catch (Exception e) {
+			e.printStackTrace();
 			// TODO: handle exception
 		}
 		return null;
@@ -160,7 +161,7 @@ public class ProduitDAOImpl extends ProduitDAO<Produit> {
 
 			stmt.executeUpdate();
 		} catch (Exception e) {
-			// TODO: handle exception
+			e.printStackTrace();
 		}
 	}
 

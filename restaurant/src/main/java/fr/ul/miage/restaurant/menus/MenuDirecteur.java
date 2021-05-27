@@ -3,8 +3,6 @@ package fr.ul.miage.restaurant.menus;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Scanner;
-
 import fr.ul.miage.restaurant.Impl.CategoriePlatDAOImpl;
 import fr.ul.miage.restaurant.Impl.ClientDAOImpl;
 import fr.ul.miage.restaurant.Impl.CommandeDAOImpl;
@@ -133,7 +131,7 @@ public class MenuDirecteur extends MenuCommun {
 	}
 
 	public void MajStocks() {
-		ProduitDAO<Produit> produitDAO = new ProduitDAOImpl();	
+		ProduitDAO produitDAO = new ProduitDAOImpl();	
 		ArrayList<Produit> listProduits;
 
 		int continuer = 0;
@@ -317,19 +315,18 @@ public class MenuDirecteur extends MenuCommun {
 
 	public void creerEmploye() {
 		System.out.println("Création d'un nouvel employé");
-		Scanner sc = new Scanner(System.in, "UTF-8");
 
 		System.out.println("Nom : ");
-		String nom = sc.next();
+		String nom = ScanEntree.readString();
 
 		System.out.println("Prénom : ");
-		String prenom = sc.next();
+		String prenom = ScanEntree.readString();
 
 		System.out.println("Login : ");
-		String login = sc.next();
+		String login = ScanEntree.readString();
 
 		System.out.println("Mdp : ");
-		String mdp = sc.next();
+		String mdp = ScanEntree.readString();
 
 		personnelDAO.create(new Personnel(selectRole(), login, mdp, nom, prenom));
 		System.out.println("L'employé à bien été ajouté au personnel.");
@@ -402,8 +399,7 @@ public class MenuDirecteur extends MenuCommun {
 	public void updateLoginPersonnel(int idPersonnel) {
 		System.out.println("Veuillez rentrer le nouveau login :");
 
-		Scanner sc = new Scanner(System.in);
-		String newLogin = sc.next();
+		String newLogin = ScanEntree.readString();
 
 		Personnel personnel = personnelDAO.find((long)idPersonnel);
 
