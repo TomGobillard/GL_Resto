@@ -83,7 +83,7 @@ public class FactureDAOImpl extends FactureDAO {
 
 
 
-					String sql4 = "UPDATE rtable SET etat = 'SALE', idclient = null WHERE idclient = ?";
+					String sql4 = "UPDATE rtable SET etat = 'SALE', avancement = 'FINI', idclient = null WHERE idclient = ?";
 
 					PreparedStatement stmt4 = connect.prepareStatement(sql4);
 					stmt4.setLong(1, idclient);

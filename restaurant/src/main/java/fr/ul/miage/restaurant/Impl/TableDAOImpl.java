@@ -299,7 +299,7 @@ public class TableDAOImpl extends TableDAO {
 		ArrayList<Table> listTables = new ArrayList<Table>();
 		try {
 			
-			String sql = "SELECT * FROM rtable WHERE avancement = 'FINI' AND etat = 'OCCUPEE'";
+			String sql = "SELECT * FROM rtable WHERE avancement = 'EN REPAS' AND etat = 'OCCUPEE'";
 			PreparedStatement stmt = connect.prepareStatement(sql);
 
 			ResultSet result = stmt.executeQuery();

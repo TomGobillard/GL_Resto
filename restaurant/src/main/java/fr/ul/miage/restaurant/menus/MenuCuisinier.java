@@ -165,7 +165,7 @@ public class MenuCuisinier extends MenuCommun {
 //					qte = sc.nextInt();
 					qte = ScanEntree.readInteger();
 
-					if(!produitDAO.isDispo(ingredient.getId(), qte) || (qte > 5 && qte < 0)) {
+					if((!produitDAO.isDispo(ingredient.getId(), qte)) || (qte > 5 || qte < 0)) {
 						System.out.println("Le stock est insuffisant pour " + ingredient.getLibelle());
 						System.out.println("Quantité (max 5) : ");
 					} else {
