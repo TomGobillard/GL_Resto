@@ -27,6 +27,13 @@ public class Personnel {
 		this.prenom = prenom;
 	}
 
+	public Personnel(long identifiant, String nom, String prenom) {
+		super();
+		this.identifiant = identifiant;
+		this.nom = nom;
+		this.prenom = prenom;
+	}
+
 	public Personnel() {
 		super();
 	}
@@ -95,6 +102,6 @@ public class Personnel {
 
 	@Override
 	public String toString() {
-		return "Personnel [identifiant=" + identifiant + ", role=" + role + ", nom=" + nom + ", prenom=" + prenom + "]";
+		return "Nom : " + this.nom + " " + this.prenom + "\n" + "Identifiant : " + this.identifiant + "\nRôle : " + this.role + "\n";
 	}
 }

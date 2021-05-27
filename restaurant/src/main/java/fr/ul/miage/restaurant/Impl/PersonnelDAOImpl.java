@@ -140,7 +140,7 @@ public class PersonnelDAOImpl extends PersonnelDAO<Personnel> {
 			ResultSet result = stmt.executeQuery();
 
 			while(result.next()) {
-				Personnel personel = new Personnel(result.getLong(1), result.getString(2), result.getString(3), result.getString(4), result.getString(5), result.getString(6));
+				Personnel personel = new Personnel(result.getLong(1), result.getString(4), result.getString(2), result.getString(4), result.getString(5), result.getString(6));
 				listPersonnel.add(personel);
 			}
 

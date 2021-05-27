@@ -1,7 +1,6 @@
 package fr.ul.miage.restaurant.menus;
 
 import java.util.ArrayList;
-import java.util.Scanner;
 
 import fr.ul.miage.restaurant.Impl.FactureDAOImpl;
 import fr.ul.miage.restaurant.Impl.ServeurDAOImpl;
@@ -11,6 +10,7 @@ import fr.ul.miage.restaurant.dao.ServeurDAO;
 import fr.ul.miage.restaurant.dao.TableDAO;
 import fr.ul.miage.restaurant.models.Facture;
 import fr.ul.miage.restaurant.models.Personnel;
+import fr.ul.miage.restaurant.models.Serveur;
 import fr.ul.miage.restaurant.models.Table;
 import fr.ul.miage.restaurant.systeme.ScanEntree;
 
@@ -18,7 +18,6 @@ public class MenuMaitreHotel extends MenuCommun {
 
 	public MenuMaitreHotel(boolean connected, Personnel user) {
 		super(connected, user);
-		// TODO Auto-generated constructor stub
 	}
 
 	public void printMenuMaitrehotel() {
@@ -34,8 +33,7 @@ public class MenuMaitreHotel extends MenuCommun {
 
 				printOptions();
 
-				Scanner s = new Scanner(System.in);
-				c2 = s.nextInt();
+				c2 = ScanEntree.readInteger();
 				switch (c2) {
 				case 1:
 					assignerServeurATable();
@@ -63,19 +61,10 @@ public class MenuMaitreHotel extends MenuCommun {
 		FactureDAO factureDAO = new FactureDAOImpl();
 		TableDAO tableDAO = new TableDAOImpl();
 		ArrayList<Table> listTables = tableDAO.getTableRepasFini();
-		int idtable;
-		if(listTables.size() > 0) {
-			do {
-	
-				System.out.println("Veuillez sélectionner la table pour laquelle vous voulez éditer une facture :");
-	
-				listTables.forEach(table -> System.out.println(table));
-	
-				idtable = ScanEntree.readInteger();
-				
-	
-			} while (!tableDAO.tableExists(idtable));
-			
+		
+		if(!listTables.isEmpty()) {
+			listTables.forEach(table -> System.out.println(table));
+			int idtable = (int) ScanEntree.readIdTable(listTables, "pour laquelle vous voulez éditer une facture :");
 			
 			Table table = tableDAO.find(idtable);
 			System.out.println("Sélectionnez le type de repas pour la facture :");
@@ -102,30 +91,24 @@ public class MenuMaitreHotel extends MenuCommun {
 	private void assignerServeurATable() {
 		TableDAO tableDAO = new TableDAOImpl();
 		ServeurDAO serveurDAO = new ServeurDAOImpl();
+		ArrayList<Table> tables = tableDAO.getAll();
+				
+		tables.forEach(table -> System.out.println("Table " + table.getId()));
+		
+		long idTable = ScanEntree.readIdTable(tables, "à laquelle vous souhaitez affecter un serveur :");
+		System.out.println("Veuillez renseignez l'id du serveur à affecter : ");
+				
+		ArrayList<Serveur> listServeur = serveurDAO.getAll();
+		listServeur.forEach(serv -> System.out.println("Serveur n°" + serv.getId() + " : " + serv.getNom() + " " + serv.getPrenom()));
+				
+		int idServeur = (int) ScanEntree.readIdServeur(listServeur, "à affecter");
 
-		boolean error = true;
-
-		while (error == true) {
-			System.out.println("Veuillez renseignez l'id de la table à laquelle vous voulez affecter un serveur : ");
-			Scanner s = new Scanner(System.in);
-			long idTable = s.nextLong();
-			if (tableDAO.tableExists(idTable)) {
-				System.out.println("Veuillez renseignez l'id du serveur à affecter : ");
-				long idServeur = s.nextLong();
-				if (serveurDAO.serveurExists(idServeur)) {
-					tableDAO.assignServeur(idServeur, idTable);
-					error = false;
-					System.out.println("Le serveur n°" + idServeur + " a bien été assigné à la table n°" + idTable);
-				} else {
-					System.out.println("L'id du serveur renseigné n'existe pas.");
-				}
-			} else {
-				System.out.println("L'id de la table renseignée n'existe pas.");
-			}
-		}
+		tableDAO.assignServeur(idServeur, idTable);
+		System.out.println("Le serveur n°" + idServeur + " a bien été assigné à la table n°" + idTable);
 	}
 
 	public void printOptions() {
+		System.out.println();
 		System.out.println("--------------------------------------------------");
 		System.out.println("Que souhaitez-vous faire ?\n");
 

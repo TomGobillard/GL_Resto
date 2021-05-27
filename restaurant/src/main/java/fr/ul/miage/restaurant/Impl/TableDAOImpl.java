@@ -5,8 +5,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Map.Entry;
-import java.util.Scanner;
 
 import fr.ul.miage.restaurant.dao.TableDAO;
 import fr.ul.miage.restaurant.models.Personnel;
@@ -66,36 +64,30 @@ public class TableDAOImpl extends TableDAO {
 	}
 
 	@Override
-	public void obtenirInfoTable() {
-		boolean reqFind = false;
-		while (!reqFind) {
-			System.out.println("Veuillez renseignez le numéro de la table dont vous souhaitez obtenir les informations : ");
-			Scanner s = new Scanner(System.in);
-			int choix = s.nextInt();
+	public Table obtenirInfoTable(long idTable) {
 			String sql = "SELECT * FROM rtable WHERE idtable = ?";
-
+			Table t = new Table();
 			try {
 				PreparedStatement stmt = connect.prepareStatement(sql);
-				stmt.setLong(1, choix);
+				stmt.setLong(1, idTable);
 
 				ResultSet result = stmt.executeQuery();
 
 				if (result.next()) {
-					reqFind = true;
-					Table t = new Table(result.getLong(1), result.getLong(2),result.getString(3), result.getLong(4), result.getString(5), result.getLong(6),result.getLong(7));
-					System.out.println(t);
+					t = new Table(result.getLong(1), result.getLong(2),result.getString(3), result.getLong(4), result.getString(5), result.getLong(6),result.getLong(7));
 				} else {
 					System.out.println("Il n'y a pas de table enregistrée pour cet identifiant.");
 				}
 			} catch (Exception e) {
 
 			}
-		}
+			return t;
+
 	}
 
 
-	private HashMap<Integer, String> getOccupationAllTables() {
-		HashMap<Integer, String> occupations = new HashMap<Integer, String>();
+	public ArrayList<Table> getOccupationAllTables() {
+		ArrayList<Table> tables = new ArrayList<Table>();
 		try {
 			String sql = "SELECT idtable, etat FROM rtable WHERE idServeur = ?";
 			PreparedStatement stmt = connect.prepareStatement(sql);
@@ -104,14 +96,13 @@ public class TableDAOImpl extends TableDAO {
 			ResultSet result = stmt.executeQuery();
 
 			while (result.next()) {
-				occupations.put(Integer.valueOf(result.getInt("idtable")), result.getString("etat"));
+				Table t = new Table(result.getLong(1), result.getLong(2),result.getString(3), result.getLong(4), result.getString(5), result.getLong(6),result.getLong(7));
+				tables.add(t);
 			}
-
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		return occupations;
+		return tables;
 	}
 
 	public HashMap<Integer, String> getTableForInitPrint() {
@@ -137,15 +128,6 @@ public class TableDAOImpl extends TableDAO {
 			e.printStackTrace();
 		}
 		return occupations;
-	}
-
-	public void printOccupationAllTables() {
-		System.out.println("Etat de toutes les tables : \n");
-		HashMap<Integer, String> occupations = getOccupationAllTables();
-		for (Entry<Integer, String> entry : occupations.entrySet()) {
-			System.out.println("Table n°" + entry.getKey() + " : " + entry.getValue());
-		}
-		System.out.println();
 	}
 
 	public void assignServeur(long idServeur, long idTable) {
@@ -198,11 +180,11 @@ public class TableDAOImpl extends TableDAO {
 				System.out.println(res);
 			}
 		} catch (Exception e) {
-
+			e.printStackTrace();
 		}
 	}
 
-	public ArrayList<Integer> getServeurTables(long serveurId) {
+	public ArrayList<Integer> getServeurTablesId(long serveurId) {
 		ArrayList<Integer> tables = new ArrayList<>();
 		try {
 
@@ -217,6 +199,26 @@ public class TableDAOImpl extends TableDAO {
 
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return tables;
+	}
+	
+	public ArrayList<Table> getServeurTables(long serveurId) {
+		ArrayList<Table> tables = new ArrayList<Table>();
+		try {
+
+			String sql = "SELECT * FROM rtable WHERE idServeur = ? AND etat = 'OCCUPEE'";
+			PreparedStatement stmt = connect.prepareStatement(sql);
+			stmt.setLong(1, serveurId);
+
+			ResultSet result = stmt.executeQuery();
+			while(result.next()) {
+				Table table = new Table(result.getLong(1), result.getLong(2),result.getString(3), result.getLong(4), result.getString(5), result.getLong(6),result.getLong(7));
+				tables.add(table);
+			}
+
+		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 		return tables;
@@ -238,7 +240,7 @@ public class TableDAOImpl extends TableDAO {
 				tables.add(table);
 			}
 		}catch (Exception e) {
-			// TODO: handle exception
+			e.printStackTrace();
 		}
 		
 		return tables;
@@ -267,7 +269,6 @@ public class TableDAOImpl extends TableDAO {
 
 	@Override
 	public void installerClient(long idClient, long idTable) {
-		// TODO Auto-generated method stub
 		try {
 			String sql = "UPDATE rtable SET avancement = 'INSTALLE', idclient = ?, etat = 'OCCUPEE' WHERE idTable = ?";
 			PreparedStatement stmt = connect.prepareStatement(sql);
@@ -276,7 +277,7 @@ public class TableDAOImpl extends TableDAO {
 			
 			stmt.executeUpdate();
 		} catch (Exception e) {
-			// TODO: handle exception
+			e.printStackTrace();
 		}
 	}
 
@@ -298,7 +299,7 @@ public class TableDAOImpl extends TableDAO {
 		ArrayList<Table> listTables = new ArrayList<Table>();
 		try {
 			
-			String sql = "SELECT * FROM rtable WHERE avancement = 'FINI' AND etat = 'OCCUPEE'";
+			String sql = "SELECT * FROM rtable WHERE avancement = 'EN REPAS' AND etat = 'OCCUPEE'";
 			PreparedStatement stmt = connect.prepareStatement(sql);
 
 			ResultSet result = stmt.executeQuery();
@@ -348,5 +349,19 @@ public class TableDAOImpl extends TableDAO {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+	}
+
+	@Override
+	public void reserverTable(long idClient, long numTable) {
+		try {
+			String sql = "UPDATE rtable SET idclient = ?, etat = 'RESERVEE' WHERE idTable = ?";
+			PreparedStatement stmt = connect.prepareStatement(sql);
+			stmt.setLong(1, idClient);
+			stmt.setLong(2, numTable);
+			
+			stmt.executeUpdate();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}		
 	}
 }

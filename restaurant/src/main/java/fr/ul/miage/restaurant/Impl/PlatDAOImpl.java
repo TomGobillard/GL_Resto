@@ -27,14 +27,12 @@ public class PlatDAOImpl extends PlatDAO {
 
 			ResultSet result = stmt.executeQuery();
 
-			while(result.next()) {
-				plat = new Plat(result.getLong(1), result.getString(2), result.getDouble(3), result.getBoolean(4), 
-						result.getLong(5), result.getLong(6));
+			if(result.next()) {
+				plat = new Plat(result.getLong(1), result.getString(2), result.getDouble(3), result.getBoolean(4), result.getLong(5), result.getLong(6));
 			}
-		}catch (Exception e) {
+		} catch (Exception e) {
 			// TODO: handle exception
 		}
-
 		return plat;
 	}
 
@@ -90,11 +88,11 @@ public class PlatDAOImpl extends PlatDAO {
 				String sql3;
 				PreparedStatement stmt3;
 				CompositionPlatDAO compositionPlatDAO = new CompositionPlatDAOImpl();
-				
+
 				//On créer les composiot de chaque plat
 				for (Produit ingredient : ingredients) {
 					CompositionPlat compoPlat = new CompositionPlat(ingredient.getId(), idPlat, ingredient.getQuantite());
-					
+
 					compositionPlatDAO.create(compoPlat);
 				}
 			}
@@ -103,46 +101,23 @@ public class PlatDAOImpl extends PlatDAO {
 		}
 	}
 
-	public void listerPlatSelonCategorie() {
-		String sql = "SELECT * FROM categorie_plat";
-		int choix = -1;
+	public ArrayList<Plat> listerPlatSelonCategorie(long idCateg) {
+		ArrayList<Plat> listPlats = new ArrayList<>();
 		try {
-			PreparedStatement stmt = connect.prepareStatement(sql);
-			ResultSet result = stmt.executeQuery();
-			boolean entryNotValid = true;
-			while (entryNotValid) {
-				System.out.println("Sélectionnez la catégorie : \n");
-				while (result.next()) {
-					CategoriePlat ctgPlat = new CategoriePlat(result.getLong(1), result.getString(2));
-					System.out.println(ctgPlat.getLibelle() + " (" + ctgPlat.getId() + ")");
-				}
-				Scanner s = new Scanner(System.in);
-				choix = s.nextInt();
-
-				if (choix >= 1 || choix <= 5) {
-					entryNotValid = false;
-				} else {
-					System.out.println("Veuillez renseignez un identifiant de catégorie valide.");
-				}
+			String sql2 = "SELECT * FROM plat WHERE idcategorie = ?";
+			PreparedStatement stmt2 = connect.prepareStatement(sql2);
+			stmt2.setLong(1, idCateg);
+			ResultSet result2 = stmt2.executeQuery();
+			while (result2.next()) {
+				Plat plat = new Plat(result2.getLong(1), result2.getString(2), result2.getDouble(3),
+						result2.getBoolean(4), result2.getLong(5), result2.getLong(6));
+				listPlats.add(plat);
 			}
-
-			try {
-				String sql2 = "SELECT * FROM plat WHERE idcategorie = ?";
-				PreparedStatement stmt2 = connect.prepareStatement(sql2);
-				stmt2.setLong(1, choix);
-				ResultSet result2 = stmt2.executeQuery();
-				while (result2.next()) {
-					Plat plat = new Plat(result2.getLong(1), result2.getString(2), result2.getDouble(3),
-							result2.getBoolean(4), result2.getLong(5), result2.getLong(6));
-					System.out.println(plat);
-				}
-			} catch (Exception e) {
-
-			}
-
 		} catch (Exception e) {
 
 		}
+
+		return listPlats;
 	}
 
 	@Override
@@ -181,53 +156,6 @@ public class PlatDAOImpl extends PlatDAO {
 	}
 
 	@Override
-	public ArrayList<Plat> platsCateg() {
-		ArrayList<Plat> plats = new ArrayList<>();
-
-		String sql = "SELECT * FROM categorie_plat";
-		int choix = -1;
-		try {
-			PreparedStatement stmt = connect.prepareStatement(sql);
-			ResultSet result = stmt.executeQuery();
-			boolean entryNotValid = true;
-			while (entryNotValid) {
-				System.out.println("Sélectionnez la catégorie : \n");
-				while (result.next()) {
-					CategoriePlat ctgPlat = new CategoriePlat(result.getLong(1), result.getString(2));
-					System.out.println(ctgPlat.getLibelle() + " (" + ctgPlat.getId() + ")");
-				}
-				Scanner s = new Scanner(System.in);
-				choix = s.nextInt();
-
-				if (choix >= 1 || choix <= 5) {
-					entryNotValid = false;
-				} else {
-					System.out.println("Veuillez renseignez un identifiant de catégorie valide.");
-				}
-			}
-
-			try {
-				String sql2 = "SELECT * FROM plat WHERE idcategorie = ?";
-				PreparedStatement stmt2 = connect.prepareStatement(sql2);
-				stmt2.setLong(1, choix);
-				ResultSet result2 = stmt2.executeQuery();
-				while (result2.next()) {
-					Plat plat = new Plat(result2.getLong(1), result2.getString(2), result2.getDouble(3),
-							result2.getBoolean(4), result2.getLong(5), result2.getLong(6));
-					plats.add(plat);
-				}
-			} catch (Exception e) {
-
-			}
-
-		} catch (Exception e) {
-
-		}
-
-		return plats;
-	}
-
-	@Override
 	public void ajoutPlatCarteduJour(long idPlat) {
 		// TODO Auto-generated method stub
 		try {
@@ -258,49 +186,24 @@ public class PlatDAOImpl extends PlatDAO {
 	}
 
 	@Override
-	public ArrayList<Plat> platsDispoCateg() {
+	public ArrayList<Plat> platsDispoCateg(long idCateg) {
 		ArrayList<Plat> plats = new ArrayList<>();
 
-		String sql = "SELECT * FROM categorie_plat";
-		int choix = -1;
 		try {
-			PreparedStatement stmt = connect.prepareStatement(sql);
-			ResultSet result = stmt.executeQuery();
-			boolean entryNotValid = true;
-			while (entryNotValid) {
-				System.out.println("Sélectionnez la catégorie : \n");
-				while (result.next()) {
-					CategoriePlat ctgPlat = new CategoriePlat(result.getLong(1), result.getString(2));
-					System.out.println(ctgPlat.getLibelle() + " (" + ctgPlat.getId() + ")");
+			CompositionPlatDAO compoPlatDAO = new CompositionPlatDAOImpl();
+
+			String sql2 = "SELECT * FROM plat WHERE idcategorie = ?";
+			PreparedStatement stmt2 = connect.prepareStatement(sql2);
+			stmt2.setLong(1, idCateg);
+			ResultSet result2 = stmt2.executeQuery();
+
+			while (result2.next()) {
+				Plat plat = new Plat(result2.getLong(1), result2.getString(2), result2.getDouble(3),
+						result2.getBoolean(4), result2.getLong(5), result2.getLong(6));
+
+				if (compoPlatDAO.isDispo(plat.getId())) {
+					plats.add(plat);
 				}
-				Scanner s = new Scanner(System.in);
-				choix = s.nextInt();
-
-				if (choix >= 1 || choix <= 5) {
-					entryNotValid = false;
-				} else {
-					System.out.println("Veuillez renseignez un identifiant de catégorie valide.");
-				}
-			}
-
-			try {
-				CompositionPlatDAO compoPlatDAO = new CompositionPlatDAOImpl();
-
-				String sql2 = "SELECT * FROM plat WHERE idcategorie = ?";
-				PreparedStatement stmt2 = connect.prepareStatement(sql2);
-				stmt2.setLong(1, choix);
-				ResultSet result2 = stmt2.executeQuery();
-				while (result2.next()) {
-					Plat plat = new Plat(result2.getLong(1), result2.getString(2), result2.getDouble(3),
-							result2.getBoolean(4), result2.getLong(5), result2.getLong(6));
-
-					if (compoPlatDAO.isDispo(plat.getId())) {
-						plats.add(plat);
-					}
-				}
-
-			} catch (Exception e) {
-
 			}
 
 		} catch (Exception e) {
@@ -334,51 +237,27 @@ public class PlatDAOImpl extends PlatDAO {
 		return plats;
 	}
 
-	public void setEtatPlatPret() {
-		CommandeDAO cmdeDAO = new CommandeDAOImpl();
-		Scanner s = new Scanner(System.in);
-		boolean error = true;
-		while (error) {
-			System.out.println("Saisissez le numéro de la commande concernée par la mise à jour du plat : ");
-			long idCmde = s.nextLong();
-			if (cmdeDAO.cmdeEntranteExists(idCmde)) {
-				System.out.println("Commande n°" + idCmde + " sélectionnée.");
-				cmdeDAO.showPlatCommande(idCmde);
-				boolean platError = true;
-				while (platError) {
-					System.out.println("Sélectionnez maintenant l'id du plat : ");
-					long idPlat = s.nextLong();
-					if (platExists(idPlat)) {
-						platError = false;
-						error = false;
-						String newEtat = "PRETE";
+	public void setEtatPlatPret(long idPlat, long idCmde) {
+		String newEtat = "PRETE";
 
-						try {
-							String sql = "UPDATE COMPOSITION_CMDE SET etat = ? WHERE idplat = ? AND idcommande = ?";
-							PreparedStatement stmt = connect.prepareStatement(sql);
-							stmt.setString(1, newEtat);
-							stmt.setLong(2, idPlat);
-							stmt.setLong(3, idCmde);
-							System.out.println("Le plat est maintenant prêt !");
-							
-							stmt.executeUpdate();
-						} catch (Exception e) {
+		try {
+			String sql = "UPDATE COMPOSITION_CMDE SET etat = ? WHERE idplat = ? AND idcommande = ?";
+			PreparedStatement stmt = connect.prepareStatement(sql);
+			stmt.setString(1, newEtat);
+			stmt.setLong(2, idPlat);
+			stmt.setLong(3, idCmde);
+			System.out.println("Le plat est maintenant prêt !");
 
-						}
-					} else {
-						System.out.println("L'id du plat renseigné n'existe pas.");
-					}
-				}
-			} else {
-				System.out.println("L'id de la commande renseignée n'existe pas.");
-			}
+			stmt.executeUpdate();
+		} catch (Exception e) {
+
 		}
 	}
 
 	public void setEtatPlatServis(long idServeur) {
-		
+
 		ArrayList<CompositionCmde> compoCmdes  = new ArrayList<>();
-		
+
 		try {
 			String sql = "SELECT T.idtable, CC.idcommande, libelle, P.idplat FROM plat P, composition_cmde CC, commande C, rtable T "
 					+ "WHERE CC.idplat = P.idplat AND CC.idcommande = C.idcommande AND C.idtable = T.idtable AND CC.etat = 'PRETE' AND idserveur = ?";
@@ -392,32 +271,35 @@ public class PlatDAOImpl extends PlatDAO {
 				CompositionCmde compoCmde = new CompositionCmde(result.getLong(2),result.getLong(4));
 				compoCmdes.add(compoCmde);
 			}
-			
-			
-			System.out.println("Sélectionnez maintenant l'id du plat : ");
-			int idcmde = ScanEntree.readIntegerWithDelimitations(0, compoCmdes.size());
-			
-			long idPlat = compoCmdes.get(idcmde).getIdPlat();
-			long idCommande = compoCmdes.get(idcmde).getIdCommande();
 
-			
-			try {
-				String sql1 = "UPDATE COMPOSITION_CMDE SET etat = 'SERVIE' WHERE idplat = ? AND idcommande = ?";
-				PreparedStatement stmt1 = connect.prepareStatement(sql1);
-				stmt1.setLong(1, idPlat);
-				stmt1.setLong(2, idCommande);
 
-				stmt1.executeUpdate();
+			if(compoCmdes.size()>0) {
+				System.out.println("Sélectionnez maintenant l'id du plat : ");
+				int idcmde = ScanEntree.readIntegerWithDelimitations(0, compoCmdes.size());
 
-			} catch (Exception e) {
-				
-			}			
-			
+				long idPlat = compoCmdes.get(idcmde).getIdPlat();
+				long idCommande = compoCmdes.get(idcmde).getIdCommande();
+
+
+				try {
+					String sql1 = "UPDATE COMPOSITION_CMDE SET etat = 'SERVIE' WHERE idplat = ? AND idcommande = ?";
+					PreparedStatement stmt1 = connect.prepareStatement(sql1);
+					stmt1.setLong(1, idPlat);
+					stmt1.setLong(2, idCommande);
+
+					stmt1.executeUpdate();
+
+				} catch (Exception e) {
+
+				}			
+			}
 		} catch (Exception e) {
-			
+
 		}
 
 	}
+	
+	
 
 
 	public boolean platExists(long idPlat) {
@@ -440,25 +322,45 @@ public class PlatDAOImpl extends PlatDAO {
 	public ArrayList<Plat> platsPopulaires() {
 		// TODO Auto-generated method stub
 		ArrayList<Plat> listPlats = new ArrayList<>();
-		
+
 		try {
 			String sql = "SELECT * FROM plat ORDER BY nbcommande DESC";
 			PreparedStatement stmt = connect.prepareStatement(sql);
-			
+
 			ResultSet result = stmt.executeQuery();
-			
+
 			Plat plat;
 			while(result.next()) {
 				plat = new Plat(result.getLong(1), result.getString(2), result.getDouble(3), result.getBoolean(4), 
 						result.getLong(5), result.getLong(6));
-				
+
 				listPlats.add(plat);
 			}
-			
+
 		} catch (Exception e) {
 			// TODO: handle exception
 		}
-		
+
 		return listPlats;
+	}
+
+	@Override
+	public boolean isPlatEnPreparation(long idPlat, long idCmde) {
+		// TODO Auto-generated method stub
+		try {
+			String sql = "SELECT * FROM composition_cmde WHERE idplat = ? AND idcommande = ? AND etat = 'EN PREPARATION'";
+			PreparedStatement stmt = connect.prepareStatement(sql);
+			stmt.setLong(1, idPlat);
+			stmt.setLong(2, idCmde);
+			
+			ResultSet result = stmt.executeQuery();
+			
+			if(result.next()) {
+				return true;
+			}
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+		return false;
 	}
 }

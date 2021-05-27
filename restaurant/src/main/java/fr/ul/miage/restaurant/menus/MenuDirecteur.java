@@ -5,18 +5,21 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+import fr.ul.miage.restaurant.Impl.CategoriePlatDAOImpl;
 import fr.ul.miage.restaurant.Impl.ClientDAOImpl;
 import fr.ul.miage.restaurant.Impl.CommandeDAOImpl;
 import fr.ul.miage.restaurant.Impl.FactureDAOImpl;
 import fr.ul.miage.restaurant.Impl.PersonnelDAOImpl;
 import fr.ul.miage.restaurant.Impl.PlatDAOImpl;
 import fr.ul.miage.restaurant.Impl.ProduitDAOImpl;
+import fr.ul.miage.restaurant.dao.CategoriePlatDAO;
 import fr.ul.miage.restaurant.dao.ClientDAO;
 import fr.ul.miage.restaurant.dao.CommandeDAO;
 import fr.ul.miage.restaurant.dao.FactureDAO;
 import fr.ul.miage.restaurant.dao.PersonnelDAO;
 import fr.ul.miage.restaurant.dao.PlatDAO;
 import fr.ul.miage.restaurant.dao.ProduitDAO;
+import fr.ul.miage.restaurant.models.CategoriePlat;
 import fr.ul.miage.restaurant.models.Personnel;
 import fr.ul.miage.restaurant.models.Plat;
 import fr.ul.miage.restaurant.models.Produit;
@@ -25,13 +28,12 @@ import fr.ul.miage.restaurant.systeme.ScanEntree;
 public class MenuDirecteur extends MenuCommun {
 
 	PlatDAO platDAO;
-	PersonnelDAO personnelDAO;
+	PersonnelDAO<Personnel> personnelDAO;
 	CommandeDAO commandeDAO;
 	FactureDAO factureDAO;
 
 	public MenuDirecteur(boolean connected, Personnel user) {
 		super(connected, user);
-		// TODO Auto-generated constructor stub
 		platDAO = new PlatDAOImpl();
 		personnelDAO = new PersonnelDAOImpl();
 		commandeDAO = new CommandeDAOImpl();
@@ -51,8 +53,7 @@ public class MenuDirecteur extends MenuCommun {
 
 				printOptions();
 
-				Scanner s = new Scanner(System.in);
-				c2 = s.nextInt();
+				c2 = ScanEntree.readInteger();
 				switch (c2) {
 				case 1:
 					consulterStocks();
@@ -63,23 +64,18 @@ public class MenuDirecteur extends MenuCommun {
 				case 3:
 					majCarteduJour();
 					break;
-
 				case 4:
 					checkPopularitePlat();
 					break;
-
 				case 5:
 					gererEmployes();
 					break;
-
 				case 6:
 					statCommande();
 					break;
-					
 				case 7 :
 					profitDejeunerDiner();
-					break;
-					
+					break;					
 				case 8 :
 					recetteJourSemaineMois();
 					break;
@@ -144,81 +140,29 @@ public class MenuDirecteur extends MenuCommun {
 
 		do {
 			listProduits =  produitDAO.listProduit();
-
 			consulterStocks();
 
 			System.out.println("Quel stock souhaitez vous mettre à jour : ");
-
-			boolean error = true;
-
-			int idProduit = 0;
-
-			while(error == true) {
-				try {
-					Scanner sc = new Scanner(System.in);
-					idProduit = sc.nextInt();
-					if(idProduit > 0 && idProduit <= listProduits.size()) {
-						error = false;
-					} else {
-						System.out.println("Produit inexistant");
-					}
-				} catch (Exception e) {
-					// TODO: handle exception
-					System.out.println("Il faut une valeur numérique");
-				}
-			}
+			int idProduit = (int) ScanEntree.readIdProduit(listProduits, "dont vous souhaitez mettre à jour le stock");
 
 			System.out.println("Quantité à ajouter (max: 100)");
-
-			int qte = 0;
-
-			error = true;
-			while(error == true) {
-				try {
-					Scanner sc = new Scanner(System.in);
-					qte = sc.nextInt();
-					if(qte > 0 && idProduit <= 100) {
-						error = false;
-					} else {
-						System.out.println("Quantité invalide");
-					}
-				} catch (Exception e) {
-					// TODO: handle exception
-					System.out.println("Il faut une valeur numérique");
-				}
-			}
-
+			int qte = ScanEntree.readIntegerWithDelimitations(0, 1000);
 			int newQte = listProduits.get(idProduit-1).getQuantite() + qte;
 
 			Produit majProduit = new Produit(idProduit, listProduits.get(idProduit-1).getLibelle(), newQte);
-
 			produitDAO.update(majProduit);
 
 			System.out.println("Voulez-vous continuer à mettre à jour les stocks ? (1 : oui, 2 : non)");
-
-			error = true;
-
-			while(error == true) {
-				try {
-					Scanner sc = new Scanner(System.in);
-					continuer = sc.nextInt();
-
-					error = false;
-				} catch (Exception e) {
-					// TODO: handle exception
-					System.out.println("Il faut une valeur numérique");
-				}
-			}
+			continuer = ScanEntree.readIntegerWithDelimitations(1, 2);
 
 		} while (continuer == 1);
 
 	}
 
 	public void printCarteduJour() {
-		//PlatDAO platDAO = new PlatDAOImpl();
 		ArrayList<Plat> carteduJour = platDAO.getCarteduJour();
 
-		if(carteduJour.size() == 0) {
+		if(carteduJour.isEmpty()) {
 			System.out.println("Il n'y a auncun plat sur la carte du jour");
 		} else {
 			System.out.println("Voici la carte du jour \n");
@@ -230,42 +174,26 @@ public class MenuDirecteur extends MenuCommun {
 	}
 
 	public void ajoutPlatCarteduJour() {
-		ArrayList<Plat> plats = new ArrayList<>();
-		//plats = platDAO.platsCateg();
-		plats = platDAO.platsDispoCateg();
+		CategoriePlatDAO categoriePlatDAO = new CategoriePlatDAOImpl();
+		PlatDAO platDAO = new PlatDAOImpl();
 
-		if(plats.size()>0) {
+		ArrayList<CategoriePlat> listcategPlat = categoriePlatDAO.getAll();
+		listcategPlat.forEach(ctg -> System.out.println(ctg.getId() + ". " + ctg.getLibelle()));
 
-			for(int i=0; i<plats.size(); i++) {
-				System.out.println(i + ": " + plats.get(i).getLibelle());
-			}
+		System.out.println("\nSélectionnez la catégorie : \n");
 
-			System.out.println();
-			System.out.println("Sélectionnez un plat à ajouter (id du plat)");
+		int intIdCateg = ScanEntree.readIntegerWithDelimitations(1, listcategPlat.size());
+		CategoriePlat categ = listcategPlat.get(intIdCateg);
 
-			boolean error = true;
-			int indexPlat = 0;
+		ArrayList<Plat> listPlatsCateg = platDAO.listerPlatSelonCategorie(categ.getId());
 
-			while(error == true) {
-				try {
-					Scanner scPlat = new Scanner(System.in);
-					indexPlat = scPlat.nextInt();
-					if(indexPlat >= 0 && indexPlat < plats.size()) {
-						error = false;
-					} else {
-						System.out.println("Le plat sélectionné n'existe pas");
-					}
-				} catch (Exception e) {
-					// TODO: handle exception
-					System.out.println("Il faut une valeur numérique");
-				}
-			}
-
-			Plat plat = plats.get(indexPlat);
-
-			ajoutPlatCarteduJour_Action(plat.getId());
+		if(listPlatsCateg.isEmpty())
+			System.out.println("Il n'y a aucun plat dans cette catégorie");
+		else {
+			listPlatsCateg.forEach(rec -> System.out.println(rec.getId() + ". " + rec.getLibelle()));
+			long idPlat = ScanEntree.readIdPlat(listPlatsCateg, "à ajouter.");
+			platDAO.ajoutPlatCarteduJour(idPlat);
 		}
-
 	}
 	
 	public void ajoutPlatCarteduJour_Action(long idPlat) {
@@ -288,8 +216,7 @@ public class MenuDirecteur extends MenuCommun {
 
 		int c2;
 		do {
-			Scanner s = new Scanner(System.in);
-			c2 = s.nextInt();
+			c2 = ScanEntree.readInteger();
 			switch (c2) {
 			case 1:
 				ajoutPlatCarteduJour();
@@ -313,55 +240,44 @@ public class MenuDirecteur extends MenuCommun {
 	//Affiche les 5 plats les plus populaires
 	public void checkPopularitePlat() {
 		ArrayList<Plat> listPlats = platDAO.platsPopulaires();
-		
-		System.out.println("Voici les 5 plats les plus populaires de votre restaurant \n");
 
-		if(listPlats.size()>0) {		
-			for(int i=0; i < listPlats.size(); i++) {
-				if(i==5)
-					break;
+		System.out.println("Voici les 5 plats les plus populaires de votre restaurant : \n");
+
+		if(!listPlats.isEmpty()) {		
+			for(int i=0; i < 5; i++) {
 				Plat plat = listPlats.get(i);
 				double CA = plat.getNbCommandes() * plat.getPrix();
-				System.out.println(plat.getLibelle() + " - Popularité : " + plat.getNbCommandes() + " - Revenus : " + CA + "€");
+				System.out.println("Plat : " + plat.getLibelle() + "\nPopularité : " + plat.getNbCommandes() + " commandes \nRevenus : " + CA + "€\n");
 			}
 		}
-		
+
 		System.out.println();
-		System.out.println("Voulez-vous voir tous les plats ? (1.Oui 2.Non)");
-		
+		System.out.println("Voulez-vous voir tous les plats ? Oui (1) Non (2)");
+
 		int choix  = ScanEntree.readIntegerWithDelimitations(1, 2);
-		
+
 		if(choix == 1) {
 			checkPopulariteAllPlats();
 		}
 	}
-	
+
 	public void checkPopulariteAllPlats() {
 		ArrayList<Plat> listPlats = platDAO.platsPopulaires();
 
-		if(listPlats.size()>0) {			
+		if(!listPlats.isEmpty()) {			
 			for(Plat plat : listPlats) {
-				System.out.println(plat.getLibelle() + " - Popularité : " + plat.getNbCommandes());
+				System.out.println("Plat : " + plat.getLibelle() + "\nPopularité : " + plat.getNbCommandes() + " commandes\n");
 			}
 		}
 	}
-	
-	public void gererEmploye() {
-		
-		suiviEmploye();
-	}
-	
+
 	public void suiviEmploye() {
 		ArrayList<Personnel> listPersonnel = personnelDAO.getAll();
-		Personnel personnel;
-		
-		for(int i=0; i<listPersonnel.size(); i++) {
-			personnel = listPersonnel.get(i);
-			System.out.println(personnel.toString());
-		}
+		listPersonnel.forEach(personnel -> System.out.println(personnel));
 	}
 
 	public void gererEmployes() {
+		System.out.println();
 		System.out.println("--------------------------------------------------");
 		System.out.println("Que souhaitez-vous faire ?\n");
 
@@ -374,24 +290,20 @@ public class MenuDirecteur extends MenuCommun {
 
 		int c2;
 		do {
-			Scanner s = new Scanner(System.in);
-			c2 = s.nextInt();
+
+			c2 = ScanEntree.readInteger();
 			switch (c2) {
 			case 1:
 				listerEmployes();
 				break;
-
 			case 2:
 				creerEmploye();
 				break;
-				
 			case 3:
 				modifierEmployes();
 				break;
-
 			case 10:
 				break;
-
 			default:
 				System.out.println("Erreur de choix, réessayez.\n");
 				break;
@@ -404,33 +316,27 @@ public class MenuDirecteur extends MenuCommun {
 		System.out.println("Voici la liste des employés : ");
 
 		ArrayList<Personnel> listPersonnel = personnelDAO.getAll();
-
-		for(Personnel personnel : listPersonnel) {
-			System.out.println(personnel.toString());
-		}
+		listPersonnel.forEach(personnel -> System.out.println(personnel));
 	}
 
 	public void creerEmploye() {
 		System.out.println("Création d'un nouvel employé");
-		Scanner sc = new Scanner(System.in);
+		Scanner sc = new Scanner(System.in, "UTF-8");
 
 		System.out.println("Nom : ");
 		String nom = sc.next();
 
 		System.out.println("Prénom : ");
 		String prenom = sc.next();
-		
+
 		System.out.println("Login : ");
 		String login = sc.next();
-		
+
 		System.out.println("Mdp : ");
 		String mdp = sc.next();
 
-		String role = selectRole();
-		
-		Personnel personnel = new Personnel(role, login, mdp, nom, prenom);
-		
-		personnelDAO.create(personnel);
+		personnelDAO.create(new Personnel(selectRole(), login, mdp, nom, prenom));
+		System.out.println("L'employé à bien été ajouté au personnel.");
 	}
 
 	public String selectRole() {
@@ -444,150 +350,92 @@ public class MenuDirecteur extends MenuCommun {
 		String role = null;
 
 		System.out.println("Veuillez choisir un rôle");
-		
-		boolean error = true;
 
-		int intSelect = 0;
+		int roleId = ScanEntree.readIntegerWithDelimitations(1, 5);
 
-		while(error == true) {
-			try {
-				Scanner sc = new Scanner(System.in);
-				intSelect = sc.nextInt();
-				if(intSelect >= 0 && intSelect <= 5) {
-					error = false;
-				} else {
-					System.out.println("Choix hors limites");
-				}
-			} catch (Exception e) {
-				// TODO: handle exception
-				System.out.println("Il faut une valeur numérique");
-			}
-		}
+		switch (roleId) {
+		case 1:
+			role = "MAITRE HOTEL";
+			break;
 
-		switch (intSelect) {
-			case 1:
-				role = "MAITRE HOTEL";
-				break;
-				
-			case 2:
-				role = "SERVEUR";
-				break;
-				
-			case 3:
-				role = "ASSISTANT DE SERVICE";
-				break;
-				
-			case 4:
-				role = "CUISINIER";
-				break;
-				
-			case 5:
-				role = "DIRECTEUR";
-				break;
+		case 2:
+			role = "SERVEUR";
+			break;
+
+		case 3:
+			role = "ASSISTANT DE SERVICE";
+			break;
+
+		case 4:
+			role = "CUISINIER";
+			break;
+
+		case 5:
+			role = "DIRECTEUR";
+			break;
 		}
 
 		return role;
 	}
 
 	public void modifierEmployes() {
-		System.out.println("Séléctionnez un employé à modifier : ");
-		
 		ArrayList<Personnel> listPersonnel = personnelDAO.getAll();
+		listPersonnel.forEach(personnel -> System.out.println("Personnel n°" + personnel.getId() + " : " + personnel.getNom() + " " + personnel.getPrenom()));
+		int idPersonnel = (int) ScanEntree.readIdPersonnel(listPersonnel, "à modifier :");
 		
-		for (int i = 0; i < listPersonnel.size(); i++) {
-			Personnel personnel = listPersonnel.get(i);
-			System.out.println(i + ": " + personnel.getNom() + " " + personnel.getPrenom());
-		}
-		
-		System.out.println("\nId : ");
-		
-		boolean error = true;
-
-		int intSelect = 0;
-
-		while(error == true) {
-			try {
-				Scanner sc = new Scanner(System.in);
-				intSelect = sc.nextInt();
-				if(intSelect >= 0 && intSelect < listPersonnel.size()) {
-					error = false;
-				} else {
-					System.out.println("Choix hors limites");
-				}
-			} catch (Exception e) {
-				// TODO: handle exception
-				System.out.println("Il faut une valeur numérique");
-			}
-		}
-		
-		int idPersonnel = (int) listPersonnel.get(intSelect).getId();
 		modifEmploye(idPersonnel);
 	}
-	
+
 	public void modifEmploye(int idPersonnel) {
 		System.out.println("Quel attribut voulez-vous modifier ?");
-		
+
 		System.out.println("1 : Login");
-		
-		boolean error = true;
 
-		int intSelect = 0;
+		int idAttribut = -1;
 
-		while(error == true) {
-			try {
-				Scanner sc = new Scanner(System.in);
-				intSelect = sc.nextInt();
-				if(intSelect >= 0 && intSelect <= 1) {
-					error = false;
-				} else {
-					System.out.println("Choix hors limites");
-				}
-			} catch (Exception e) {
-				// TODO: handle exception
-				System.out.println("Il faut une valeur numérique");
-			}
-		}
-		
-		switch (intSelect) {
+		idAttribut = ScanEntree.readIntegerWithDelimitations(1, 1);
+		switch (idAttribut) {
 		case 1:
 			updateLoginPersonnel(idPersonnel);
 			break;
-
 		default:
 			break;
 		}
 	}
-	
+
 	public void updateLoginPersonnel(int idPersonnel) {
 		System.out.println("Veuillez rentrer le nouveau login :");
-		
+
 		Scanner sc = new Scanner(System.in);
 		String newLogin = sc.next();
-		
-		Personnel personnel = (Personnel) personnelDAO.find((long)idPersonnel);
-		
+
+		Personnel personnel = personnelDAO.find((long)idPersonnel);
+
 		personnel.setLogin(newLogin);
-		
+
 		personnelDAO.update(personnel);
 	}
 
 	public void statCommande() {
 		Timestamp tempsMoyen = commandeDAO.getTempsCommandesFinies();
-		java.util.Date date = new java.util.Date(tempsMoyen.getTime());
-		SimpleDateFormat formatter= new SimpleDateFormat("HH");
-		SimpleDateFormat formatter2= new SimpleDateFormat("mm");
-		
-		System.out.println();
-		System.out.println("--------------------------------------------------");
-		System.out.println("Voici le temps moyen de préparation des commandes\n");
-		System.out.println("Temps moyen de préparation : " + formatter.format(date) + "h" + formatter2.format(date));
-		System.out.println();
-	}
+		try {
+			java.util.Date date = new java.util.Date(tempsMoyen.getTime());
+			SimpleDateFormat formatter= new SimpleDateFormat("HH");
+			SimpleDateFormat formatter2= new SimpleDateFormat("mm");
 	
+			System.out.println();
+			System.out.println("--------------------------------------------------");
+			System.out.println("Voici le temps moyen de préparation des commandes\n");
+			System.out.println("Temps moyen de préparation : " + formatter.format(date) + "h" + formatter2.format(date) + "mn");
+		} catch (NullPointerException e) {
+			System.out.println("Il n'y a aucune commande qui ait été terminée pour l'instant.");
+		}
+	}
+
 	public void profitDejeunerDiner() {
 		int profitDejeuner = factureDAO.profitDejeuner();
 		int profitDiner = factureDAO.profitDiner();
-		
+
 		System.out.println();
 		System.out.println("--------------------------------------------------");
 		System.out.println("Voici les profits du jour : ");
@@ -595,17 +443,17 @@ public class MenuDirecteur extends MenuCommun {
 		System.out.println("Diner : " + profitDiner + "€");
 		System.out.println();
 	}
-	
+
 	public void recetteJourSemaineMois() {
 		int recetteJour = factureDAO.getRecetteQuotidienne();
 		int recetteSemaine = factureDAO.getRecetteHebdo();
 		int recetteMois = factureDAO.getRecetteMensuelle();
-		
+
 		System.out.println();
 		System.out.println("--------------------------------------------------");
 		System.out.println("Voici les recettes : ");
 		System.out.println("Recette quotidienne : " + recetteJour + "€");
-		System.out.println("Recette hebdomadaire : " + recetteMois + "€");
+		System.out.println("Recette hebdomadaire : " + recetteSemaine + "€");
 		System.out.println("Recette mensuelle : " + recetteMois + "€");
 		System.out.println();
 	}

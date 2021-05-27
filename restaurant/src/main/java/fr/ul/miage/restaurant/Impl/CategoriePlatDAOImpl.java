@@ -76,7 +76,24 @@ public class CategoriePlatDAOImpl extends CategoriePlatDAO{
 	@Override
 	public ArrayList<CategoriePlat> getAll() {
 		// TODO Auto-generated method stub
-		return null;
+ArrayList<CategoriePlat> listCateg = new ArrayList<>();
+		
+		try {
+			String sql = "SELECT * FROM categorie_plat";
+			PreparedStatement stmt = connect.prepareStatement(sql);
+			
+			ResultSet result = stmt.executeQuery();
+			CategoriePlat categ;
+			
+			while(result.next()) {
+				categ = new CategoriePlat(result.getLong(1), result.getString(2));
+				listCateg.add(categ);
+			}
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+		
+		return listCateg;
 	}
 
 }

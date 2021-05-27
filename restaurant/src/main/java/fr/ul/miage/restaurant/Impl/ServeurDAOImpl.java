@@ -73,7 +73,7 @@ public class ServeurDAOImpl extends ServeurDAO {
 			
 			Serveur serveur;
 			while(result.next()) {
-				serveur = new Serveur(result.getLong(5), result.getInt(6));
+				serveur = new Serveur(result.getLong(1), result.getString(7), result.getString(8), result.getLong(5), result.getInt(6));
 				listServeur.add(serveur);
 			}
 		} catch (Exception e) {

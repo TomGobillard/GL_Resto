@@ -9,23 +9,23 @@ public abstract class PlatDAO extends DAO<Plat>{
 
 	public abstract void creerPlat(String nom, double prix, ArrayList<Produit> ingredients, int idCateg);
 
-	public abstract void listerPlatSelonCategorie();
+	public abstract ArrayList<Plat> listerPlatSelonCategorie(long idCateg);
 	
 	public abstract ArrayList<Plat> getCarteduJour();
 	
 	public abstract void initCarteduJour();
-	
-	public abstract ArrayList<Plat> platsCateg();
-	
-	public abstract ArrayList<Plat> platsDispoCateg();
+		
+	public abstract ArrayList<Plat> platsDispoCateg(long idCateg);
 	
 	public abstract void ajoutPlatCarteduJour(long idPlat);
 	
 	public abstract void incrementeNbCommandes(ArrayList<Plat> plats);
 	
-	public abstract void setEtatPlatPret();
+	public abstract void setEtatPlatPret(long idPlat, long idCmde);
 	
 	public abstract void setEtatPlatServis(long id);
 	
 	public abstract ArrayList<Plat> platsPopulaires();
+	
+	public abstract boolean isPlatEnPreparation(long idPlat, long idCmde);
 }
