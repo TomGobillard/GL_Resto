@@ -1,5 +1,6 @@
 package fr.ul.miage.restaurant.menus;
 
+import java.sql.PreparedStatement;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -8,6 +9,7 @@ import fr.ul.miage.restaurant.Impl.CommandeDAOImpl;
 import fr.ul.miage.restaurant.Impl.PlatDAOImpl;
 import fr.ul.miage.restaurant.Impl.ProduitDAOImpl;
 import fr.ul.miage.restaurant.dao.CategoriePlatDAO;
+import fr.ul.miage.restaurant.dao.CommandeDAO;
 import fr.ul.miage.restaurant.dao.PlatDAO;
 import fr.ul.miage.restaurant.dao.ProduitDAO;
 import fr.ul.miage.restaurant.models.CategoriePlat;
@@ -46,7 +48,7 @@ public class MenuCuisinier extends MenuCommun {
 					getCommandesEntrantes(false);
 					break;
 				case 4:
-					getCommandesEntrantesbis(true);
+					getCommandesEntrantes(true);
 					break;
 				case 20:
 					deconnexion();
@@ -87,23 +89,36 @@ public class MenuCuisinier extends MenuCommun {
 			System.out.println("Il n'y a pas de commandes entrantes pour le moment.");
 		} else {
 			System.out.println(cmdesEntrantes);
-			if(toSetPlat) {
+			if(toSetPlat) {			
 				PlatDAO platDAO = new PlatDAOImpl();
-				platDAO.setEtatPlatPret();
-			}
-		}
-		
-	}
-	private void getCommandesEntrantesbis(boolean toSetPlat) {
-		CommandeDAOImpl cmdeDAO = new CommandeDAOImpl();
-		String cmdesEntrantes = cmdeDAO.getCommandeEntrantes();
-		if(cmdesEntrantes.equals("")) {
-			System.out.println("Il n'y a pas de commandes entrantes pour le moment.");
-		} else {
-			System.out.println(cmdesEntrantes);
-			if(toSetPlat) {
-				PlatDAO platDAO = new PlatDAOImpl();
-				platDAO.setEtatPlatPret();
+				
+				Scanner s = new Scanner(System.in);
+				boolean error = true;
+				while (error) {
+					System.out.println("Saisissez le numéro de la commande concernée par la mise à jour du plat : ");
+					long idCmde = s.nextLong();
+					if (cmdeDAO.cmdeEntranteExists(idCmde)) {
+						System.out.println("Commande n°" + idCmde + " sélectionnée.");
+						cmdeDAO.showPlatCommande(idCmde);
+						boolean platError = true;
+						while (platError) {
+							System.out.println("Sélectionnez maintenant l'id du plat : ");
+							long idPlat = s.nextLong();
+							if (platDAO.isPlatEnPreparation(idPlat, idCmde)) {
+								platError = false;
+								error = false;
+								
+								platDAO.setEtatPlatPret(idPlat, idCmde);
+
+							} else {
+								System.out.println("L'id du plat renseigné n'existe pas.");
+							}
+						}
+					} else {
+						System.out.println("L'id de la commande renseignée n'existe pas.");
+					}
+				}
+				
 			}
 		}
 		

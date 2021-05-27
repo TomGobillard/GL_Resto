@@ -238,44 +238,20 @@ public class PlatDAOImpl extends PlatDAO {
 		return plats;
 	}
 
-	public void setEtatPlatPret() {
-		CommandeDAO cmdeDAO = new CommandeDAOImpl();
-		Scanner s = new Scanner(System.in);
-		boolean error = true;
-		while (error) {
-			System.out.println("Saisissez le numéro de la commande concernée par la mise à jour du plat : ");
-			long idCmde = s.nextLong();
-			if (cmdeDAO.cmdeEntranteExists(idCmde)) {
-				System.out.println("Commande n°" + idCmde + " sélectionnée.");
-				cmdeDAO.showPlatCommande(idCmde);
-				boolean platError = true;
-				while (platError) {
-					System.out.println("Sélectionnez maintenant l'id du plat : ");
-					long idPlat = s.nextLong();
-					if (isPlatEnPreparation(idPlat, idCmde)) {
-						platError = false;
-						error = false;
-						String newEtat = "PRETE";
+	public void setEtatPlatPret(long idPlat, long idCmde) {
+		String newEtat = "PRETE";
 
-						try {
-							String sql = "UPDATE COMPOSITION_CMDE SET etat = ? WHERE idplat = ? AND idcommande = ?";
-							PreparedStatement stmt = connect.prepareStatement(sql);
-							stmt.setString(1, newEtat);
-							stmt.setLong(2, idPlat);
-							stmt.setLong(3, idCmde);
-							System.out.println("Le plat est maintenant prêt !");
+		try {
+			String sql = "UPDATE COMPOSITION_CMDE SET etat = ? WHERE idplat = ? AND idcommande = ?";
+			PreparedStatement stmt = connect.prepareStatement(sql);
+			stmt.setString(1, newEtat);
+			stmt.setLong(2, idPlat);
+			stmt.setLong(3, idCmde);
+			System.out.println("Le plat est maintenant prêt !");
 
-							stmt.executeUpdate();
-						} catch (Exception e) {
+			stmt.executeUpdate();
+		} catch (Exception e) {
 
-						}
-					} else {
-						System.out.println("L'id du plat renseigné n'existe pas.");
-					}
-				}
-			} else {
-				System.out.println("L'id de la commande renseignée n'existe pas.");
-			}
 		}
 	}
 

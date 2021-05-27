@@ -21,7 +21,7 @@ public abstract class PlatDAO extends DAO<Plat>{
 	
 	public abstract void incrementeNbCommandes(ArrayList<Plat> plats);
 	
-	public abstract void setEtatPlatPret();
+	public abstract void setEtatPlatPret(long idPlat, long idCmde);
 	
 	public abstract void setEtatPlatServis(long id);
 	

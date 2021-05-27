@@ -33,7 +33,7 @@ public class CompositionCmdeDAOImpl extends CompositionCmdeDAO{
 			int i = 0; 
 			while(result.next()) {
 				System.out.println("Table "+result.getLong(1)+" : "+result.getString(3)+" ("+i+")");
-
+				i++;
 				CompositionCmde compoCmde = new CompositionCmde(result.getLong(2),result.getLong(4));
 				compoCmdes.add(compoCmde);
 			}

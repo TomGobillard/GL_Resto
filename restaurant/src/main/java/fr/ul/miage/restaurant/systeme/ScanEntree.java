@@ -28,6 +28,25 @@ public class ScanEntree {
 		return intSelect;
 	}
 	
+	public static long readLong() {
+
+		boolean error = true;
+
+		long longSelect = 0;
+
+		while (error) {
+			try {
+				Scanner sc = new Scanner(System.in, "UTF-8");
+				longSelect = sc.nextLong();
+				error = false;
+			} catch (Exception e) {
+				// TODO: handle exception
+				System.out.println("Il faut une valeur numérique");
+			}
+		}
+		return longSelect;
+	}
+	
 	public static String readString() {
 
 		boolean error = true;
