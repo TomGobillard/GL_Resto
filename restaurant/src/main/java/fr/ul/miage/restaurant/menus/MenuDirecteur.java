@@ -82,6 +82,11 @@ public class MenuDirecteur extends MenuCommun {
 				case 9:
 					calculateRoationTimeAvg();
 					break;
+					
+				case 10:
+					creerProduit();
+					break;
+					
 				case 20:
 					deconnexion();
 					break;
@@ -126,6 +131,7 @@ public class MenuDirecteur extends MenuCommun {
 		System.out.println("Voir le profit du déjeuner et du diner (7)");
 		System.out.println("Voir la recette quotidienne, hebdomadaire et mensuelle (8)");
 		System.out.println("Consulter le temps moyen de rotation des clients (9)");
+		System.out.println("Ajouter un nouveau produit (10)");
 
 		System.out.println("Se déconnecter (20)");
 		System.out.println("Quitter (21)");
@@ -452,5 +458,29 @@ public class MenuDirecteur extends MenuCommun {
 		System.out.println("Recette hebdomadaire : " + recetteSemaine + "€");
 		System.out.println("Recette mensuelle : " + recetteMois + "€");
 		System.out.println();
+	}
+	
+	public void creerProduit() {
+		ProduitDAO<Produit> produitDAO = new ProduitDAOImpl();
+		
+		System.out.println("Vous allez créer un nouveau produit");
+		
+		System.out.println("Nom du produit : ");
+		
+		String nom = ScanEntree.readString();
+		
+		System.out.println("Quantité initiale (entre 50 et 500) : ");
+		
+		int qteInit = ScanEntree.readIntegerWithDelimitations(50, 500);
+		
+		Produit newProduit = new Produit(0, nom, qteInit);
+		
+		Produit existProduit = produitDAO.findByName(nom);
+		
+		if((existProduit.getLibelle() == null) || (existProduit == null))		
+			produitDAO.create(newProduit);
+		else {
+			System.out.println("Ce produit existe déjà");
+		}
 	}
 }

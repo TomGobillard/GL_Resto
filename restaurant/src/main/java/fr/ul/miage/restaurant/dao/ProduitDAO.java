@@ -13,5 +13,6 @@ public abstract class ProduitDAO<T> extends DAO<Produit>{
 	public abstract boolean isDispo(long idProduit, int qte);
 	public abstract void updateQuantite(CompositionPlat compoPlat);
 	public abstract ArrayList<T> getProduitsDispos();
+	public abstract T findByName(String name);
 
 }
