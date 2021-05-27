@@ -62,20 +62,6 @@ public class Plat {
 	public void setNbCommandes(long nbCommandes) {
 		this.nbCommandes = nbCommandes;
 	}
-	
-	@Override
-	public String toString() {
-		String platDuJour;
-		if(this.isPlatDuJour) {
-			platDuJour = "Oui";
-		} else {
-			platDuJour = "Non";
-		}
-		return "Nom du plat : " + this.getLibelle() + "\n" +
-				"Prix : " + this.getPrix() + "€" + "\n" +
-				"Plat du jour : " + platDuJour + "\n" +
-				"Nombre de commandes : " + this.getNbCommandes() + "\n";
-	}
 
 	public long getIdcategorie() {
 		return idcategorie;
@@ -85,4 +71,13 @@ public class Plat {
 		this.idcategorie = idcategorie;
 	}
 	
+	@Override
+	public String toString() {
+		String platDuJour = this.isPlatDuJour ? "Oui" : "Non";
+		
+		return "Nom du plat : " + this.getLibelle() + "\n" +
+				"Prix : " + this.getPrix() + "€" + "\n" +
+				"Plat du jour : " + platDuJour + "\n" +
+				"Nombre de commandes : " + this.getNbCommandes() + "\n";
+	}
 }
