@@ -98,6 +98,16 @@ public class CommandeDAOImpl extends CommandeDAO {
 		} catch (Exception e) {
 
 		}
+		
+		try {
+			String sql = "UPDATE rtable SET avancement = 'EN REPAS' WHERE idtable = ?";
+			PreparedStatement stmt = connect.prepareStatement(sql);
+			stmt.setLong(1, idTable);
+			
+			stmt.executeUpdate();
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
 
 		try {
 			String sql = "INSERT INTO Commande (heurecmdprete, heurecmdpassee, etat, idtable, idclient) VALUES (null, current_timestamp ,'EN PREPARATION', ?,?)";
