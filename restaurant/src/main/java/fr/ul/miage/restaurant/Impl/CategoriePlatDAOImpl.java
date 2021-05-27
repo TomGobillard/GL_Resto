@@ -5,8 +5,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-import fr.ul.miage.restaurant.models.CategoriePlat;
 import fr.ul.miage.restaurant.dao.CategoriePlatDAO;
+import fr.ul.miage.restaurant.models.CategoriePlat;
 
 public class CategoriePlatDAOImpl extends CategoriePlatDAO{
 	@Override
