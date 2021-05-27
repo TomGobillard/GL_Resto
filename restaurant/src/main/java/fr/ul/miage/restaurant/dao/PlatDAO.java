@@ -23,8 +23,6 @@ public abstract class PlatDAO extends DAO<Plat>{
 	
 	public abstract void setEtatPlatPret(long idPlat, long idCmde);
 	
-	public abstract void setEtatPlatServis(long id);
-	
 	public abstract ArrayList<Plat> platsPopulaires();
 	
 	public abstract boolean isPlatEnPreparation(long idPlat, long idCmde);

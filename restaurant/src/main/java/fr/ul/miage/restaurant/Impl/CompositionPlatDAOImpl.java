@@ -1,22 +1,19 @@
 package fr.ul.miage.restaurant.Impl;
 
-import fr.ul.miage.restaurant.models.CompositionPlat;
-import fr.ul.miage.restaurant.models.Plat;
-
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
 import fr.ul.miage.restaurant.dao.CompositionPlatDAO;
-import fr.ul.miage.restaurant.dao.PlatDAO;
 import fr.ul.miage.restaurant.dao.ProduitDAO;
+import fr.ul.miage.restaurant.models.CompositionPlat;
+import fr.ul.miage.restaurant.models.Plat;
 
 public class CompositionPlatDAOImpl extends CompositionPlatDAO {
 
 	@Override
 	public CompositionPlat find(long id) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
@@ -32,23 +29,18 @@ public class CompositionPlatDAOImpl extends CompositionPlatDAO {
 			stmt.executeUpdate();
 			
 		} catch (Exception e) {
-			// TODO: handle exception
+			e.printStackTrace();
 		}
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public CompositionPlat update(CompositionPlat obj) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public void delete(CompositionPlat obj) {
-		// TODO Auto-generated method stub
-
-	}
+	public void delete(CompositionPlat obj) {}
 
 	@Override
 	public ArrayList<CompositionPlat> getWithPlats(ArrayList<Plat> plats) {
@@ -66,7 +58,6 @@ public class CompositionPlatDAOImpl extends CompositionPlatDAO {
 				}
 
 			} catch (SQLException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
@@ -75,10 +66,7 @@ public class CompositionPlatDAOImpl extends CompositionPlatDAO {
 
 	@Override
 	public boolean isDispo(long idPlat) {
-		// TODO Auto-generated method stub
 		ProduitDAO produitDAO = new ProduitDAOImpl();
-
-		ArrayList<CompositionPlat> compos = new ArrayList<>();
 
 		try {
 			String sql = "SELECT * FROM composition_plat WHERE idplat = ?";
@@ -97,7 +85,7 @@ public class CompositionPlatDAOImpl extends CompositionPlatDAO {
 			return true;
 
 		} catch (Exception e) {
-			// TODO: handle exception
+			e.printStackTrace();
 		}
 
 		return false;
@@ -105,7 +93,6 @@ public class CompositionPlatDAOImpl extends CompositionPlatDAO {
 
 	@Override
 	public ArrayList<CompositionPlat> getAll() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 }
