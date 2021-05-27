@@ -70,7 +70,8 @@ public class MenuAssistantService extends MenuCommun{
 	private void dresserTable() {
 		ArrayList<Table> tables = tableDAO.getTablesADresserOuRanger();
 		tables.forEach(table -> System.out.println(table));
-		if(tables.size() != 0 ) {
+		
+		if(tables.size() != 0) {
 			long idTable = ScanEntree.readIdTable(tables, "que vous souhaitez débarasser et dresser : ");
 			dresserTableAction(idTable);
 			System.out.println("La table n°" + idTable + " à bien été installée.");

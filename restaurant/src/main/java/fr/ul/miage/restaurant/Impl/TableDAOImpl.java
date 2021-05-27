@@ -86,8 +86,8 @@ public class TableDAOImpl extends TableDAO {
 	}
 
 
-	public HashMap<Integer, String> getOccupationAllTables() {
-		HashMap<Integer, String> occupations = new HashMap<Integer, String>();
+	public ArrayList<Table> getOccupationAllTables() {
+		ArrayList<Table> tables = new ArrayList<Table>();
 		try {
 			String sql = "SELECT idtable, etat FROM rtable WHERE idServeur = ?";
 			PreparedStatement stmt = connect.prepareStatement(sql);
@@ -96,14 +96,13 @@ public class TableDAOImpl extends TableDAO {
 			ResultSet result = stmt.executeQuery();
 
 			while (result.next()) {
-				occupations.put(Integer.valueOf(result.getInt("idtable")), result.getString("etat"));
+				Table t = new Table(result.getLong(1), result.getLong(2),result.getString(3), result.getLong(4), result.getString(5), result.getLong(6),result.getLong(7));
+				tables.add(t);
 			}
-
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		return occupations;
+		return tables;
 	}
 
 	public HashMap<Integer, String> getTableForInitPrint() {
@@ -204,6 +203,26 @@ public class TableDAOImpl extends TableDAO {
 		}
 		return tables;
 	}
+	
+	public ArrayList<Table> getServeurTables(long serveurId) {
+		ArrayList<Table> tables = new ArrayList<Table>();
+		try {
+
+			String sql = "SELECT * FROM rtable WHERE idServeur = ? AND etat = 'OCCUPEE'";
+			PreparedStatement stmt = connect.prepareStatement(sql);
+			stmt.setLong(1, serveurId);
+
+			ResultSet result = stmt.executeQuery();
+			while(result.next()) {
+				Table table = new Table(result.getLong(1), result.getLong(2),result.getString(3), result.getLong(4), result.getString(5), result.getLong(6),result.getLong(7));
+				tables.add(table);
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return tables;
+	}
 
 	@Override
 	public ArrayList<Table> getAll() {
@@ -221,7 +240,7 @@ public class TableDAOImpl extends TableDAO {
 				tables.add(table);
 			}
 		}catch (Exception e) {
-			// TODO: handle exception
+			e.printStackTrace();
 		}
 		
 		return tables;
