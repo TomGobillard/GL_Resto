@@ -323,6 +323,8 @@ public class PlatDAOImpl extends PlatDAO {
 		}
 
 	}
+	
+	
 
 
 	public boolean platExists(long idPlat) {

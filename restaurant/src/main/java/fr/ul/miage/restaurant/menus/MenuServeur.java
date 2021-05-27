@@ -7,6 +7,7 @@ import java.util.Map.Entry;
 import fr.ul.miage.restaurant.Impl.CategoriePlatDAOImpl;
 import fr.ul.miage.restaurant.Impl.ClientDAOImpl;
 import fr.ul.miage.restaurant.Impl.CommandeDAOImpl;
+import fr.ul.miage.restaurant.Impl.CompositionCmdeDAOImpl;
 import fr.ul.miage.restaurant.Impl.CompositionPlatDAOImpl;
 import fr.ul.miage.restaurant.Impl.PlatDAOImpl;
 import fr.ul.miage.restaurant.Impl.ProduitDAOImpl;
@@ -14,12 +15,14 @@ import fr.ul.miage.restaurant.Impl.TableDAOImpl;
 import fr.ul.miage.restaurant.dao.CategoriePlatDAO;
 import fr.ul.miage.restaurant.dao.ClientDAO;
 import fr.ul.miage.restaurant.dao.CommandeDAO;
+import fr.ul.miage.restaurant.dao.CompositionCmdeDAO;
 import fr.ul.miage.restaurant.dao.CompositionPlatDAO;
 import fr.ul.miage.restaurant.dao.PlatDAO;
 import fr.ul.miage.restaurant.dao.ProduitDAO;
 import fr.ul.miage.restaurant.dao.TableDAO;
 import fr.ul.miage.restaurant.models.CategoriePlat;
 import fr.ul.miage.restaurant.models.Client;
+import fr.ul.miage.restaurant.models.CompositionCmde;
 import fr.ul.miage.restaurant.models.CompositionPlat;
 import fr.ul.miage.restaurant.models.Personnel;
 import fr.ul.miage.restaurant.models.Plat;
@@ -147,10 +150,27 @@ public class MenuServeur extends MenuCommun {
 		long idTable = initServeurTableIDForQuery("dont vous souhaitez connaitre l'avancement.");
 		tableDAO.showAvancement(idTable);
 	}
-
+	
 	private void consulterServices() {
-		PlatDAO platDAO = new PlatDAOImpl();
-		platDAO.setEtatPlatServis(this.user.getId());
+		CompositionCmdeDAO compoCmdeDAO = new CompositionCmdeDAOImpl();
+
+		ArrayList<CompositionCmde> compoCmdes  = new ArrayList<>();
+
+		compoCmdes = compoCmdeDAO.getCompoCmdesWithServeur(this.user.getId());
+		
+		if(compoCmdes.size()>0) {
+			System.out.println("Sélectionnez maintenant l'id du plat : ");
+			int idcmde = ScanEntree.readIntegerWithDelimitations(0, compoCmdes.size());
+
+			long idPlat = compoCmdes.get(idcmde).getIdPlat();
+			long idCommande = compoCmdes.get(idcmde).getIdCommande();
+			compoCmdeDAO.setEtatPlatsServis(idCommande, idPlat);
+			System.out.println("Le plat est servi.");
+		}
+		else {
+			System.out.println("Aucun plat à servir.");
+		}
+		
 	}
 
 	public void saisirCommande() {

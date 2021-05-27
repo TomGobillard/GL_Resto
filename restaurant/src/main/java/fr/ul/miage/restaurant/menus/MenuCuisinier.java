@@ -46,7 +46,7 @@ public class MenuCuisinier extends MenuCommun {
 					getCommandesEntrantes(false);
 					break;
 				case 4:
-					getCommandesEntrantes(true);
+					getCommandesEntrantesbis(true);
 					break;
 				case 20:
 					deconnexion();
@@ -81,6 +81,20 @@ public class MenuCuisinier extends MenuCommun {
 	}
 	
 	private void getCommandesEntrantes(boolean toSetPlat) {
+		CommandeDAOImpl cmdeDAO = new CommandeDAOImpl();
+		String cmdesEntrantes = cmdeDAO.getCommandeEntrantes();
+		if(cmdesEntrantes.equals("")) {
+			System.out.println("Il n'y a pas de commandes entrantes pour le moment.");
+		} else {
+			System.out.println(cmdesEntrantes);
+			if(toSetPlat) {
+				PlatDAO platDAO = new PlatDAOImpl();
+				platDAO.setEtatPlatPret();
+			}
+		}
+		
+	}
+	private void getCommandesEntrantesbis(boolean toSetPlat) {
 		CommandeDAOImpl cmdeDAO = new CommandeDAOImpl();
 		String cmdesEntrantes = cmdeDAO.getCommandeEntrantes();
 		if(cmdesEntrantes.equals("")) {
@@ -138,8 +152,9 @@ public class MenuCuisinier extends MenuCommun {
 
 			while(error) {
 				try {
-					Scanner sc = new Scanner(System.in);
-					qte = sc.nextInt();
+//					Scanner sc = new Scanner(System.in);
+//					qte = sc.nextInt();
+					qte = ScanEntree.readInteger();
 
 					if(! produitDAO.isDispo(ingredient.getId(), qte)) {
 						System.out.println("Le stock est isuffisant pour " + ingredient.getLibelle());
