@@ -12,40 +12,35 @@ import fr.ul.miage.restaurant.models.Commande;
 public class CommandeDAOImpl extends CommandeDAO {
 	@Override
 	public Commande find(long id) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public Commande create(Commande obj) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public Commande update(Commande obj) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public void delete(Commande obj) {
-		// TODO Auto-generated method stub
-
-	}
+	public void delete(Commande obj) {}
 
 	@Override
 	public String getCommandeEntrantes() {
 		String ligneResultat = "";
 		try {
 			String sql = "SELECT * " +
-					      "FROM commande " +
-					      "ORDER BY CASE WHEN idcommande IN (SELECT idcommande " +
-					    		  							"FROM composition_cmde " +
-					    		  							"WHERE idplat IN (SELECT idplat " +
-					    		  											 "FROM plat " +
-					    		  											 "WHERE idcategorie = 6) " +
-					    		  							"AND etat = 'EN PREPARATION') THEN 1 ELSE 2 END";
+					"FROM commande " +
+					"WHERE etat = 'EN PREPARATION'" +
+					"ORDER BY CASE WHEN idcommande IN (SELECT idcommande " +
+					"FROM composition_cmde " +
+					"WHERE idplat IN (SELECT idplat " +
+					"FROM plat " +
+					"WHERE idcategorie = 6) " +
+					"AND etat = 'EN PREPARATION') THEN 1 ELSE 2 END";
 
 			PreparedStatement stmt = connect.prepareStatement(sql, ResultSet.TYPE_SCROLL_INSENSITIVE,
 					ResultSet.CONCUR_READ_ONLY);
@@ -89,8 +84,8 @@ public class CommandeDAOImpl extends CommandeDAO {
 	@Override
 	public void creerCommande(int idTable) {
 		long idClient = -1;
-		
-	
+
+
 		try {
 			String sql = "SELECT idclient FROM rtable WHERE idtable=?";
 			PreparedStatement stmt = connect.prepareStatement(sql);
@@ -103,6 +98,16 @@ public class CommandeDAOImpl extends CommandeDAO {
 		} catch (Exception e) {
 
 		}
+		
+		try {
+			String sql = "UPDATE rtable SET avancement = 'EN REPAS' WHERE idtable = ?";
+			PreparedStatement stmt = connect.prepareStatement(sql);
+			stmt.setLong(1, idTable);
+			
+			stmt.executeUpdate();
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
 
 		try {
 			String sql = "INSERT INTO Commande (heurecmdprete, heurecmdpassee, etat, idtable, idclient) VALUES (null, current_timestamp ,'EN PREPARATION', ?,?)";
@@ -114,7 +119,7 @@ public class CommandeDAOImpl extends CommandeDAO {
 			stmt.executeUpdate();
 
 		} catch (Exception e) {
-			// TODO: handle exception
+			e.printStackTrace();
 		}
 	}
 
@@ -139,22 +144,42 @@ public class CommandeDAOImpl extends CommandeDAO {
 	@Override
 	public void creerCompositionCmde(int idCommande, int idPlat) {
 		try {
-			String sql = "INSERT INTO Composition_cmde (idcommande, idplat, etat) VALUES (?,?, 'EN PREPARATION'')";
 
-			PreparedStatement stmt = connect.prepareStatement(sql);
-			stmt.setInt(1, idCommande);
-			stmt.setInt(2, idPlat);
+			String sqlExist = "SELECT * FROM composition_cmde WHERE idcommande = ? and idplat = ?";
+			PreparedStatement stmtExist = connect.prepareStatement(sqlExist);
+			stmtExist.setLong(1, idCommande);
+			stmtExist.setLong(2, idPlat);
 
-			stmt.executeUpdate();
+			ResultSet resultExist = stmtExist.executeQuery();
+
+			if(resultExist.next()) {
+				int qte = resultExist.getInt(4);
+
+				String sqlUpdate = "UPDATE composition_cmde SET quantite = ? WHERE idcommande = ? AND idplat = ?";
+				PreparedStatement stmtUpdate = connect.prepareStatement(sqlUpdate);
+				stmtUpdate.setInt(1, qte+1);
+				stmtUpdate.setLong(2, idCommande);
+				stmtUpdate.setLong(3, idPlat);
+
+				stmtUpdate.executeUpdate();
+			} else {
+
+				String sql = "INSERT INTO Composition_cmde (idcommande, idplat, etat, quantite) VALUES (?,?, 'EN PREPARATION', 1)";
+
+				PreparedStatement stmt = connect.prepareStatement(sql);
+				stmt.setInt(1, idCommande);
+				stmt.setInt(2, idPlat);
+
+				stmt.executeUpdate();
+			}
 
 		} catch (Exception e) {
-			// TODO: handle exception
+			e.printStackTrace();
 		}
 	}
 
 	@Override
 	public void deleteLastCmdeforTest() {
-		// TODO Auto-generated method stub
 		try {
 			Long idcmde = (long) 1;
 
@@ -180,7 +205,7 @@ public class CommandeDAOImpl extends CommandeDAO {
 			stmtDeleteCmde.executeUpdate();
 
 		} catch (Exception e) {
-			// TODO: handle exception
+			e.printStackTrace();
 		}
 
 	}
@@ -190,7 +215,7 @@ public class CommandeDAOImpl extends CommandeDAO {
 		// TODO Auto-generated method stub
 		return null;
 	}
-	
+
 	public boolean cmdeEntranteExists(long idCmde) {
 		String sql = "SELECT * FROM COMMANDE WHERE idcommande = ? AND etat = 'EN PREPARATION'";
 		boolean res = false;
@@ -230,28 +255,23 @@ public class CommandeDAOImpl extends CommandeDAO {
 			}
 			System.out.println(resultat);
 		} catch (Exception e) {
-			// TODO: handle exception
+			e.printStackTrace();
 		}
 	}
 
 	@Override
 	public Timestamp getTempsCommandesFinies() {
-		// TODO Auto-generated method stub
 		Timestamp timestamp = new Timestamp(0);
 		try {
-			String sql = "SELECT AVG(heurecmdpassee - heurecmdprete) AS tempsPrep FROM commande WHERE heurecmdprete is not NULL";
+			String sql = "SELECT AVG(heurecmdprete - heurecmdpassee) AS tempsPrep FROM commande WHERE heurecmdprete is not NULL";
 			PreparedStatement stmt = connect.prepareStatement(sql);
-			
+
 			ResultSet result = stmt.executeQuery();
-			
-			int i = 0;
-			
-			while(result.next()) {
-				i++;
+
+			if(result.next()) {
 				timestamp = result.getTimestamp(1);
 			}
 		} catch (Exception e) {
-			// TODO: handle exception
 			e.printStackTrace();
 		}
 		return timestamp;

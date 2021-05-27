@@ -1,5 +1,6 @@
 package fr.ul.miage.restaurant.menus;
 
+import java.sql.PreparedStatement;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -8,6 +9,7 @@ import fr.ul.miage.restaurant.Impl.CommandeDAOImpl;
 import fr.ul.miage.restaurant.Impl.PlatDAOImpl;
 import fr.ul.miage.restaurant.Impl.ProduitDAOImpl;
 import fr.ul.miage.restaurant.dao.CategoriePlatDAO;
+import fr.ul.miage.restaurant.dao.CommandeDAO;
 import fr.ul.miage.restaurant.dao.PlatDAO;
 import fr.ul.miage.restaurant.dao.ProduitDAO;
 import fr.ul.miage.restaurant.models.CategoriePlat;
@@ -19,7 +21,6 @@ public class MenuCuisinier extends MenuCommun {
 	
 	public MenuCuisinier(boolean connected, Personnel user) {
 		super(connected, user);
-		// TODO Auto-generated constructor stub
 	}
 
 	public void printMenuCuisinier() {
@@ -27,7 +28,6 @@ public class MenuCuisinier extends MenuCommun {
 		System.out.println("BIENVENUE DANS L'APPLICATION DE VOTRE RESTAURANT !");
 		System.out.println("--------------------------------------------------\n");
 		System.out.println("Vous êtes connecté en tant que cuisinier");
-
 		
 		do {
 
@@ -35,9 +35,8 @@ public class MenuCuisinier extends MenuCommun {
 			do {
 
 				printOptions();
-
-				Scanner s = new Scanner(System.in);
-				c2 = s.nextInt();
+				c2 = ScanEntree.readInteger();
+				
 				switch (c2) {
 				case 1:
 					consulterStocks();
@@ -46,10 +45,10 @@ public class MenuCuisinier extends MenuCommun {
 					creerPlat();
 					break;
 				case 3:
-					getCommandesEntrantes();
+					getCommandesEntrantes(false);
 					break;
 				case 4:
-					setEtatPlatPret();
+					getCommandesEntrantes(true);
 					break;
 				case 20:
 					deconnexion();
@@ -67,14 +66,8 @@ public class MenuCuisinier extends MenuCommun {
 		} while(connected);
 	}
 
-	private void setEtatPlatPret() {
-		getCommandesEntrantes();
-		PlatDAO platDAO = new PlatDAOImpl();
-		platDAO.setEtatPlatPret();
-	}
-
 	public void printOptions() {
-		
+		System.out.println();
 		System.out.println("--------------------------------------------------");
 		System.out.println("Que souhaitez-vous faire ?\n");
 		
@@ -89,47 +82,66 @@ public class MenuCuisinier extends MenuCommun {
 		
 	}
 	
-	private void getCommandesEntrantes() {
+	private void getCommandesEntrantes(boolean toSetPlat) {
 		CommandeDAOImpl cmdeDAO = new CommandeDAOImpl();
-		System.out.println(cmdeDAO.getCommandeEntrantes());
+		String cmdesEntrantes = cmdeDAO.getCommandeEntrantes();
+		if(cmdesEntrantes.equals("")) {
+			System.out.println("Il n'y a pas de commande entrante pour le moment.");
+		} else {
+			System.out.println(cmdesEntrantes);
+			if(toSetPlat) {			
+				PlatDAO platDAO = new PlatDAOImpl();
+				
+				Scanner s = new Scanner(System.in);
+				boolean error = true;
+				while (error) {
+					System.out.println("Saisissez le numéro de la commande concernée par la mise à jour du plat : ");
+					long idCmde = s.nextLong();
+					if (cmdeDAO.cmdeEntranteExists(idCmde)) {
+						System.out.println("Commande n°" + idCmde + " sélectionnée.");
+						cmdeDAO.showPlatCommande(idCmde);
+						boolean platError = true;
+						while (platError) {
+							System.out.println("Sélectionnez maintenant l'id du plat : ");
+							long idPlat = s.nextLong();
+							if (platDAO.isPlatEnPreparation(idPlat, idCmde)) {
+								platError = false;
+								error = false;
+								
+								platDAO.setEtatPlatPret(idPlat, idCmde);
+
+							} else {
+								System.out.println("L'id du plat renseigné n'existe pas.");
+							}
+						}
+					} else {
+						System.out.println("L'id de la commande renseignée n'existe pas.");
+					}
+				}
+				
+			}
+		}
 	}
 
-		
 	public void creerPlat() {
 		ProduitDAO<Produit> produitDAO = new ProduitDAOImpl();
 		PlatDAO platDAO = new PlatDAOImpl();
 		CategoriePlatDAO categPlatDAO = new CategoriePlatDAOImpl();
-
 		ArrayList<Produit> produits =  produitDAO.getProduitsDispos();
 
 		ArrayList<CategoriePlat> listCateg = new ArrayList<>();
 		listCateg = categPlatDAO.getAllCateg();
-
-		for(CategoriePlat categ : listCateg) {
-			System.out.println(categ.getId() + "; " + categ.getLibelle());
-		}
+		listCateg.forEach(ctg -> System.out.println(ctg.getId() + ". " + ctg.getLibelle()));
 
 		System.out.println("Dans quelle catégorie est votre plat ?");
-
-		boolean error = true;
-
-		int idCateg = ScanEntree.readIntegerWithDelimitations(0, listCateg.size());
-
-		idCateg -= 1;
-
-		System.out.println(listCateg.get(idCateg).getLibelle());
-		System.out.println();
-
-		error = true;
+		int idCateg = ScanEntree.readIntegerWithDelimitations(0, listCateg.size()) -1;
+		System.out.println(listCateg.get(idCateg).getLibelle() + "\n");
 
 		System.out.println("Nom du plat : ");
-		Scanner scNom = new Scanner(System.in);
-		String nomPlat = scNom.nextLine();
+		String nomPlat = ScanEntree.readString(); 
 
 		System.out.println("Prix : ");
-		
-		//int prix = ScanEntree.readIntegerWithDelimitations(0, 50);
-		double prix = ScanEntree.readDoubleWithDelimitations(0, 50);
+		double prix = ScanEntree.readDoubleWithDelimitations(0, 500);
 
 		ArrayList<Produit> compoPlat = new ArrayList<Produit>();
 		int ajouter = 0;
@@ -137,31 +149,29 @@ public class MenuCuisinier extends MenuCommun {
 		do {
 			consulterProduitsDispos();
 
-			System.out.println("Choisir un ingrédient à ajouter à la recette (par son Id)");
+			System.out.println("Veuillez renseignez l'id de l'ingrédient à ajouter à la recette :");
 
-			error = true;
 			int idIngredient = ScanEntree.readIntegerWithDelimitations(0, produits.size()-1);
-
 			Produit ingredient = produits.get(idIngredient);
 
-			System.out.println("Quantité : ");
+			System.out.println("Quantité (max 5) : ");
 
-			error = true;
+			boolean error = true;
 			int qte = 0;
 
-			while(error == true) {
+			while(error) {
 				try {
-					Scanner sc = new Scanner(System.in);
-					qte = sc.nextInt();
+//					Scanner sc = new Scanner(System.in);
+//					qte = sc.nextInt();
+					qte = ScanEntree.readInteger();
 
-					if(! produitDAO.isDispo(ingredient.getId(), qte)) {
-						System.out.println("Le stock est isuffisant pour " + ingredient.getLibelle());
-						System.out.println("Quantité : ");
+					if((!produitDAO.isDispo(ingredient.getId(), qte)) || (qte > 5 || qte < 0)) {
+						System.out.println("Le stock est insuffisant pour " + ingredient.getLibelle());
+						System.out.println("Quantité (max 5) : ");
 					} else {
 						error = false;
 					}
 				} catch (Exception e) {
-					// TODO: handle exception
 					System.out.println("Il faut une valeur numérique");
 				}
 			}
@@ -170,32 +180,19 @@ public class MenuCuisinier extends MenuCommun {
 			compoPlat.add(ingredient);
 
 			System.out.println("Composition actuelle du plat : ");
+			compoPlat.forEach(ingr -> System.out.println(ingr.getLibelle() + " : " + ingr.getQuantite()));
 
-			for(Produit produitCompo : compoPlat) {
-				System.out.println(produitCompo.getLibelle() + " : " + produitCompo.getQuantite());
-			}
+			System.out.println("Voulez-vous ajouter un autre ingrédient ? Oui (1) Non (2)");
 
-			System.out.println("Voulez-vous ajouter un autre ingrédient ? (1 : oui, 2 : non)");
-
-			error = true;
-
-			while(error == true) {
-				try {
-					Scanner sc = new Scanner(System.in);
-					ajouter = sc.nextInt();
-
-					error = false;
-				} catch (Exception e) {
-					// TODO: handle exception
-					System.out.println("Il faut une valeur numérique");
-				}
-			}
-
+			ajouter = ScanEntree.readIntegerWithDelimitations(1, 2);
 
 		} while(ajouter == 1);
 
-		platDAO.creerPlat(nomPlat, prix, compoPlat, idCateg+1);
-
+		creerPlatAction(nomPlat, prix, compoPlat, idCateg+1, platDAO);
+	}
+	
+	private void creerPlatAction(String nomPlat, double prix, ArrayList<Produit> compoPlat, int idCateg, PlatDAO platDAO) {
+		platDAO.creerPlat(nomPlat, prix, compoPlat, idCateg);	
 	}
 
 

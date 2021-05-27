@@ -24,6 +24,10 @@ public class CompositionCmde {
 
 	}
 	
+	public CompositionCmde() {
+		super();
+	}
+	
 	
 	public long getIdCommande() {
 		return idCommande;

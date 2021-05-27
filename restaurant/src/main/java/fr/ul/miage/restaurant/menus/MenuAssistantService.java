@@ -1,7 +1,6 @@
 package fr.ul.miage.restaurant.menus;
 
 import java.util.ArrayList;
-import java.util.Scanner;
 
 import fr.ul.miage.restaurant.Impl.TableDAOImpl;
 import fr.ul.miage.restaurant.dao.TableDAO;
@@ -11,9 +10,10 @@ import fr.ul.miage.restaurant.systeme.ScanEntree;
 
 public class MenuAssistantService extends MenuCommun{
 	
+	TableDAO tableDAO = new TableDAOImpl();
+	
 	public MenuAssistantService(boolean connected, Personnel user) {
 		super(connected, user);
-		// TODO Auto-generated constructor stub
 	}
 
 	static Personnel user;
@@ -23,7 +23,6 @@ public class MenuAssistantService extends MenuCommun{
 		System.out.println("BIENVENUE DANS L'APPLICATION DE VOTRE RESTAURANT !");
 		System.out.println("--------------------------------------------------\n");
 		System.out.println("Vous êtes connecté en tant qu'assistant de service");
-
 		
 		do {
 
@@ -32,8 +31,7 @@ public class MenuAssistantService extends MenuCommun{
 
 				printOptions();
 
-				Scanner s = new Scanner(System.in);
-				c2 = s.nextInt();
+				c2 = ScanEntree.readInteger();
 				switch (c2) {
 				case 1:
 					getInfoTable();
@@ -58,6 +56,7 @@ public class MenuAssistantService extends MenuCommun{
 	}
 	
 	public void printOptions() {
+		System.out.println();
 		System.out.println("--------------------------------------------------");
 		System.out.println("Que souhaitez-vous faire ?\n");
 		
@@ -69,23 +68,27 @@ public class MenuAssistantService extends MenuCommun{
 	}
 
 	private void dresserTable() {
-		TableDAO tableDAO = new TableDAOImpl();
-	
 		ArrayList<Table> tables = tableDAO.getTablesADresserOuRanger();
 		tables.forEach(table -> System.out.println(table));
-		long idTable = ScanEntree.readIdTable(tables, "que vous souhaitez débarasser et dresser : ");
-		dresserTableAction(idTable);
-		System.out.println("La table n°" + idTable + " à bien été installée.");
+		
+		if(tables.size() != 0) {
+			long idTable = ScanEntree.readIdTable(tables, "que vous souhaitez débarasser et dresser : ");
+			dresserTableAction(idTable);
+			System.out.println("La table n°" + idTable + " à bien été installée.");
+		} else {
+			System.out.println("Il n'y a pas de table à installer.");
+		}
 	}
 	
 
 	private void dresserTableAction(long idTable) {
-		TableDAO tableDAO = new TableDAOImpl();
 		tableDAO.dresserTable(idTable);
 	}
 
 	public void getInfoTable() {
-		TableDAO tableDAO = new TableDAOImpl();
-		tableDAO.obtenirInfoTable();
+		ArrayList<Table> tables = tableDAO.getAll();
+		tables.forEach(table -> System.out.println("Table n°" + table.getId()));
+		long idTable = ScanEntree.readIdTable(tables, "dont vous souhaîtez connaitre les informations :");
+		System.out.println(tableDAO.obtenirInfoTable(idTable));
 	}
 }
