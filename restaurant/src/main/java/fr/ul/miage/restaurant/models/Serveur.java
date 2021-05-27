@@ -2,7 +2,7 @@ package fr.ul.miage.restaurant.models;
 
 public class Serveur extends Personnel {
 	
-	private long id=0;
+	private long id = 0;
 	private int etage;
 	
 	public Serveur() {

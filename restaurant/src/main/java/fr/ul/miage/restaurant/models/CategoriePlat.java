@@ -1,7 +1,8 @@
 package fr.ul.miage.restaurant.models;
 
 public class CategoriePlat {
-	private long id=0;
+	
+	private long id = 0;
 	private String libelle;
 	
 	public CategoriePlat() {
@@ -29,6 +30,5 @@ public class CategoriePlat {
 	public void setLibelle(String libelle) {
 		this.libelle = libelle;
 	}
-	
 	
 }
