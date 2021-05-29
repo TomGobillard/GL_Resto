@@ -63,4 +63,11 @@ public class ProduitDAOImplTest {
 			produitDAO.update(produit);
 		}
 	}
+	
+	@Test
+	public void testFind() {
+		Produit prod = produitDAO.find(3);
+		
+		assertEquals("Lait", prod.getLibelle());
+	}
 }

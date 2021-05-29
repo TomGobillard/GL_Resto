@@ -5,11 +5,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-import javax.naming.spi.DirStateFactory.Result;
-
+import fr.ul.miage.restaurant.dao.PersonnelDAO;
 import fr.ul.miage.restaurant.models.Personnel;
 import fr.ul.miage.restaurant.models.Serveur;
-import fr.ul.miage.restaurant.dao.PersonnelDAO;
 
 public class PersonnelDAOImpl extends PersonnelDAO<Personnel> {
 
@@ -135,7 +133,7 @@ public class PersonnelDAOImpl extends PersonnelDAO<Personnel> {
 		ArrayList<Personnel> listPersonnel = new ArrayList<Personnel>();
 
 		try {
-			String sql = "SELECT * FROM personnel";
+			String sql = "SELECT * FROM personnel ORDER BY id";
 
 			PreparedStatement stmt = connect.prepareStatement(sql);
 			ResultSet result = stmt.executeQuery();

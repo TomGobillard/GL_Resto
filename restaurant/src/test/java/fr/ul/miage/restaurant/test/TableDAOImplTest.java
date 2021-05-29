@@ -1,6 +1,7 @@
 package fr.ul.miage.restaurant.test;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
 
@@ -107,5 +108,28 @@ public class TableDAOImplTest {
 
 		assertEquals("VIDE", table.getAvancement());
 	}
+	
+	@Test
+	public void testEtatValues() {
+		ArrayList<Table> tables = tableDAO.getAll();
+		for (Table table : tables) {
+			assertTrue(table.getEtat().equals("PROPRE") || table.getEtat().equals("SALE") || table.getEtat().equals("OCCUPEE") || table.getEtat().equals("RESERVEE"));
+		}
+	}
 
+	@Test
+	public void testRepasFini() {
+		ArrayList<Table> tables = tableDAO.getTableRepasFini();
+		for (Table table : tables) {
+			assertEquals("EN REPAS", table.getAvancement());
+		}
+	}
+	
+	@Test
+	public void testRepasADresserOuServir() {
+		ArrayList<Table> tables = tableDAO.getTablesADresserOuRanger();
+		for (Table table : tables) {
+			assertEquals("SALE", table.getEtat());
+		}
+	}
 }

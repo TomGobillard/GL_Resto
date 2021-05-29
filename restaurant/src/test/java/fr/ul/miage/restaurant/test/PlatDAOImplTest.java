@@ -39,5 +39,21 @@ private PlatDAO platDAO;
 
 		assertEquals(true, plat.isPlatDuJour());
 	}
+	
+	@Test
+	public void testFind() {
+		Plat plat = platDAO.find(16);
 
+		assertEquals("Salade de carottes", plat.getLibelle());
+	}
+	
+	@Test
+	public void nbCommandePositif() {
+		ArrayList<Plat> plats = platDAO.getAll();
+		for (Plat plat : plats) {
+			assertTrue(plat.getNbCommandes() >= 0);
+		}
+	}
+	
+	//Test nbCommande : pour chaque plat > 0
 }
