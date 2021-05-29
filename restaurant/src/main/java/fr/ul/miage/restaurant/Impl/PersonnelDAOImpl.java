@@ -31,7 +31,7 @@ public class PersonnelDAOImpl extends PersonnelDAO<Personnel> {
 			}
 
 		} catch (Exception e) {
-			// TODO: handle exception
+			e.printStackTrace();
 		}
 
 		return personnel;
@@ -51,7 +51,7 @@ public class PersonnelDAOImpl extends PersonnelDAO<Personnel> {
 			stmt.executeUpdate();
 
 		} catch (Exception e) {
-			// TODO: handle exception
+			e.printStackTrace();
 		}
 		// TODO Auto-generated method stub
 		return null;
@@ -73,20 +73,21 @@ public class PersonnelDAOImpl extends PersonnelDAO<Personnel> {
 			stmt.executeUpdate();
 
 		} catch (Exception e) {
-			// TODO: handle exception
+			e.printStackTrace();
 		}
 		// TODO Auto-generated method stub
 		
 		try {
-			String sql = "UPDATE personnel SET id = ?, role = ? WHERE idpersonnel = ?";
+			String sql = "UPDATE personnel SET id = ?, role = ? WHERE id = ?";
 			PreparedStatement stmt = connect.prepareStatement(sql);
 			stmt.setLong(1, obj.getId());
 			stmt.setString(2, obj.getRole());
+			stmt.setLong(3, obj.getId());
 			
 			stmt.executeUpdate();
 			
 		} catch (Exception e) {
-			// TODO: handle exception
+			e.printStackTrace();
 		}
 		
 		return obj;
@@ -145,7 +146,7 @@ public class PersonnelDAOImpl extends PersonnelDAO<Personnel> {
 			}
 
 		} catch (Exception e) {
-			// TODO: handle exception
+			e.printStackTrace();
 		}
 		// TODO Auto-generated method stub
 		return listPersonnel;

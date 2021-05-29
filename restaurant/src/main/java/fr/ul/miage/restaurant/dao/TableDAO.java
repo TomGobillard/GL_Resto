@@ -10,7 +10,7 @@ public abstract class TableDAO extends DAO<Table>{
 	public abstract Table obtenirInfoTable(long idTable);
 	public abstract boolean tableExists(long idTable);
 	public abstract void assignServeur(long idServeur, long idTable);
-	public abstract void showAvancement(long idTable);
+	public abstract String showAvancement(long idTable);
 	public abstract HashMap<Integer, String> getTableForInitPrint();
 	public abstract ArrayList<Integer> getServeurTablesId(long serveurId);
 	public abstract ArrayList<Table> getServeurTables(long serveurId);

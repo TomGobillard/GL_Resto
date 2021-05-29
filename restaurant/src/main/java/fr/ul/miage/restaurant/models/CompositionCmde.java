@@ -8,7 +8,6 @@ public class CompositionCmde {
 	private String etat;
 	private int quantite;
 	
-	
 	public CompositionCmde(long idCommande, long idPlat, String etat, int quantite) {
 		super();
 		this.idCommande = idCommande;
@@ -21,37 +20,41 @@ public class CompositionCmde {
 		super();
 		this.idCommande = idCommande;
 		this.idPlat = idPlat;
-
 	}
 	
 	public CompositionCmde() {
 		super();
 	}
 	
-	
 	public long getIdCommande() {
 		return idCommande;
 	}
+	
 	public void setIdCommande(long idCommande) {
 		this.idCommande = idCommande;
 	}
+	
 	public long getIdPlat() {
 		return idPlat;
 	}
+	
 	public void setIdPlat(long idPlat) {
 		this.idPlat = idPlat;
 	}
+	
 	public String getEtat() {
 		return etat;
 	}
+	
 	public void setEtat(String etat) {
 		this.etat = etat;
 	}
+	
 	public int getQuantite() {
 		return quantite;
 	}
+	
 	public void setQuantite(int quantite) {
 		this.quantite = quantite;
 	}
-
 }

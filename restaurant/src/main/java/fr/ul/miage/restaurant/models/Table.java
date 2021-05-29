@@ -10,7 +10,6 @@ public class Table {
 	private long idServeur;
 	private long idClient;
 
-
 	public Table() {
 		super();
 	}
@@ -26,8 +25,6 @@ public class Table {
 		this.idClient = idClient;
 	}
 	
-
-
 	public Table(long id, long nbCouverts, String etat, long etage, String avancement) {
 		super();
 		this.id = id;
@@ -59,7 +56,7 @@ public class Table {
 		return nbCouverts;
 	}
 
-	public void setNbCouverts(int nbCouverts) {
+	public void setNbCouverts(long nbCouverts) {
 		this.nbCouverts = nbCouverts;
 	}
 
@@ -75,7 +72,7 @@ public class Table {
 		return etage;
 	}
 
-	public void setEtage(int etage) {
+	public void setEtage(long etage) {
 		this.etage = etage;
 	}
 
@@ -86,7 +83,7 @@ public class Table {
 	public void setIdServeur(long idServeur) {
 		this.idServeur = idServeur;
 	}
-
+	
 	public String getAvancement() {
 		return avancement;
 	}
@@ -94,7 +91,7 @@ public class Table {
 	public void setAvancement(String avancement) {
 		this.avancement = avancement;
 	}
-
+	
 	@Override
 	public String toString() {
 		String res = "Table n°" + this.id + "\n" + "Nombre de couverts : " + this.nbCouverts + "\n" + "Etat : " + this.etat + "\n" + "Etage : " + this.etage + "\n";

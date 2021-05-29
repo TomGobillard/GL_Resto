@@ -19,22 +19,13 @@ import fr.ul.miage.restaurant.dao.ProduitDAO;
 
 public class ProduitDAOImplTest {
 	
-	private ProduitDAO<Produit> produitDAO;
-	
-	@Mock private ProduitDAO<Produit> mock_produitDAO;
-	@Rule public MockitoRule rule = MockitoJUnit.rule();
+	public ProduitDAO<Produit> produitDAO;
 	
 	@Before
 	public void setUp() throws Exception {
 		produitDAO = new ProduitDAOImpl();
 	}
-	
-	@Test
-	public void testGetProduitbyName() {
-		Mockito.when(produitDAO.create(null)).thenReturn(null);
-		//Produit actual = 
-	}
-	
+
 	@Test
 	public void testListProduits() {
 		ArrayList<Produit> listProduits = produitDAO.listProduit();
@@ -68,11 +59,5 @@ public class ProduitDAOImplTest {
 		
 		produit.setQuantite(stockInit);
 		produitDAO.update(produit);
-	}
-
-	private Produit createTestProduit() {
-		Produit produit = new Produit();
-		produit.setLibelle("Salade");
-		return produit;
 	}
 }

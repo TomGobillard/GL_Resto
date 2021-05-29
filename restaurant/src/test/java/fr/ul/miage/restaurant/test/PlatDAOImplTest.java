@@ -7,23 +7,26 @@ import java.util.ArrayList;
 import org.junit.Before;
 import org.junit.Test;
 
+import fr.ul.miage.restaurant.Impl.PlatDAOImpl;
 import fr.ul.miage.restaurant.Impl.ProduitDAOImpl;
+import fr.ul.miage.restaurant.dao.PlatDAO;
 import fr.ul.miage.restaurant.dao.ProduitDAO;
+import fr.ul.miage.restaurant.models.Plat;
 import fr.ul.miage.restaurant.models.Produit;
 
-public class PlatTest {
+public class PlatDAOImplTest {
 
-private ProduitDAO<Produit> produitDAO;
+private PlatDAO platDAO;
 	
 	@Before
 	public void setUp() throws Exception {
-		produitDAO = new ProduitDAOImpl();
+		platDAO = new PlatDAOImpl();
 	}
 	
 	@Test
 	public void testListProduits() {
-		ArrayList<Produit> listProduits = produitDAO.listProduit();
-		assertEquals("Champignons", listProduits.get(0).getLibelle());
+		ArrayList<Plat> listProduits = platDAO.getAll();
+		assertTrue(listProduits.size() >= 0);
 	}
 
 }

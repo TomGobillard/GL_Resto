@@ -2,7 +2,7 @@ package fr.ul.miage.restaurant.models;
 
 public class Commande {
 	
-	private long id=0;
+	private long id = 0;
 	private String heure_cmd_prete;
 	private String heure_cmd_passee;
 	private String etat;
@@ -29,21 +29,17 @@ public class Commande {
 		return idTable;
 	}
 
-
 	public void setIdTable(long idTable) {
 		this.idTable = idTable;
 	}
-
 
 	public long getIdClient() {
 		return idClient;
 	}
 
-
 	public void setIdClient(long idClient) {
 		this.idClient = idClient;
 	}
-
 
 	public long getId() {
 		return id;
@@ -76,7 +72,4 @@ public class Commande {
 	public void setEtat(String etat) {
 		this.etat = etat;
 	}
-	
-	
-
 }

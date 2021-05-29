@@ -22,7 +22,6 @@ public class Facture {
 		this.repas = repas;
 		this.idClient = idClient;
 		this.date = date;
-		
 	}
 
 	public long getIdClient() {
@@ -68,7 +67,6 @@ public class Facture {
 	@Override
 	public String toString() {
 		SimpleDateFormat formatter= new SimpleDateFormat("yyyy-MM-dd HH:mm");
-		
 		return "Facture n°" + this.id + "\n" + "Type de repas : " + this.repas + "\n" + "Editée le " + formatter.format(this.date) + "\n" + "Client n°" + this.idClient + "\n" + "Montant facturé : " + this.montant + "€";
 	}
 	

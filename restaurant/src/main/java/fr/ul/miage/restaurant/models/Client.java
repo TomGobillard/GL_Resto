@@ -2,7 +2,7 @@ package fr.ul.miage.restaurant.models;
 
 public class Client {
 
-	private long id=0;
+	private long id = 0;
 	private String heureDepart;
 	private String heureArrivee;
 	
