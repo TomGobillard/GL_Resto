@@ -3,6 +3,7 @@ package fr.ul.miage.restaurant.menus;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+
 import fr.ul.miage.restaurant.Impl.CategoriePlatDAOImpl;
 import fr.ul.miage.restaurant.Impl.ClientDAOImpl;
 import fr.ul.miage.restaurant.Impl.CommandeDAOImpl;
@@ -244,7 +245,7 @@ public class MenuDirecteur extends MenuCommun {
 		System.out.println("Voici les 5 plats les plus populaires de votre restaurant : \n");
 
 		if(!listPlats.isEmpty()) {		
-			for(int i=0; i < 5; i++) {
+			for(int i=0; i < 5 && i < listPlats.size(); i++) {
 				Plat plat = listPlats.get(i);
 				double CA = plat.getNbCommandes() * plat.getPrix();
 				System.out.println("Plat : " + plat.getLibelle() + "\nPopularité : " + plat.getNbCommandes() + " commandes \nRevenus : " + CA + "€\n");
