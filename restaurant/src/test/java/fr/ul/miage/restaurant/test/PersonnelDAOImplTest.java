@@ -1,13 +1,15 @@
 package fr.ul.miage.restaurant.test;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+
+import java.util.ArrayList;
 
 import org.junit.Before;
 import org.junit.Test;
 
 import fr.ul.miage.restaurant.Impl.PersonnelDAOImpl;
-import fr.ul.miage.restaurant.models.Personnel;
 import fr.ul.miage.restaurant.dao.PersonnelDAO;
+import fr.ul.miage.restaurant.models.Personnel;
 
 public class PersonnelDAOImplTest {
 
@@ -46,6 +48,29 @@ public class PersonnelDAOImplTest {
 	public void testConnectMaitreHotel() {
 		Personnel personnel = personnelDAO.getByRole("maitre hotel");
 		assertEquals("MAITRE HOTEL", personnel.getRole());
+	}
+	
+	@Test
+	public void testUpdateLoginPersonnel() {
+		ArrayList<Personnel> listPersonnel = personnelDAO.getAll();
+		if(listPersonnel.size()>0) {
+			Personnel personnel = listPersonnel.get(0);
+			Long idPersonnel = personnel.getId();
+			
+			String oldLogin = personnel.getLogin();
+			String newLogin = "newLogin";
+			personnel.setLogin(newLogin);
+			
+			personnelDAO.update(personnel);
+			
+			personnel = personnelDAO.find(idPersonnel);
+			
+			assertEquals("newLogin", personnel.getLogin());
+			
+			personnel.setLogin(oldLogin);
+			
+			personnelDAO.update(personnel);
+		}
 	}
 
 }

@@ -1,6 +1,7 @@
 package fr.ul.miage.restaurant.test;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
 
@@ -8,11 +9,8 @@ import org.junit.Before;
 import org.junit.Test;
 
 import fr.ul.miage.restaurant.Impl.PlatDAOImpl;
-import fr.ul.miage.restaurant.Impl.ProduitDAOImpl;
 import fr.ul.miage.restaurant.dao.PlatDAO;
-import fr.ul.miage.restaurant.dao.ProduitDAO;
 import fr.ul.miage.restaurant.models.Plat;
-import fr.ul.miage.restaurant.models.Produit;
 
 public class PlatDAOImplTest {
 
@@ -27,6 +25,19 @@ private PlatDAO platDAO;
 	public void testListProduits() {
 		ArrayList<Plat> listProduits = platDAO.getAll();
 		assertTrue(listProduits.size() >= 0);
+	}
+	
+	@Test
+	public void testAjoutPlatCarteduJour() {
+		long idPlat = platDAO.getAll().get(0).getId();
+
+		platDAO.ajoutPlatCarteduJour(idPlat);
+
+		Plat plat = platDAO.find(idPlat);
+
+		platDAO.initCarteduJour();
+
+		assertEquals(true, plat.isPlatDuJour());
 	}
 
 }
