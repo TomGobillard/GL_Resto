@@ -1,22 +1,17 @@
 package fr.ul.miage.restaurant.test;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 import java.util.ArrayList;
 
 import org.junit.Before;
 import org.junit.Test;
 
-import fr.ul.miage.restaurant.Impl.ProduitDAOImpl;
 import fr.ul.miage.restaurant.Impl.ServeurDAOImpl;
 import fr.ul.miage.restaurant.Impl.TableDAOImpl;
-import fr.ul.miage.restaurant.dao.PersonnelDAO;
-import fr.ul.miage.restaurant.dao.ProduitDAO;
 import fr.ul.miage.restaurant.dao.ServeurDAO;
 import fr.ul.miage.restaurant.dao.TableDAO;
 import fr.ul.miage.restaurant.menus.MenuServeur;
-import fr.ul.miage.restaurant.models.Personnel;
-import fr.ul.miage.restaurant.models.Produit;
 import fr.ul.miage.restaurant.models.Serveur;
 import fr.ul.miage.restaurant.models.Table;
 
@@ -89,6 +84,28 @@ public class TableDAOImplTest {
 				tableDAO.initTableTest(table.getId());
 			}
 		}
+	}
+	
+	@Test
+	public void testDresserTable_Propre() {
+		long idTable = tableDAO.getAll().get(0).getId();
+
+		tableDAO.dresserTable(idTable);
+
+		Table table = tableDAO.find(idTable);
+
+		assertEquals("PROPRE", table.getEtat());
+	}
+
+	@Test
+	public void testDresserTable_Vide() {
+		long idTable = tableDAO.getAll().get(0).getId();
+
+		tableDAO.dresserTable(idTable);
+
+		Table table = tableDAO.find(idTable);
+
+		assertEquals("VIDE", table.getAvancement());
 	}
 
 }
