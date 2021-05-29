@@ -27,7 +27,7 @@ public class PersonnelDAOImpl extends PersonnelDAO<Personnel> {
 
 			if(result.next()) {
 				personnel = new Personnel(result.getLong(1), result.getString(4), result.getString(2), 
-						result.getString(3), result.getString(5), result.getString(6));
+						result.getString(3), result.getString(6), result.getString(5));
 			}
 
 		} catch (Exception e) {
@@ -135,13 +135,13 @@ public class PersonnelDAOImpl extends PersonnelDAO<Personnel> {
 		ArrayList<Personnel> listPersonnel = new ArrayList<Personnel>();
 
 		try {
-			String sql = "SELECT * FROM personnel";
+			String sql = "SELECT * FROM personnel order by id";
 
 			PreparedStatement stmt = connect.prepareStatement(sql);
 			ResultSet result = stmt.executeQuery();
 
 			while(result.next()) {
-				Personnel personel = new Personnel(result.getLong(1), result.getString(4), result.getString(2), result.getString(3), result.getString(5), result.getString(6));
+				Personnel personel = new Personnel(result.getLong(1), result.getString(4), result.getString(2), result.getString(3), result.getString(6), result.getString(5));
 				listPersonnel.add(personel);
 			}
 
@@ -166,7 +166,7 @@ public class PersonnelDAOImpl extends PersonnelDAO<Personnel> {
 
 			if(result.next()) {
 				personnel = new Personnel(result.getLong(1), result.getString(4), result.getString(2), 
-						result.getString(3), result.getString(5), result.getString(6));
+						result.getString(3), result.getString(6), result.getString(5));
 			}
 
 		} catch (Exception e) {

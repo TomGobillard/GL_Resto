@@ -1,6 +1,7 @@
 package fr.ul.miage.restaurant.test;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
 
@@ -18,6 +19,26 @@ public class PersonnelDAOImplTest {
 	@Before
 	public void setUp() throws Exception {
 		personnelDAO = new PersonnelDAOImpl();
+	}
+	
+	@Test
+	public void testFind() {
+		Personnel personnel = personnelDAO.find(2);
+		assertEquals("tom", personnel.getNom());
+	}
+	
+	@Test
+	public void testGetAll() {
+		ArrayList<Personnel> personnels = personnelDAO.getAll();
+		
+		assertEquals("tom", personnels.get(0).getNom());
+	}
+	
+	@Test
+	public void testGetAllNotNull() {
+		ArrayList<Personnel> personnels = personnelDAO.getAll();
+		
+		assertTrue(personnels.size()>=0);
 	}
 	
 	@Test
