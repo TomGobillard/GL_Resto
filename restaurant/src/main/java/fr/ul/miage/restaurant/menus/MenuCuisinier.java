@@ -147,8 +147,8 @@ public class MenuCuisinier extends MenuCommun {
 
 			System.out.println("Veuillez renseignez l'id de l'ingrédient à ajouter à la recette :");
 
-			int idIngredient = ScanEntree.readIntegerWithDelimitations(0, produits.size()-1);
-			Produit ingredient = produits.get(idIngredient);
+			int idIngredient = ScanEntree.readIntegerWithDelimitations(1, produits.size());
+			Produit ingredient = produits.get(idIngredient-1);
 
 			System.out.println("Quantité (max 5) : ");
 

@@ -42,7 +42,7 @@ private PlatDAO platDAO;
 	
 	@Test
 	public void testFind() {
-		Plat plat = platDAO.find(16);
+		Plat plat = platDAO.find(27);
 
 		assertEquals("Salade de carottes", plat.getLibelle());
 	}

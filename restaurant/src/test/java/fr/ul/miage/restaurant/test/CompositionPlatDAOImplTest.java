@@ -26,20 +26,20 @@ public class CompositionPlatDAOImplTest {
 	@Test
 	public void testCompoPlatId() {
 		PlatDAO platDAO = new PlatDAOImpl();
-		Plat plat = platDAO.find(16);
+		Plat plat = platDAO.find(27);
 		ArrayList<Plat> plats = new ArrayList<Plat>();
 		plats.add(plat);
 		
 		ArrayList<CompositionPlat> compoPlats = compoPlatDAO.getWithPlats(plats);
 		
-		assertEquals(2, compoPlats.get(0).getIdProduit());
+		assertEquals(7, compoPlats.get(0).getIdProduit());
 		
 	}
 	
 	@Test
 	public void testCompoPlatQuantite() {
 		PlatDAO platDAO = new PlatDAOImpl();
-		Plat plat = platDAO.find(16);
+		Plat plat = platDAO.find(27);
 		ArrayList<Plat> plats = new ArrayList<Plat>();
 		plats.add(plat);
 		
