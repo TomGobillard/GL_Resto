@@ -66,7 +66,7 @@ public class ServeurDAOImpl extends ServeurDAO {
 		ArrayList<Serveur> listServeur = new ArrayList<Serveur>();
 
 		try {
-			String sql = "SELECT * FROM serveur";
+			String sql = "SELECT * FROM serveur ORDER BY id";
 			PreparedStatement stmt = connect.prepareStatement(sql);
 
 			ResultSet result = stmt.executeQuery();
@@ -75,6 +75,7 @@ public class ServeurDAOImpl extends ServeurDAO {
 			while (result.next()) {
 				serveur = new Serveur(result.getLong(1), result.getString(7), result.getString(8), result.getLong(5),
 						result.getInt(6));
+				serveur.setRole("SERVEUR");
 				listServeur.add(serveur);
 			}
 		} catch (Exception e) {

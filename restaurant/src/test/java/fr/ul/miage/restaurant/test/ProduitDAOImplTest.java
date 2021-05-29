@@ -29,7 +29,13 @@ public class ProduitDAOImplTest {
 	@Test
 	public void testListProduits() {
 		ArrayList<Produit> listProduits = produitDAO.listProduit();
-		assertNotEquals(0, listProduits.size());
+		assertTrue(0 <= listProduits.size());
+	}
+	
+	@Test
+	public void testGetProduits() {
+		ArrayList<Produit> listProduits = produitDAO.listProduit();
+		assertEquals("Champignons", listProduits.get(0).getLibelle());
 	}
 	
 	@Test
