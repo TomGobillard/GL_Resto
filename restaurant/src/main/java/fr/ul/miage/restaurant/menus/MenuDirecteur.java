@@ -104,16 +104,20 @@ public class MenuDirecteur extends MenuCommun {
 
 	private void calculateRoationTimeAvg() {
 		ClientDAO clientDAO = new ClientDAOImpl();
-		java.util.Date date = new java.util.Date(clientDAO.getRotationTimeAvg().getTime());
-		SimpleDateFormat formatter = new SimpleDateFormat("HH");
-		SimpleDateFormat formatter2 = new SimpleDateFormat("mm");
-		SimpleDateFormat formatter3 = new SimpleDateFormat("ss");
-		String msg = "Le temps moyen de rotation des clients est de ";
-		if(!formatter.format(date).equals("00")) {
-			msg += formatter.format(date) + "h ";
+		if(clientDAO.getRotationTimeAvg() != null) {
+			java.util.Date date = new java.util.Date(clientDAO.getRotationTimeAvg().getTime());
+			SimpleDateFormat formatter = new SimpleDateFormat("HH");
+			SimpleDateFormat formatter2 = new SimpleDateFormat("mm");
+			SimpleDateFormat formatter3 = new SimpleDateFormat("ss");
+			String msg = "Le temps moyen de rotation des clients est de ";
+			if(!formatter.format(date).equals("00")) {
+				msg += formatter.format(date) + "h ";
+			}
+			msg += formatter2.format(date) + "mn " + formatter3.format(date) + "s";
+			System.out.println(msg);
+		} else {
+			System.out.println("Il n'y a pas encore eu de client pour l'instant.");
 		}
-		msg += formatter2.format(date) + "mn " + formatter3.format(date) + "s";
-		System.out.println(msg);
 	}
 
 	public void printOptions() {
