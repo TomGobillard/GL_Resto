@@ -15,7 +15,7 @@ import fr.ul.miage.restaurant.dao.ServeurDAO;
 import fr.ul.miage.restaurant.menus.MenuDirecteur;
 import fr.ul.miage.restaurant.models.Serveur;
 
-public class ServeurTest {
+public class ServeurDAOImplTest {
 	
 	ServeurDAO serveurDAO;
 	

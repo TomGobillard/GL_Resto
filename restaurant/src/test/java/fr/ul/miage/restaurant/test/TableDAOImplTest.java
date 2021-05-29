@@ -20,7 +20,7 @@ import fr.ul.miage.restaurant.models.Produit;
 import fr.ul.miage.restaurant.models.Serveur;
 import fr.ul.miage.restaurant.models.Table;
 
-public class TableTest {
+public class TableDAOImplTest {
 
 	private TableDAO tableDAO;
 	private ServeurDAO serveurDAO;

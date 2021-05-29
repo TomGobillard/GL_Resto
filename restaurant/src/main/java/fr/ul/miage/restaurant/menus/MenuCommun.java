@@ -74,7 +74,7 @@ public abstract class MenuCommun {
 		
 		ArrayList<Plat> listPlatsCateg = platDAO.listerPlatSelonCategorie(categ.getId());
 		
-		if(listPlatsCateg.size()==0)
+		if(listPlatsCateg.isEmpty())
 			System.out.println("Il n'y a aucun plat dans cette catégorie");
 		else {
 			for(Plat plat : listPlatsCateg) {

@@ -23,7 +23,7 @@ import fr.ul.miage.restaurant.models.Plat;
 import fr.ul.miage.restaurant.models.Produit;
 import fr.ul.miage.restaurant.models.Table;
 
-public class CommandeTest {
+public class CommandeDAOImplTest {
 
 	private CommandeDAO commandeDao;
 	private TableDAO tableDAO;
