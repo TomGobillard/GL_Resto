@@ -69,8 +69,8 @@ public abstract class MenuCommun {
 		System.out.println();
 		System.out.println("Sélectionnez la catégorie : \n");
 		
-		int intIdCateg = ScanEntree.readIntegerWithDelimitations(0, listcategPlat.size()-1);
-		CategoriePlat categ = listcategPlat.get(intIdCateg);
+		int intIdCateg = ScanEntree.readIntegerWithDelimitations(1, listcategPlat.size());
+		CategoriePlat categ = listcategPlat.get(intIdCateg-1);
 		
 		ArrayList<Plat> listPlatsCateg = platDAO.listerPlatSelonCategorie(categ.getId());
 		
