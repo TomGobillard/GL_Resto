@@ -89,6 +89,13 @@ public class FactureDAOImpl extends FactureDAO {
 					stmt4.setLong(1, idclient);
 
 					stmt4.executeUpdate();
+					
+					String sql5 = "UPDATE client SET heuredepart = now()::timestamptz WHERE idclient = ?";
+
+					PreparedStatement stmt5 = connect.prepareStatement(sql5);
+					stmt5.setLong(1, idclient);
+
+					stmt5.executeUpdate();
 
 				} catch (Exception e) {
 					e.printStackTrace();
