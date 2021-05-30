@@ -72,7 +72,7 @@ if "%JAVACMD%"=="" set JAVACMD=java
 
 if "%REPO%"=="" set REPO=%BASEDIR%\repo
 
-set CLASSPATH="%BASEDIR%"\etc;"%REPO%"\postgresql-42.2.5.jar;"%REPO%"\pgjdbc-ng-0.8.7.jar;"%REPO%"\spy-0.8.7.jar;"%REPO%"\netty-common-4.1.53.Final.jar;"%REPO%"\netty-buffer-4.1.53.Final.jar;"%REPO%"\netty-transport-4.1.53.Final.jar;"%REPO%"\netty-resolver-4.1.53.Final.jar;"%REPO%"\netty-codec-4.1.53.Final.jar;"%REPO%"\netty-handler-4.1.53.Final.jar;"%REPO%"\netty-transport-native-unix-common-4.1.53.Final.jar;"%REPO%"\netty-transport-native-kqueue-4.1.53.Final.jar;"%REPO%"\netty-transport-native-epoll-4.1.53.Final.jar;"%REPO%"\restaurant-0.0.1-SNAPSHOT.jar
+set CLASSPATH="%BASEDIR%"\etc;"%REPO%"\mockito-1.0.6.jar;"%REPO%"\api-1.0.6.jar;"%REPO%"\slf4j-api-1.7.25.jar;"%REPO%"\external-guava-1.0.6.jar;"%REPO%"\mockito-core-2.11.0.jar;"%REPO%"\byte-buddy-1.7.4.jar;"%REPO%"\byte-buddy-agent-1.7.4.jar;"%REPO%"\objenesis-2.6.jar;"%REPO%"\postgresql-42.2.5.jar;"%REPO%"\pgjdbc-ng-0.8.7.jar;"%REPO%"\spy-0.8.7.jar;"%REPO%"\netty-common-4.1.53.Final.jar;"%REPO%"\netty-buffer-4.1.53.Final.jar;"%REPO%"\netty-transport-4.1.53.Final.jar;"%REPO%"\netty-resolver-4.1.53.Final.jar;"%REPO%"\netty-codec-4.1.53.Final.jar;"%REPO%"\netty-handler-4.1.53.Final.jar;"%REPO%"\netty-transport-native-unix-common-4.1.53.Final.jar;"%REPO%"\netty-transport-native-kqueue-4.1.53.Final.jar;"%REPO%"\netty-transport-native-epoll-4.1.53.Final.jar;"%REPO%"\restaurant-0.0.1-SNAPSHOT.jar
 
 set ENDORSED_DIR=
 if NOT "%ENDORSED_DIR%" == "" set CLASSPATH="%BASEDIR%"\%ENDORSED_DIR%\*;%CLASSPATH%
