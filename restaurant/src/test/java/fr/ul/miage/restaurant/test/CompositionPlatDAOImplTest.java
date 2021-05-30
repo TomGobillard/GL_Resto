@@ -23,6 +23,9 @@ public class CompositionPlatDAOImplTest {
 		compoPlatDAO = new CompositionPlatDAOImpl();
 	}
 	
+	/*
+	 * On vérifie qu'on récupère bien le bon identifiant du premier ingrédient pour la composition du plat n°27
+	 */
 	@Test
 	public void testCompoPlatId() {
 		PlatDAO platDAO = new PlatDAOImpl();
@@ -36,6 +39,9 @@ public class CompositionPlatDAOImplTest {
 		
 	}
 	
+	/*
+	 * On vérifie qu'on récupère bien la bonne quantité du premier ingrédient pour la composotion du plat n°27
+	 */
 	@Test
 	public void testCompoPlatQuantite() {
 		PlatDAO platDAO = new PlatDAOImpl();
