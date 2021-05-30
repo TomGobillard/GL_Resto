@@ -21,12 +21,18 @@ public class PersonnelDAOImplTest {
 		personnelDAO = new PersonnelDAOImpl();
 	}
 	
+	/*
+	 * On vérifie qu'on récupère bien le nom associé au personnel qui à pour identifiant 2
+	 */
 	@Test
 	public void testFind() {
 		Personnel personnel = personnelDAO.find(2);
 		assertEquals("tom", personnel.getNom());
 	}
 	
+	/*
+	 * On vérifie qu'on récupère bien le nom du premier personnel
+	 */
 	@Test
 	public void testGetAll() {
 		ArrayList<Personnel> personnels = personnelDAO.getAll();
@@ -34,6 +40,9 @@ public class PersonnelDAOImplTest {
 		assertEquals("tom", personnels.get(0).getNom());
 	}
 	
+	/*
+	 * On vérifie que la liste du personnel a une taille supérieure ou égale à 0
+	 */
 	@Test
 	public void testGetAllNotNull() {
 		ArrayList<Personnel> personnels = personnelDAO.getAll();
@@ -41,6 +50,9 @@ public class PersonnelDAOImplTest {
 		assertTrue(personnels.size()>=0);
 	}
 	
+	/*
+	 * Pour la liste de tests suivante, on vérifie que les méthodes permettent de récupérer les bons rôles
+	 */
 	@Test
 	public void testConnectDirecteur() {
 		Personnel personnel = personnelDAO.getByRole("directeur");
@@ -71,6 +83,9 @@ public class PersonnelDAOImplTest {
 		assertEquals("MAITRE HOTEL", personnel.getRole());
 	}
 	
+	/*
+	 * On vérifie que la modification du login d'un personnel est bien prise en compte dans la base.
+	 */
 	@Test
 	public void testUpdateLoginPersonnel() {
 		ArrayList<Personnel> listPersonnel = personnelDAO.getAll();
