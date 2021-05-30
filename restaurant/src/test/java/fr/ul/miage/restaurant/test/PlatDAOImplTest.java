@@ -40,12 +40,20 @@ private PlatDAO platDAO;
 		assertEquals(true, plat.isPlatDuJour());
 	}
 	
+	/*
+	 * Une fois un plat renseigné on ne peut pas le supprimer de la base, donc on vérifie la conformité d'un plat parmis les autres.
+	 */
+	
 	@Test
 	public void testFind() {
 		Plat plat = platDAO.find(27);
 
 		assertEquals("Salade de carottes", plat.getLibelle());
 	}
+	
+	/*
+	 * On vérifie pour chaque plat que le champ nbCommande possède une valeur positive.
+	 */
 	
 	@Test
 	public void nbCommandePositif() {
@@ -55,5 +63,4 @@ private PlatDAO platDAO;
 		}
 	}
 	
-	//Test nbCommande : pour chaque plat > 0
 }
