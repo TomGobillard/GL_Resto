@@ -20,6 +20,10 @@ public class CategoriePlatDAOImplTest {
 		categPlatDAO = new CategoriePlatDAOImpl();
 	}
 
+	/*
+	 * Pour les tests suivants, nous connaissons les différents types de plats, donc nous testons la conformité de leur nom
+	 */
+	
 	@Test
 	public void TestGetCategEntree() {
 		CategoriePlat categPlat = categPlatDAO.find(1);

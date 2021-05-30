@@ -109,6 +109,11 @@ public class TableDAOImplTest {
 		assertEquals("VIDE", table.getAvancement());
 	}
 	
+	
+	/*
+	 * Pour les tests suivants, on vérifie les que le champ respecte une valeur de l'énumération
+	 */
+	
 	@Test
 	public void testEtatValues() {
 		ArrayList<Table> tables = tableDAO.getAll();

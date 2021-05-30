@@ -16,7 +16,11 @@ public class FactureDAOImplTest {
 	public void setUp() throws Exception {
 		factureDAO = new FactureDAOImpl();
 	}
-
+	
+	/*
+	 * On vérifie que les profits et recettes ont des valeurs cohérentes (supérieures ou égales à 0) 
+	 */
+	
 	@Test
 	public void testProfitDejeuner() {
 		int profit = factureDAO.profitDejeuner();

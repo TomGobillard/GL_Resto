@@ -64,6 +64,10 @@ public class ProduitDAOImplTest {
 		}
 	}
 	
+	/*
+	 * Une fois un produit renseigné on ne peut pas le supprimer de la base, donc on vérifié la conformité d'un produit parmis les autres.
+	 */
+	
 	@Test
 	public void testFind() {
 		Produit prod = produitDAO.find(3);

@@ -3,6 +3,7 @@ package fr.ul.miage.restaurant.menus;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+
 import fr.ul.miage.restaurant.Impl.CategoriePlatDAOImpl;
 import fr.ul.miage.restaurant.Impl.ClientDAOImpl;
 import fr.ul.miage.restaurant.Impl.CommandeDAOImpl;
@@ -103,16 +104,20 @@ public class MenuDirecteur extends MenuCommun {
 
 	private void calculateRoationTimeAvg() {
 		ClientDAO clientDAO = new ClientDAOImpl();
-		java.util.Date date = new java.util.Date(clientDAO.getRotationTimeAvg().getTime());
-		SimpleDateFormat formatter = new SimpleDateFormat("HH");
-		SimpleDateFormat formatter2 = new SimpleDateFormat("mm");
-		SimpleDateFormat formatter3 = new SimpleDateFormat("ss");
-		String msg = "Le temps moyen de rotation des clients est de ";
-		if(!formatter.format(date).equals("00")) {
-			msg += formatter.format(date) + "h ";
+		if(clientDAO.getRotationTimeAvg() != null) {
+			java.util.Date date = new java.util.Date(clientDAO.getRotationTimeAvg().getTime());
+			SimpleDateFormat formatter = new SimpleDateFormat("HH");
+			SimpleDateFormat formatter2 = new SimpleDateFormat("mm");
+			SimpleDateFormat formatter3 = new SimpleDateFormat("ss");
+			String msg = "Le temps moyen de rotation des clients est de ";
+			if(!formatter.format(date).equals("00")) {
+				msg += formatter.format(date) + "h ";
+			}
+			msg += formatter2.format(date) + "mn " + formatter3.format(date) + "s";
+			System.out.println(msg);
+		} else {
+			System.out.println("Il n'y a pas encore eu de client pour l'instant.");
 		}
-		msg += formatter2.format(date) + "mn " + formatter3.format(date) + "s";
-		System.out.println(msg);
 	}
 
 	public void printOptions() {
@@ -248,7 +253,7 @@ public class MenuDirecteur extends MenuCommun {
 		System.out.println("Voici les 5 plats les plus populaires de votre restaurant : \n");
 
 		if(!listPlats.isEmpty()) {		
-			for(int i=0; i < 5; i++) {
+			for(int i=0; i < 5 && i < listPlats.size(); i++) {
 				Plat plat = listPlats.get(i);
 				double CA = plat.getNbCommandes() * plat.getPrix();
 				System.out.println("Plat : " + plat.getLibelle() + "\nPopularité : " + plat.getNbCommandes() + " commandes \nRevenus : " + CA + "€\n");
