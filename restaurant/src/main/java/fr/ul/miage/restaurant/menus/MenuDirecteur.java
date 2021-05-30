@@ -204,6 +204,10 @@ public class MenuDirecteur extends MenuCommun {
 			platDAO.ajoutPlatCarteduJour(idPlat);
 		}
 	}
+	
+	public void ajoutPlatCarteduJour_Action(long idPlat) {
+		platDAO.ajoutPlatCarteduJour(idPlat);
+	}
 
 	public void majCarteduJour() {
 

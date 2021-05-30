@@ -174,7 +174,7 @@ public class MenuServeur extends MenuCommun {
 
 		long numTable = choisirTablePourCmde();
 
-		if(numTable != 0) {
+		if(numTable > 0) {
 
 			int c;
 			do {
@@ -222,11 +222,17 @@ public class MenuServeur extends MenuCommun {
 	private long choisirTablePourCmde() {
 		TableDAO tableDAO = new TableDAOImpl();
 		ArrayList<Integer> tables = tableDAO.getServeurTablesId(user.getId());
-		tables.forEach(table -> System.out.println("Table n°" + table));
+		if(!tables.isEmpty()) {
+			tables.forEach(table -> System.out.println("Table n°" + table));
+			System.out.println();
+			
+			return initServeurTableIDForQuery("pour laquelle vous souhaitez saisir une commande.");
+		} else {
+			System.out.println("Il n'y a pas de table prête à accueillir une commande.");
+			return -1;
+		}
 
-		System.out.println();
-		
-		return initServeurTableIDForQuery("pour laquelle vous souhaitez saisir une commande.");
+
 	}
 
 	public void validerCommande(ArrayList<Plat> plats, int numTable) {

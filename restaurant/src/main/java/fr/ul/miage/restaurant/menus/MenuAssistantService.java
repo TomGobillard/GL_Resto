@@ -80,8 +80,7 @@ public class MenuAssistantService extends MenuCommun{
 		}
 	}
 	
-
-	private void dresserTableAction(long idTable) {
+	public void dresserTableAction(long idTable) {
 		tableDAO.dresserTable(idTable);
 	}
 

@@ -13,7 +13,6 @@ import fr.ul.miage.restaurant.models.Produit;
 public class PlatDAOImpl extends PlatDAO {
 	@Override
 	public Plat find(long id) {
-		// TODO Auto-generated method stub
 		Plat plat = new Plat();
 
 		try {
@@ -82,8 +81,6 @@ public class PlatDAOImpl extends PlatDAO {
 			if (result.next()) {
 				idPlat = result.getLong(1);
 
-				String sql3;
-				PreparedStatement stmt3;
 				CompositionPlatDAO compositionPlatDAO = new CompositionPlatDAOImpl();
 
 				//On créer les composiot de chaque plat

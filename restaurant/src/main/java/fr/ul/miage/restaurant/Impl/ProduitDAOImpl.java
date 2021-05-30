@@ -6,11 +6,12 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import fr.ul.miage.restaurant.dao.ProduitDAO;
 import fr.ul.miage.restaurant.models.CompositionPlat;
 import fr.ul.miage.restaurant.models.Produit;
-import fr.ul.miage.restaurant.dao.ProduitDAO;
 
 public class ProduitDAOImpl extends ProduitDAO<Produit> {
+	
 	@Override
 	public Produit find(long id) {
 		Produit produit = new Produit();
